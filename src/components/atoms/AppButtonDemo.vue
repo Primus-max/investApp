@@ -4,7 +4,7 @@
     <table class="app-button-demo__table">
       <thead>
         <tr>
-          <th></th>
+          <th>Type</th>
           <th>Default</th>
           <th>Hover</th>
           <th>Pressed</th>
@@ -19,20 +19,13 @@
             <div class="app-button-demo__cell">
               <AppButton
                 :type="type"
-                :disabled="state === 'disabled'"
-                :loading="state === 'loading'"
-                :class="'demo-' + state"
-              >
-                Action
-              </AppButton>
-              <AppButton
-                :type="type"
+                :size="'large'"
                 :disabled="state === 'disabled'"
                 :loading="state === 'loading'"
                 :class="'demo-' + state"
               >
                 <template #icon>
-                  <AppIcon name="circle-arrow-up-right-round" type="sprite" />
+                  <AppIcon v-if="state !== 'loading'" name="circle-arrow-up-right-round" type="sprite" />
                 </template>
                 Action
               </AppButton>

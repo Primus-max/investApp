@@ -12,13 +12,13 @@
     @mouseleave="pressed = false"
   >
     <span v-if="loading" class="app-button__loader">
-      <AppIcon name="loading" type="sprite" />
+      <img src="@/assets/icons/loader.svg" alt="loader" class="app-button__loader-svg" />
     </span>
-    <span v-else class="app-button__icon">
-      <slot name="icon" />
-    </span>
-    <span class="app-button__label">
+    <span v-else class="app-button__label">
       <slot />
+    </span>
+    <span v-if="!loading" class="app-button__icon">
+      <slot name="icon" />
     </span>
   </button>
 </template>
