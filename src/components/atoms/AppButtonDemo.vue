@@ -52,12 +52,22 @@
         <span>{{ icon.replace('.svg', '') }}</span>
       </span>
     </div>
+    <h2>AppInput Demo (Figma Table)</h2>
+    <div class="app-input-demo">
+      <AppInput label="Label" placeholder="Placeholder" v-model="input1" />
+      <AppInput label="With Icon" placeholder="Placeholder" icon="search-02" v-model="input2" />
+      <AppInput label="Error" placeholder="Placeholder" error="Error message" v-model="input3" />
+      <AppInput label="Disabled" placeholder="Placeholder" :disabled="true" v-model="input4" />
+    </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
 import AppButton from './AppButton.vue';
 import AppIcon from './AppIcon.vue';
+import AppInput from './AppInput.vue';
 
 const types = ['fill', 'bezeled', 'gray', 'white', 'negative', 'text']
 const states = ['default', 'hover', 'pressed', 'disabled', 'loading']
@@ -128,6 +138,11 @@ const socialIcons = [
   'instagram.svg',
   'youTube.svg',
 ]
+
+const input1 = ref('');
+const input2 = ref('');
+const input3 = ref('');
+const input4 = ref('');
 </script>
 
 <style scoped lang="scss">
@@ -191,5 +206,13 @@ const socialIcons = [
     display: block;
     margin: 0 auto;
   }
+}
+
+.app-input-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 400px;
+  margin-bottom: 40px;
 }
 </style> 
