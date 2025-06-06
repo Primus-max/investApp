@@ -3,10 +3,15 @@ $color-bg: #ffffff;
 $color-bg-soft: #f8f8f8;
 $color-primary: #2a7cff;
 $color-accent: #00c48c;
+$color-success: #00c48c;
+$color-success-alt: #52c41a;
 $color-error: #ff4d4f;
-$color-success: #52c41a;
+$color-warning: #ffa940;
+$color-info: #2a7cff;
 $color-text-main: #181818;
 $color-text-secondary: #6c6c6c;
+$color-text-disabled: #bdbdbd;
+$color-link: #2a7cff;
 $color-border: #eaeaea;
 
 // Typography
@@ -30,11 +35,6 @@ $line-height-caption: 1.4;
 
 $letter-spacing-normal: 0;
 $letter-spacing-caption: 0.01em;
-
-$color-text-main: #181818;
-$color-text-secondary: #6c6c6c;
-$color-text-disabled: #bdbdbd;
-$color-link: #2a7cff;
 
 // Radius & Shadow
 $radius-main: 12px;
