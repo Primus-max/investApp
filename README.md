@@ -33,14 +33,18 @@ npm run build
 - `src/components/atoms` — atomic UI elements
 - `src/components/molecules` — combinations of atoms
 - `src/components/organisms` — complex UI blocks
-- `router/` — Vue Router config
-- `stores/` — Pinia stores
-- `styles/` — global SCSS (BEM, mobile first)
+- `src/router/` — Vue Router config
+- `src/stores/` — Pinia stores
+- `src/composables/` — business logic (composables)
+- `src/styles/` — global SCSS (BEM, mobile first)
 
 ## Aliases
 - `@` — `src`
-- `@styles` — `styles`
+- `@styles` — `src/styles`
 - `@components` — `src/components`
+- `@stores` — `src/stores`
+- `@composables` — `src/composables`
+- `@router` — `src/router`
 
 ## SCSS
 - All global styles in `styles/main.scss`

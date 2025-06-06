@@ -6,7 +6,7 @@ alwaysApply: true
 ---
 description: 
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
 # InvestApp Project Rules
 
@@ -90,6 +90,15 @@ alwaysApply: false
 - **Do not use Nuxt** in this project.
 
 ## 19. Review
-
-
 - All code must be reviewed before merging to the main branch (if working in a team).
+
+## 20. Atomic Design
+- All UI components must be organized according to **atomic design principles**:
+  - atoms — atomic elements (buttons, icons, input fields)
+  - molecules — combinations of atoms (input with label, button with icon)
+  - organisms — complex blocks (header, user card, lists)
+- The structure must be reflected in `src/components/atoms`, `src/components/molecules`, `src/components/organisms`.
+- Components should be as reusable and independent as possible.
+
+
+- Always follow atomic design when adding new components.
