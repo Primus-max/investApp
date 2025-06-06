@@ -1,0 +1,133 @@
+@import '@/styles/_variables.scss';
+
+.app-select {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: $space-m;
+
+  &__label {
+    font-family: $font-main;
+    font-size: 15px;
+    font-weight: $font-weight-medium;
+    color: $gray-500;
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+
+  &__wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: $gray-0;
+    border: 2px solid $gray-200;
+    border-radius: $radius-main;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    height: 48px;
+    padding: 0 $space-m;
+    box-sizing: border-box;
+    cursor: pointer;
+    &:focus-within, &:focus, &.app-select--open {
+      border-color: $primary-500;
+      box-shadow: 0 0 0 2px rgba($primary-500, 0.08);
+    }
+    &.app-select--disabled {
+      background: $gray-100;
+      border-color: $gray-100;
+      cursor: not-allowed;
+    }
+  }
+
+  &__value {
+    flex: 1 1 0%;
+    font-family: $font-main;
+    font-size: 16px;
+    color: $gray-900;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    &--placeholder {
+      color: $gray-400;
+      font-weight: $font-weight-regular;
+    }
+  }
+
+  &__icon {
+    margin-left: $space-s;
+    color: $gray-400;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+      transition: transform 0.2s;
+    }
+  }
+
+  &--open &__icon svg {
+    transform: rotate(180deg);
+  }
+
+  &__dropdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 110%;
+    z-index: 10;
+    background: $gray-0;
+    border: 2px solid $gray-200;
+    border-radius: $radius-main;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    margin: 0;
+    padding: 4px 0;
+    list-style: none;
+    max-height: 240px;
+    overflow-y: auto;
+    animation: fadeIn 0.2s;
+  }
+
+  &__option {
+    font-family: $font-main;
+    font-size: 16px;
+    color: $gray-900;
+    padding: 10px $space-m;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    &:hover:not(&--disabled) {
+      background: $primary-50;
+      color: $primary-500;
+    }
+    &--selected {
+      background: $primary-100;
+      color: $primary-500;
+      font-weight: $font-weight-bold;
+    }
+    &--disabled {
+      color: $gray-300;
+      cursor: not-allowed;
+      background: none;
+    }
+  }
+
+  &__error {
+    color: $color-error;
+    font-size: 13px;
+    margin-top: 4px;
+    font-family: $font-main;
+    line-height: 1.2;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+} 

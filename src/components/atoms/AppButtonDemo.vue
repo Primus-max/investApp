@@ -59,6 +59,32 @@
       <AppInput label="Error" placeholder="Placeholder" error="Error message" v-model="input3" />
       <AppInput label="Disabled" placeholder="Placeholder" :disabled="true" v-model="input4" />
     </div>
+    <h2>AppSelect Demo (Figma Table)</h2>
+    <div class="app-select-demo">
+      <AppSelect label="Label" placeholder="Choose option" :options="selectOptions" v-model="select1" />
+      <AppSelect label="Error" placeholder="Choose option" :options="selectOptions" error="Error message" v-model="select2" />
+      <AppSelect label="Disabled" placeholder="Choose option" :options="selectOptions" :disabled="true" v-model="select3" />
+      <AppSelect label="Custom Option" placeholder="Choose option" :options="selectOptions" v-model="select4">
+        <template #option="{ option }">
+          <span style="display: flex; align-items: center; gap: 8px;">
+            <AppIcon v-if="option.icon" :name="option.icon" type="sprite" />
+            {{ option.label }}
+          </span>
+        </template>
+      </AppSelect>
+    </div>
+    <h2>AppRadioGroup & AppSwitch Demo (Figma Controls)</h2>
+    <div class="app-controls-demo">
+      <div>
+        <AppRadioGroup :options="radioOptions" v-model="radioValue" />
+      </div>
+      <div style="margin-top: 24px; display: flex; gap: 32px;">
+        <AppSwitch v-model="switch1" />
+        <AppSwitch v-model="switch2" :disabled="true" />
+        <AppSwitch v-model="switch3" indicator />
+        <AppSwitch v-model="switch4" indicator :disabled="true" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -68,6 +94,9 @@ import { ref } from 'vue';
 import AppButton from './AppButton.vue';
 import AppIcon from './AppIcon.vue';
 import AppInput from './AppInput.vue';
+import AppRadioGroup from './AppRadioGroup.vue';
+import AppSelect from './AppSelect.vue';
+import AppSwitch from './AppSwitch.vue';
 
 const types = ['fill', 'bezeled', 'gray', 'white', 'negative', 'text']
 const states = ['default', 'hover', 'pressed', 'disabled', 'loading']
@@ -143,6 +172,29 @@ const input1 = ref('');
 const input2 = ref('');
 const input3 = ref('');
 const input4 = ref('');
+
+const selectOptions = [
+  { label: 'Option 1', value: '1' },
+  { label: 'Option 2', value: '2', icon: 'user' },
+  { label: 'Option 3', value: '3', disabled: true },
+  { label: 'Option 4', value: '4' }
+];
+const select1 = ref('');
+const select2 = ref('');
+const select3 = ref('');
+const select4 = ref('');
+
+const radioOptions = [
+  { label: '', value: '1' },
+  { label: '', value: '2' },
+  { label: '', value: '3' },
+  { label: '', value: '4', disabled: true }
+];
+const radioValue = ref('2');
+const switch1 = ref(false);
+const switch2 = ref(true);
+const switch3 = ref(false);
+const switch4 = ref(true);
 </script>
 
 <style scoped lang="scss">
@@ -214,5 +266,24 @@ const input4 = ref('');
   gap: 20px;
   max-width: 400px;
   margin-bottom: 40px;
+}
+
+.app-select-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 400px;
+  margin-bottom: 40px;
+}
+
+.app-controls-demo {
+  border: 1px dashed #b48cf0;
+  padding: 16px;
+  background: #fff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 300px;
 }
 </style> 
