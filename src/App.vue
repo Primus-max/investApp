@@ -1,10 +1,10 @@
 <script setup>
-// App shell, no direct component imports, only layout
+import { AppButtonDemo } from '@/components/atoms';
 </script>
 
 <template>
   <v-app class="app">
-    <router-view />
+    <AppButtonDemo />
   </v-app>
 </template>
 

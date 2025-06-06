@@ -8,21 +8,13 @@
 <script setup>
 import { computed } from 'vue';
 
-// Импортируем SVG-иконки (добавим реальные файлы после экспорта из Figma)
-import BtcIcon from '@/assets/icons/btc.svg';
-import EthIcon from '@/assets/icons/eth.svg';
-
-// ...другие импорты по мере добавления
-
 const props = defineProps({
   name: { type: String, required: true },
   type: { type: String, default: 'sprite' } // 'sprite' или 'component'
 })
 
 const icons = {
-  btc: BtcIcon,
-  eth: EthIcon,
-  // ...другие иконки
+  // ...другие иконки (реальные импорты добавлять только если SVG-файл реально существует)
 }
 
 const iconComponent = computed(() => icons[props.name] || null)
