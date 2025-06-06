@@ -1,5 +1,8 @@
 <template>
-  <component :is="iconComponent" class="app-icon" v-if="iconComponent" />
+  <component v-if="type === 'component' && iconComponent" :is="iconComponent" class="app-icon" />
+  <svg v-else-if="type === 'sprite' && name" class="app-icon">
+    <use :xlink:href="`#${name}`" />
+  </svg>
 </template>
 
 <script setup>
@@ -12,7 +15,8 @@ import EthIcon from '@/assets/icons/eth.svg';
 // ...другие импорты по мере добавления
 
 const props = defineProps({
-  name: { type: String, required: true }
+  name: { type: String, required: true },
+  type: { type: String, default: 'sprite' } // 'sprite' или 'component'
 })
 
 const icons = {
@@ -29,5 +33,7 @@ const iconComponent = computed(() => icons[props.name] || null)
   width: 32px;
   height: 32px;
   display: inline-block;
+  vertical-align: middle;
+  fill: currentColor;
 }
 </style> 

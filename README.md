@@ -58,3 +58,21 @@ npm run build
 
 ## UI
 - Vuetify 3, customized to Figma/Telegram Mini App style
+
+## Icons (UI Kit)
+
+- Монохромные SVG-иконки добавляйте в спрайт: `src/assets/icons/icons-sprite.svg` (копируйте <symbol id="icon-name">...</symbol> из Figma).
+- Цветные SVG-иконки кладите отдельными файлами в `src/assets/icons/` и импортируйте в компонент.
+
+### Использование AppIcon.vue
+
+```vue
+<!-- Для спрайта (монохромные) -->
+<AppIcon name="icon-name" type="sprite" />
+
+<!-- Для отдельных SVG-компонентов -->
+<AppIcon name="example" type="component" />
+```
+
+- Для компонента нужно добавить импорт SVG в `AppIcon.vue` и в объект icons.
+- Для спрайта — просто используйте id из <symbol>.
