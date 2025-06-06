@@ -1,5 +1,8 @@
 // Main styles entry for InvestApp 
 
+@import 'variables';
+@import 'mixins';
+
 // 1. Переменные (цвета, отступы)
 :root {
   --vt-c-white: #ffffff;
@@ -46,17 +49,39 @@
   font-weight: normal;
 }
 
-body {
+html, body {
+  font-family: $font-main;
+  font-size: $font-size-base;
+  background: $color-bg;
+  color: $color-text-main;
   min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
-  transition: color 0.5s, background-color 0.5s;
-  line-height: 1.6;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  font-size: 15px;
-  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+// Mobile first base
+body {
+  padding: $space-m;
+}
+
+// Headings
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $font-weight-bold;
+  color: $color-text-main;
+}
+
+// Links
+a {
+  color: $color-primary;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Utility classes
+.u-text-center {
+  text-align: center;
 }
 
 // 3. BEM-пример для app-обертки
