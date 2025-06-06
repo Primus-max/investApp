@@ -27,3 +27,30 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Project Structure (Atomic Design)
+
+- `src/components/atoms` — atomic UI elements
+- `src/components/molecules` — combinations of atoms
+- `src/components/organisms` — complex UI blocks
+- `router/` — Vue Router config
+- `stores/` — Pinia stores
+- `styles/` — global SCSS (BEM, mobile first)
+
+## Aliases
+- `@` — `src`
+- `@styles` — `styles`
+- `@components` — `src/components`
+
+## SCSS
+- All global styles in `styles/main.scss`
+- Use BEM and mobile first
+
+## Routing
+- All routes in `router/index.js`
+
+## State Management
+- Pinia and Pinia Colada for global state
+
+## UI
+- Vuetify 3, customized to Figma/Telegram Mini App style
