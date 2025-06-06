@@ -48,6 +48,17 @@
         <span>{{ icon }}</span>
       </span>
     </div>
+    <h3>All Icons (Separate SVGs)</h3>
+    <div class="app-button-demo__icons">
+      <span v-for="icon in coinIcons" :key="icon" class="app-button-demo__icon-item">
+        <img :src="`/src/assets/icons/coins/${icon}`" :alt="icon" class="app-button-demo__svg" />
+        <span>{{ icon.replace('.svg', '') }}</span>
+      </span>
+      <span v-for="icon in socialIcons" :key="icon" class="app-button-demo__icon-item">
+        <img :src="`/src/assets/icons/social/${icon}`" :alt="icon" class="app-button-demo__svg" />
+        <span>{{ icon.replace('.svg', '') }}</span>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -105,6 +116,25 @@ const spriteIcons = [
   'arrow-left-alt',
   'arrow-up-alt',
 ];
+
+const coinIcons = [
+  'ethereum.svg',
+  'xmr.svg',
+  'sber.svg',
+  'appCoinsBadge.svg',
+  'bitcoinBadge.svg',
+  'chainlinkBadge.svg',
+  'rub.svg',
+  'minaBadge.svg',
+  'ton.svg',
+  'tetherBadge.svg',
+]
+const socialIcons = [
+  'vk.svg',
+  'telegram.svg',
+  'instagram.svg',
+  'youTube.svg',
+]
 </script>
 
 <style scoped lang="scss">
@@ -161,6 +191,12 @@ const spriteIcons = [
     color: #888;
     gap: 4px;
     width: 64px;
+  }
+  &__svg {
+    width: 32px;
+    height: 32px;
+    display: block;
+    margin: 0 auto;
   }
 }
 </style> 

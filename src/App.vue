@@ -1,9 +1,11 @@
 <script setup>
 import { AppButtonDemo } from '@/components/atoms';
+import SvgSpriteLoader from '@/components/atoms/SvgSpriteLoader.vue';
 </script>
 
 <template>
   <v-app class="app">
+    <SvgSpriteLoader />
     <AppButtonDemo />
   </v-app>
 </template>
