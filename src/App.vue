@@ -1,10 +1,17 @@
 <script setup>
-// App shell, no direct component imports, only layout
+// import { AppButtonDemo } from '@/components/atoms';
+
+// import TabBarDemo from '@/components/molecules/TabBarDemo.vue';
 </script>
 
 <template>
   <v-app class="app">
-    <router-view />
+    <SvgSpriteLoader />
+    <!-- <AppButtonDemo /> -->
+    <!-- <section style="margin-top: 48px; height: 100vh;">
+      <h2 style="text-align:center; margin-bottom: 24px;">TabBar Demo</h2>
+      <TabBarDemo />
+    </section> -->
   </v-app>
 </template>
 

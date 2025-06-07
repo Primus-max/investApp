@@ -75,7 +75,9 @@ alwaysApply: true
 - Cover navigation and state logic with **integration or e2e tests** (if possible). -->
 
 ## 15. Figma
-- Always check the **Figma design** before implementing or updating any UI https://www.figma.com/design/leuQycT60RTB5MuoGszv18/Kapitalist---Copy-for-client?node-id=2-4&p=f&t=7xRfmmfgild1bVPr-0.
+- Always check the **Figma design** before implementing or updating any UI 
+- Pages : https://www.figma.com/design/leuQycT60RTB5MuoGszv18/Kapitalist---Copy-for-client?node-id=2-4&p=f&t=7xRfmmfgild1bVPr-0.
+- UI Kit : https://www.figma.com/design/leuQycT60RTB5MuoGszv18/Kapitalist---Copy-for-client?node-id=101-2
 - Match spacing, colors, and typography exactly as in the design.
 
 ## 16. Documentation
@@ -94,11 +96,14 @@ alwaysApply: true
 
 ## 20. Atomic Design
 - All UI components must be organized according to **atomic design principles**:
-  - atoms — atomic elements (buttons, icons, input fields)
-  - molecules — combinations of atoms (input with label, button with icon)
-  - organisms — complex blocks (header, user card, lists)
+- atoms — atomic elements (buttons, icons, input fields)
+- molecules — combinations of atoms (input with label, button with icon)
+- organisms — complex blocks (header, user card, lists)
 - The structure must be reflected in `src/components/atoms`, `src/components/molecules`, `src/components/organisms`.
 - Components should be as reusable and independent as possible.
+
+## 21. Testing
+- Use MCP puppeteer. Lose it until it's one-on-one like in the layout
 
 
 - Always follow atomic design when adding new components.

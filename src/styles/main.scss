@@ -1,5 +1,8 @@
 // Main styles entry for InvestApp 
 
+@import 'variables';
+@import 'mixins';
+
 // 1. Переменные (цвета, отступы)
 :root {
   --vt-c-white: #ffffff;
@@ -25,6 +28,25 @@
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
   --section-gap: 160px;
+  /* Кастомные цвета для кнопок и UI */
+  --color-primary: #2a7cff;
+  --color-primary-hover: #1e5bbf;
+  --color-primary-pressed: #174a99;
+  --color-primary-disabled: #b3d1ff;
+  --color-primary-light: #e6f0ff;
+  --color-primary-lightest: #f5faff;
+  --color-gray-bg: #f8f8f8;
+  --color-gray-hover: #ededed;
+  --color-gray-pressed: #e0e0e0;
+  --color-gray-disabled: #f3f3f3;
+  --color-gray-text: #6c6c6c;
+  --color-gray-text-disabled: #bdbdbd;
+  --color-negative: #ff4d4f;
+  --color-negative-hover: #d9363e;
+  --color-negative-pressed: #b71c1c;
+  --color-negative-disabled: #ffd6d6;
+  --color-negative-text: #fff;
+  --color-negative-text-disabled: #ffb3b3;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -46,17 +68,39 @@
   font-weight: normal;
 }
 
-body {
+html, body {
+  font-family: $font-main;
+  font-size: $font-size-base;
+  background: $color-bg;
+  color: $color-text-main;
   min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
-  transition: color 0.5s, background-color 0.5s;
-  line-height: 1.6;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  font-size: 15px;
-  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+// Mobile first base
+body {
+  padding: $space-m;
+}
+
+// Headings
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $font-weight-bold;
+  color: $color-text-main;
+}
+
+// Links
+a {
+  color: $color-primary;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Utility classes
+.u-text-center {
+  text-align: center;
 }
 
 // 3. BEM-пример для app-обертки
@@ -92,4 +136,113 @@ body {
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-Thin.otf') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-Ultralight.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-Heavy.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-RegularItalic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-MediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-SemiboldItalic.otf') format('opentype');
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-BoldItalic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-BlackItalic.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-LightItalic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-ThinItalic.otf') format('opentype');
+  font-weight: 200;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-UltralightItalic.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('@/assets/fonts/SF-Pro-Display-HeavyItalic.otf') format('opentype');
+  font-weight: 800;
+  font-style: italic;
 } 
