@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-bar__overlay">
+  <div class="tab-bar__overlay" v-if="isMenuOpen">
     <nav v-if="isMenuOpen" class="tab-bar__menu-nav" aria-label="Меню действий">
       <AppBanner class="tab-bar__menu-banner">
         <div >
@@ -55,6 +55,43 @@
       </div>
     </nav>
   </div>
+  <nav v-else class="tab-bar" :class="{ 'tab-bar--menu-open': isMenuOpen }">
+    <div class="tab-bar__tabs">
+      <template v-for="(tab, idx) in tabs">
+        <button
+          v-if="!tab.center"
+          :key="tab.label + idx"
+          :class="[
+            'tab-bar__item',
+            { 'tab-bar__item--active': idx === activeIndex, 'tab-bar__item--center': tab.center, 'tab-bar__tabs--blur': isMenuOpen && !tab.center }
+          ]"
+          @click="onTabClick(idx)"
+          type="button"
+        >
+          <div :class="['tab-bar__content', { 'tab-bar__content--blur': isMenuOpen }]">
+            <span class="tab-bar__icon">
+              <AppIcon v-if="tab.icon" :name="tab.icon" :class="[{ 'tab-bar__item--active': idx === activeIndex }]" />
+            </span>
+            <span class="tab-bar__label" v-if="tab.label">{{ tab.label }}</span>
+          </div>
+        </button>
+        <button
+          v-else
+          :key="'center-' + idx"
+          :class="[
+            'tab-bar__item',
+            { 'tab-bar__item--active': idx === activeIndex, 'tab-bar__item--center': tab.center }
+          ]"
+          @click="onTabClick(idx)"
+          type="button"
+        >
+          <div class="tab-bar__content">
+            <AppIcon :name="isMenuOpen ? 'close-square' : 'plus-sign-square'" :active="isMenuOpen" />
+          </div>
+        </button>
+      </template>
+    </div>
+  </nav>
 </template>
 
 <script setup>
@@ -116,10 +153,13 @@ function closeMenu() {
     padding: 0 0 16px 0;
   }
 
-  &__menu-banner {    
+  &__menu-banner {
     width: 96%;
     height: 56px;
+    margin-bottom: 12px;
     border-radius: $radius-small;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   &__menu-banner-icon {
@@ -143,6 +183,15 @@ function closeMenu() {
     padding: 2px 10px;
   }
 
+  &__menu-banner-content {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
   &__menu-list {
     width: 100%;
     display: flex;
@@ -153,12 +202,14 @@ function closeMenu() {
     list-style: none;
   }
   &__menu-item {
-    display: flex;
-    align-items: center;    
     width: 96%;
     height: 56px;
     background: $gray-900;
     border-radius: $radius-small;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
     padding: 16px 20px;
     border: none;
     color: #fff;
@@ -166,7 +217,6 @@ function closeMenu() {
     font-size: 16px;
     font-weight: $font-weight-regular;
     line-height: 20px;
-    
     margin-bottom: 0;
     cursor: pointer;
     transition: background 0.15s;
@@ -192,7 +242,7 @@ function closeMenu() {
 
   &__overlay {
     width: 358px;
-    height: 420px;
+    height: 440px;
     display: flex;
     flex-direction: column;
     align-items: center;
