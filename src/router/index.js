@@ -6,13 +6,8 @@ import {
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: () => import('@/components/HelloWorld.vue')
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('@/components/TheWelcome.vue')
+    name: 'MainPage',
+    component: () => import('@/views/MainPage.vue')
   }
 ]
 
