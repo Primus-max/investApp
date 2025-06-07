@@ -1,11 +1,9 @@
 <template>
-  <div class="tabbar-demo-bg">
-    <TabBar
-      :tabs="tabs"
-      :activeIndex="activeIndex"
-      @update:activeIndex="activeIndex = $event"
-    />
-  </div>
+  <TabBar
+    :tabs="tabs"
+    :activeIndex="activeIndex"
+    @update:activeIndex="activeIndex = $event"
+  />
 </template>
 
 <script setup>

@@ -1,19 +1,14 @@
 <template>
-  <nav class="tab-bar">
+  <nav class="tab-bar" :class="{ 'tab-bar--menu-open': isMenuOpen }">
+    <div class="tab-bar__overlay"></div>
     <div class="tab-bar__tabs">
-      <button
-        v-for="(tab, idx) in tabs"
-        :key="tab.label + idx"
-        :class="[
-          'tab-bar__item',
-          { 'tab-bar__item--active': idx === activeIndex, 'tab-bar__item--center': tab.center }
-        ]"
-        @click="onTabClick(idx)"
-        type="button"
-      >
+      <button v-for="(tab, idx) in tabs" :key="tab.label + idx" :class="[
+        'tab-bar__item',
+        { 'tab-bar__item--active': idx === activeIndex, 'tab-bar__item--center': tab.center }
+      ]" @click="onTabClick(idx)" type="button">
         <div class="tab-bar__content">
           <template v-if="tab.center">
-            <AppIcon name="plus-sign-square" />
+            <AppIcon name="plus-sign-square" :active="isMenuOpen" />
           </template>
           <template v-else>
             <span class="tab-bar__icon">
@@ -24,22 +19,198 @@
         </div>
       </button>
     </div>
+    <div v-if="isMenuOpen" @click="closeMenu" />
+    <ActionMenu v-if="isMenuOpen" />
+
   </nav>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
 import AppIcon from '@/components/atoms/AppIcon.vue';
+import ActionMenu from '@/components/organisms/ActionMenu.vue';
 
 const props = defineProps({
   tabs: { type: Array, required: true },
   activeIndex: { type: Number, default: 0 }
 })
 const emit = defineEmits(['update:activeIndex'])
+
+const isMenuOpen = ref(false)
+
 function onTabClick(idx) {
-  emit('update:activeIndex', idx)
+  if (props.tabs[idx].center) {
+    isMenuOpen.value = !isMenuOpen.value
+  } else {
+    emit('update:activeIndex', idx)
+  }
+}
+function closeMenu() {
+  isMenuOpen.value = false
 }
 </script>
 
 <style scoped lang="scss">
-@import './TabBar.scss';
-</style> 
+@import '@/styles/_variables.scss';
+
+.tab-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $space-m 0;
+  gap: $space-xs;
+  width: 358px;
+  height: 76px;
+  background: $gray-900;
+  box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.2);
+  border-radius: $radius-large;
+  order: 1;
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1100;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: $gray-900;
+    width: 358px;
+    height: 400px;
+    left: 50%;
+    transform: translateX(4.5%);
+      // backdrop-filter: blur(4px);
+      // -webkit-backdrop-filter: blur(4px);
+  }
+
+  &__tabs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 8px;
+    // gap: 2px;
+    width: 100%;
+    // height: 44px;
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+    justify-content: space-between;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    width: 65px;
+    height: 44px;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: $gray-400;
+    font-family: $font-main;
+    font-size: 12px;
+    font-weight: $font-weight-regular;
+    line-height: 16px;
+    letter-spacing: $letter-spacing-normal;
+    border-radius: $radius-main;
+    position: relative;
+    transition: color 0.18s;
+
+    .tab-bar__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    &--active {
+      color: $gray-0;
+      font-weight: $font-weight-regular;
+
+      .tab-bar__icon img,
+      .tab-bar__icon svg {
+        filter: brightness(1000%) grayscale(0%);
+      }
+
+      .tab-bar__label {
+        color: $gray-0;
+        font-weight: $font-weight-regular;
+      }
+    }
+
+    &--center {
+      width: 37px;
+      height: 37px;
+      z-index: 30;
+      margin: 0;
+      background: $gray-0;
+      border-radius: $radius-main;
+      box-shadow: $shadow-main;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+
+      .app-icon {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $gray-400;
+    margin-bottom: 2px;
+    filter: grayscale(100%) brightness(0.7);
+  }
+
+  &__item:hover .tab-bar__icon,
+  &__item:focus .tab-bar__icon {
+    color: #fff;
+  }
+
+  &__item--active .tab-bar__icon {
+    filter: none;
+    color: $gray-0;
+  }
+
+  &__label {
+    width: 100%;
+    max-width: 100%;
+    height: 16px;
+    display: block;
+    text-align: center;
+    font-family: $font-main;
+    font-style: normal;
+    font-weight: $font-weight-regular;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: $letter-spacing-normal;
+    color: $gray-400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    margin-top: 2px;
+  }
+}
+
+.tab-bar--menu-open {
+  box-shadow: 0 0 0 2px #fff, 0px 4px 32px rgba(0, 0, 0, 0.2);
+  z-index: 1102;
+}
+</style>
