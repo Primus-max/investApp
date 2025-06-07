@@ -1,8 +1,8 @@
 <template>
   <div class="tab-bar__overlay">
     <nav v-if="isMenuOpen" class="tab-bar__menu-nav" aria-label="Меню действий">
-      <AppBanner>
-        <div class="tab-bar__menu-banner-content">
+      <AppBanner class="tab-bar__menu-banner">
+        <div >
           <span class="tab-bar__menu-banner-icon">✨</span>
           <span class="tab-bar__menu-banner-title">Чат с ИИ</span>
           <span class="tab-bar__menu-banner-badge">3/3 доступно</span>
@@ -97,14 +97,98 @@ function closeMenu() {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: $space-m 0;
-  // gap: $space-xs;
+  padding: $space-m 0;  
   width: 358px;
   height: 76px;
-  background: $gray-900;
+  background: $gray-950;
   box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.2);
   border-radius: $radius-large;
   border: none !important;
+
+  &__menu-nav {
+    width: 96%;
+    min-height: 328px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    pointer-events: auto;
+    background: none;
+    padding: 0 0 16px 0;
+  }
+
+  &__menu-banner {    
+    width: 96%;
+    height: 56px;
+    border-radius: $radius-small;
+  }
+
+  &__menu-banner-icon {
+    font-size: 22px;
+    margin-right: 12px;
+    color: #fff;
+  }
+  &__menu-banner-title {
+    font-family: 'SF Pro Rounded', Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    margin-right: 12px;
+  }
+  &__menu-banner-badge {
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 2px 10px;
+  }
+
+  &__menu-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;    
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  &__menu-item {
+    display: flex;
+    align-items: center;    
+    width: 96%;
+    height: 56px;
+    background: $gray-900;
+    border-radius: $radius-small;
+    padding: 16px 20px;
+    border: none;
+    color: #fff;
+    font-family: 'SF Pro Rounded', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: $font-weight-regular;
+    line-height: 20px;
+    
+    margin-bottom: 0;
+    cursor: pointer;
+    transition: background 0.15s;
+    text-decoration: none;
+  }
+  &__menu-item:hover {
+    background: #282a33;
+  }
+  &__menu-item-icon {
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+    svg, img {
+      width: 24px;
+      height: 24px;
+      color: #aeb8d4;
+    }
+  }
+  &__menu-item-label {
+    flex: 1 1 auto;
+    text-align: left;
+  }
 
   &__overlay {
     width: 358px;
@@ -113,31 +197,17 @@ function closeMenu() {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;      
-    background: $gray-500;
+      background: $gray-950;
     border-radius: $radius-large;   
   }
-
-  &__menu-item {
-    width: 100%;
-    height: 44px;
-    background: none;
-    border: none;
-    outline: none;
-  }
-  
 
   &__tabs {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 8px;
-    // gap: 2px;
-    width: 100%;
-    // height: 44px;
+    padding: 0 8px;    
+    width: 100%;    
     flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 0;
     justify-content: space-between;
   }
 
@@ -251,37 +321,8 @@ function closeMenu() {
   }
 }
 
-
 .tab-bar__tabs--blur {
   filter: blur(2px);
   transition: filter 0.2s;  
-}
-
-// .tab-bar__item-blur--active {
-//   filter: blur(4px);
-//   transition: filter 0.2s;
-// }
-
-// .tab-bar__item--blur {
-//   filter: blur(4px);
-//   transition: filter 0.2s;
-// }
-
-// .tab-bar__content--blur {
-//   filter: blur(4px);
-//   transition: filter 0.2s;
-// }
-
-.tab-bar__menu-nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
 }
 </style>
