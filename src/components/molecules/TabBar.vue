@@ -13,9 +13,7 @@
       >
         <div class="tab-bar__content">
           <template v-if="tab.center">
-            <span class="tab-bar__center-icon">
-              <AppIcon name="plus-sign-square" />
-            </span>
+            <AppIcon name="plus-sign-square" />
           </template>
           <template v-else>
             <span class="tab-bar__icon">
