@@ -1,53 +1,67 @@
 <template>
   <div class="tab-bar__overlay">
-  <nav class="tab-bar" :class="{ 'tab-bar--menu-open': isMenuOpen }">    
-    <div class="tab-bar__tabs">
-      <template v-for="(tab, idx) in tabs">
-        <button
-          v-if="!tab.center"
-          :key="tab.label + idx"
-          :class="[
-            'tab-bar__item',
-            { 'tab-bar__item--active': idx === activeIndex, 'tab-bar__item--center': tab.center, 'tab-bar__tabs--blur': isMenuOpen && !tab.center }
-          ]"
-          @click="onTabClick(idx)"
-          type="button"
-        >
-          <div :class="['tab-bar__content', { 'tab-bar__content--blur': isMenuOpen }]">
-            <span class="tab-bar__icon">
-              <AppIcon v-if="tab.icon" :name="tab.icon" :class="[{ 'tab-bar__item--active': idx === activeIndex }]" />
-            </span>
-            <span class="tab-bar__label" v-if="tab.label">{{ tab.label }}</span>
-          </div>
-        </button>
-        <button
-          v-else
-          :key="'center-' + idx"
-          :class="[
-            'tab-bar__item',
-            { 'tab-bar__item--active': idx === activeIndex, 'tab-bar__item--center': tab.center }
-          ]"
-          @click="onTabClick(idx)"
-          type="button"
-        >
-          <div class="tab-bar__content">
-            <AppIcon :name="isMenuOpen ? 'close-square' : 'plus-sign-square'" :active="isMenuOpen" />
-          </div>
-        </button>
-      </template>
-    </div>
-    <div v-if="isMenuOpen" @click="closeMenu" />
-    <!-- <ActionMenu v-if="isMenuOpen" /> -->
-  
-  </nav>
-</div>
+    <nav v-if="isMenuOpen" class="tab-bar__menu-nav" aria-label="Меню действий">
+      <AppBanner>
+        <div class="tab-bar__menu-banner-content">
+          <span class="tab-bar__menu-banner-icon">✨</span>
+          <span class="tab-bar__menu-banner-title">Чат с ИИ</span>
+          <span class="tab-bar__menu-banner-badge">3/3 доступно</span>
+        </div>
+      </AppBanner>
+      <ul class="tab-bar__menu-list">
+        <li v-for="action in menuActions" :key="action.label" class="tab-bar__menu-list-item">
+          <a href="#" class="tab-bar__menu-item">
+            <span class="tab-bar__menu-item-icon"><AppIcon :name="action.icon" /></span>
+            <span class="tab-bar__menu-item-label">{{ action.label }}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <nav class="tab-bar" :class="{ 'tab-bar--menu-open': isMenuOpen }">
+      <div class="tab-bar__tabs">
+        <template v-for="(tab, idx) in tabs">
+          <button
+            v-if="!tab.center"
+            :key="tab.label + idx"
+            :class="[
+              'tab-bar__item',
+              { 'tab-bar__item--active': idx === activeIndex, 'tab-bar__item--center': tab.center, 'tab-bar__tabs--blur': isMenuOpen && !tab.center }
+            ]"
+            @click="onTabClick(idx)"
+            type="button"
+          >
+            <div :class="['tab-bar__content', { 'tab-bar__content--blur': isMenuOpen }]">
+              <span class="tab-bar__icon">
+                <AppIcon v-if="tab.icon" :name="tab.icon" :class="[{ 'tab-bar__item--active': idx === activeIndex }]" />
+              </span>
+              <span class="tab-bar__label" v-if="tab.label">{{ tab.label }}</span>
+            </div>
+          </button>
+          <button
+            v-else
+            :key="'center-' + idx"
+            :class="[
+              'tab-bar__item',
+              { 'tab-bar__item--active': idx === activeIndex, 'tab-bar__item--center': tab.center }
+            ]"
+            @click="onTabClick(idx)"
+            type="button"
+          >
+            <div class="tab-bar__content">
+              <AppIcon :name="isMenuOpen ? 'close-square' : 'plus-sign-square'" :active="isMenuOpen" />
+            </div>
+          </button>
+        </template>
+      </div>
+    </nav>
+  </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 
+import AppBanner from '@/components/atoms/AppBanner.vue';
 import AppIcon from '@/components/atoms/AppIcon.vue';
-import ActionMenu from '@/components/organisms/ActionMenu.vue';
 
 const props = defineProps({
   tabs: { type: Array, required: true },
@@ -56,6 +70,13 @@ const props = defineProps({
 const emit = defineEmits(['update:activeIndex'])
 
 const isMenuOpen = ref(false)
+
+const menuActions = [
+  { icon: 'briefcase-01', label: 'Создать портфель' },
+  { icon: 'menu-square', label: 'Создать сделку' },
+  { icon: 'user-group', label: 'Добавить виджет' },
+  { icon: 'file', label: 'Загрузить отчет' },
+]
 
 function onTabClick(idx) {
   if (props.tabs[idx].center) {
@@ -83,6 +104,7 @@ function closeMenu() {
   background: $gray-900;
   box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.2);
   border-radius: $radius-large;
+  border: none !important;
 
   &__overlay {
     width: 358px;
@@ -91,9 +113,18 @@ function closeMenu() {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;      
-    background: $gray-900;
+    background: $gray-500;
     border-radius: $radius-large;   
   }
+
+  &__menu-item {
+    width: 100%;
+    height: 44px;
+    background: none;
+    border: none;
+    outline: none;
+  }
+  
 
   &__tabs {
     display: flex;
@@ -220,15 +251,10 @@ function closeMenu() {
   }
 }
 
-.tab-bar--menu-open {
-  box-shadow: 0 0 0 2px #fff, 0px 4px 32px rgba(0, 0, 0, 0.2);
-  z-index: 1102;
-}
 
 .tab-bar__tabs--blur {
   filter: blur(2px);
-  transition: filter 0.2s;
-  border: none;
+  transition: filter 0.2s;  
 }
 
 // .tab-bar__item-blur--active {
@@ -245,4 +271,17 @@ function closeMenu() {
 //   filter: blur(4px);
 //   transition: filter 0.2s;
 // }
+
+.tab-bar__menu-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
 </style>

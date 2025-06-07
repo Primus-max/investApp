@@ -1,13 +1,6 @@
-<template>
+<!-- <template>
   <div class="action-menu-blur-bg">
-    <div class="action-menu-sheet">
-      <button class="action-menu__close" @click="$emit('close')">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-          <circle cx="24" cy="24" r="24" fill="#fff"/>
-          <path d="M16 16L32 32" stroke="#23242C" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M32 16L16 32" stroke="#23242C" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
-      </button>
+    <div class="action-menu-sheet">      
       <div class="action-menu__banner">
         <div class="action-menu__banner-sparkles"></div>
         <div class="action-menu__banner-content">
@@ -152,4 +145,4 @@
   from { transform: translateY(100%); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
-</style> 
+</style>  -->
