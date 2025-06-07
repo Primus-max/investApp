@@ -1,6 +1,6 @@
 <template>
-  <nav class="tab-bar" :class="{ 'tab-bar--menu-open': isMenuOpen }">
-    <div class="tab-bar__overlay"></div>
+  <div class="tab-bar__overlay">
+  <nav class="tab-bar" :class="{ 'tab-bar--menu-open': isMenuOpen }">    
     <div class="tab-bar__tabs">
       <button v-for="(tab, idx) in tabs" :key="tab.label + idx" :class="[
         'tab-bar__item',
@@ -21,8 +21,9 @@
     </div>
     <div v-if="isMenuOpen" @click="closeMenu" />
     <ActionMenu v-if="isMenuOpen" />
-
+  
   </nav>
+</div>
 </template>
 
 <script setup>
@@ -56,32 +57,26 @@ function closeMenu() {
 
 .tab-bar {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   padding: $space-m 0;
-  gap: $space-xs;
+  // gap: $space-xs;
   width: 358px;
   height: 76px;
   background: $gray-900;
   box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.2);
   border-radius: $radius-large;
-  order: 1;
+
 
   &__overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1100;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: $gray-900;
     width: 358px;
-    height: 400px;
-    left: 50%;
-    transform: translateX(4.5%);
-      // backdrop-filter: blur(4px);
-      // -webkit-backdrop-filter: blur(4px);
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;      
+    background: $gray-900;
+    border-radius: $radius-large;   
   }
 
   &__tabs {
