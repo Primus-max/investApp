@@ -1,14 +1,16 @@
+@import '@/styles/_variables.scss';
+
 .tab-bar {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px 0;
-  gap: 4px;
+  padding: $space-m 0;
+  gap: $space-xs;
   width: 326px;
   height: 76px;
-  background: #23242C;
+  background: $gray-800;
   box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.2);
-  border-radius: 20px;
+  border-radius: $radius-large;
   flex: none;
   order: 1;
   align-self: stretch;
@@ -18,7 +20,7 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding: 0 8px;
+    padding: 0 $space-s;
     gap: 0;
     width: 326px;
     height: 44px;
@@ -40,12 +42,13 @@
     border: none;
     outline: none;
     cursor: pointer;
-    color: #8C94A6;
-    font-family: 'SF Pro Rounded', Arial, sans-serif;
+    color: $gray-400;
+    font-family: $font-main;
     font-size: 12px;
-    font-weight: 400;
+    font-weight: $font-weight-regular;
     line-height: 16px;
-    border-radius: 12px;
+    letter-spacing: $letter-spacing-normal;
+    border-radius: $radius-main;
     position: relative;
     transition: color 0.18s;
     .tab-bar__content {
@@ -56,14 +59,15 @@
       width: 100%;
     }
     &--active {
-      color: #fff;
-      font-weight: 600;
+      color: $gray-0;
+      font-weight: $font-weight-regular;
+      .tab-bar__icon img,
       .tab-bar__icon svg {
-        color: #fff;
+        filter: brightness(1000%) grayscale(0%);
       }
       .tab-bar__label {
-        color: #fff;
-        font-weight: 600;
+        color: $gray-0;
+        font-weight: $font-weight-regular;
       }
     }
     &--center {
@@ -71,9 +75,9 @@
       height: 44px;
       z-index: 30;
       margin: 0;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      background: $gray-0;
+      border-radius: $radius-main;
+      box-shadow: $shadow-main;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -84,10 +88,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        svg {
+        svg, img {
           width: 24px;
           height: 24px;
-          color: #141B34;
+          color: $gray-900;
         }
       }
     }
@@ -98,23 +102,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #8C94A6;
+    color: $gray-400;
     margin-bottom: 2px;
-    svg {
-      width: 24px;
-      height: 24px;
-      fill: currentColor;
-      color: inherit;
-      display: block;
-      transition: color 0.18s, fill 0.18s;
-    }
+    filter: grayscale(100%) brightness(0.7);
   }
   &__item:hover .tab-bar__icon,
   &__item:focus .tab-bar__icon {
     color: #fff;
   }
   &__item--active .tab-bar__icon {
-    color: #fff;
+    filter: none;
+    color: $gray-0;
   }
   &__label {
     width: 100%;
@@ -122,12 +120,13 @@
     height: 16px;
     display: block;
     text-align: center;
-    font-family: 'SF Pro Rounded', Arial, sans-serif;
+    font-family: $font-main;
     font-style: normal;
-    font-weight: 400;
+    font-weight: $font-weight-regular;
     font-size: 12px;
     line-height: 16px;
-    color: #8C94A6;
+    letter-spacing: $letter-spacing-normal;
+    color: $gray-400;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
