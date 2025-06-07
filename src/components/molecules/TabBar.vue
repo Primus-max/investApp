@@ -2,25 +2,42 @@
   <div class="tab-bar__overlay">
   <nav class="tab-bar" :class="{ 'tab-bar--menu-open': isMenuOpen }">    
     <div class="tab-bar__tabs">
-      <button v-for="(tab, idx) in tabs" :key="tab.label + idx" :class="[
-        'tab-bar__item',
-        { 'tab-bar__item--active': idx === activeIndex, 'tab-bar__item--center': tab.center }
-      ]" @click="onTabClick(idx)" type="button">
-        <div class="tab-bar__content">
-          <template v-if="tab.center">
-            <AppIcon name="plus-sign-square" :active="isMenuOpen" />
-          </template>
-          <template v-else>
+      <template v-for="(tab, idx) in tabs">
+        <button
+          v-if="!tab.center"
+          :key="tab.label + idx"
+          :class="[
+            'tab-bar__item',
+            { 'tab-bar__item--active': idx === activeIndex, 'tab-bar__item--center': tab.center, 'tab-bar__tabs--blur': isMenuOpen && !tab.center }
+          ]"
+          @click="onTabClick(idx)"
+          type="button"
+        >
+          <div :class="['tab-bar__content', { 'tab-bar__content--blur': isMenuOpen }]">
             <span class="tab-bar__icon">
               <AppIcon v-if="tab.icon" :name="tab.icon" :class="[{ 'tab-bar__item--active': idx === activeIndex }]" />
             </span>
-          </template>
-          <span class="tab-bar__label" v-if="tab.label">{{ tab.label }}</span>
-        </div>
-      </button>
+            <span class="tab-bar__label" v-if="tab.label">{{ tab.label }}</span>
+          </div>
+        </button>
+        <button
+          v-else
+          :key="'center-' + idx"
+          :class="[
+            'tab-bar__item',
+            { 'tab-bar__item--active': idx === activeIndex, 'tab-bar__item--center': tab.center }
+          ]"
+          @click="onTabClick(idx)"
+          type="button"
+        >
+          <div class="tab-bar__content">
+            <AppIcon :name="isMenuOpen ? 'close-square' : 'plus-sign-square'" :active="isMenuOpen" />
+          </div>
+        </button>
+      </template>
     </div>
     <div v-if="isMenuOpen" @click="closeMenu" />
-    <ActionMenu v-if="isMenuOpen" />
+    <!-- <ActionMenu v-if="isMenuOpen" /> -->
   
   </nav>
 </div>
@@ -66,7 +83,6 @@ function closeMenu() {
   background: $gray-900;
   box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.2);
   border-radius: $radius-large;
-
 
   &__overlay {
     width: 358px;
@@ -208,4 +224,25 @@ function closeMenu() {
   box-shadow: 0 0 0 2px #fff, 0px 4px 32px rgba(0, 0, 0, 0.2);
   z-index: 1102;
 }
+
+.tab-bar__tabs--blur {
+  filter: blur(2px);
+  transition: filter 0.2s;
+  border: none;
+}
+
+// .tab-bar__item-blur--active {
+//   filter: blur(4px);
+//   transition: filter 0.2s;
+// }
+
+// .tab-bar__item--blur {
+//   filter: blur(4px);
+//   transition: filter 0.2s;
+// }
+
+// .tab-bar__content--blur {
+//   filter: blur(4px);
+//   transition: filter 0.2s;
+// }
 </style>

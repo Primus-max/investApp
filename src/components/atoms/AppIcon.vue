@@ -20,7 +20,8 @@ const icons = {
   'briefcase-01': IconBriefcase01,
   'menu-square': IconMenuSquare,
   'user': IconUser,
-  'plus-sign-square': IconPlusSignSquare
+  'plus-sign-square': IconPlusSignSquare,
+  'close-square': IconPlusSignSquare,
 }
 
 const iconComponent = computed(() => icons[props.name] || null)
