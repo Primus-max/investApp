@@ -85,12 +85,21 @@
         <AppSwitch v-model="switch4" indicator :disabled="true" />
       </div>
     </div>
+    <h2>AppBanner Demo (Figma Banner)</h2>
+    <div class="app-banner-demo">
+      <AppBanner
+        title="Быстрая ИИ аналитика"
+        subtitle="Отчеты по активам и портфелю"
+        icon="sparkles"
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 
+import AppBanner from './AppBanner.vue';
 import AppButton from './AppButton.vue';
 import AppIcon from './AppIcon.vue';
 import AppInput from './AppInput.vue';
@@ -285,5 +294,10 @@ const switch4 = ref(true);
   flex-direction: column;
   gap: 24px;
   max-width: 300px;
+}
+
+.app-banner-demo {
+  max-width: 320px;
+  margin-bottom: 40px;
 }
 </style> 

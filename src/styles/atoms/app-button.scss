@@ -77,18 +77,18 @@
   }
 
   // Состояния
-  &:hover:not(:disabled):not(.is-loading) {
+    &:hover:not(:disabled):not(.is-loading) {
     background: $primary-400;
-  }
-  &:active:not(:disabled):not(.is-loading) {
+    }
+    &:active:not(:disabled):not(.is-loading) {
     background: $primary-600;
-  }
-  &.is-disabled,
-  &:disabled {
+    }
+    &.is-disabled,
+    &:disabled {
     background: $gray-200;
     color: $gray-400;
-    cursor: not-allowed;
-    opacity: 0.6;
+      cursor: not-allowed;
+      opacity: 0.6;
   }
 
   // Размеры
@@ -139,7 +139,7 @@
     background: $gray-0;
     color: $primary-500;
     border: 2px solid $gray-100;
-  }
+    }
   &_type_negative {
     background: $color-error;
     color: $gray-0;

@@ -1,0 +1,129 @@
+.tab-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+  gap: 4px;
+  width: 326px;
+  height: 76px;
+  background: #23242C;
+  box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+
+  &__tabs {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0 8px;
+    gap: 12px;
+    width: 326px;
+    height: 44px;
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    gap: 4px;
+    width: 58.8px;
+    height: 44px;
+    flex: none;
+    flex-grow: 1;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #8C94A6;
+    font-family: 'SF Pro Rounded', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    border-radius: 12px;
+    position: relative;
+    transition: color 0.18s;
+    &--active {
+      color: #fff;
+      font-weight: 400;
+      .tab-bar__icon svg {
+        color: #fff;
+      }
+      .tab-bar__label {
+        color: #fff;
+      }
+    }
+    &--center {
+      width: 44px;
+      height: 44px;
+      z-index: 30;
+      margin: 0;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      .tab-bar__center-icon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        svg {
+          width: 24px;
+          height: 24px;
+          color: #141B34;
+        }
+      }
+    }
+  }
+  &__icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8C94A6;
+    svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+      color: inherit;
+      display: block;
+      transition: color 0.18s, fill 0.18s;
+    }
+  }
+  &__item:hover .tab-bar__icon,
+  &__item:focus .tab-bar__icon {
+    color: #fff;
+  }
+  &__item--active .tab-bar__icon {
+    color: #fff;
+  }
+  &__label {
+    width: 100%;
+    max-width: 53px;
+    height: 16px;
+    display: block;
+    text-align: center;
+    font-family: 'SF Pro Rounded', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #8C94A6;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+  }
+} 
