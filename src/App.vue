@@ -1,16 +1,17 @@
 <script setup>
-import { AppButtonDemo } from '@/components/atoms';
-import TabBarDemo from '@/components/molecules/TabBarDemo.vue';
+// import { AppButtonDemo } from '@/components/atoms';
+
+// import TabBarDemo from '@/components/molecules/TabBarDemo.vue';
 </script>
 
 <template>
   <v-app class="app">
     <SvgSpriteLoader />
-    <AppButtonDemo />
-    <section style="margin-top: 48px; height: 100vh;">
+    <!-- <AppButtonDemo /> -->
+    <!-- <section style="margin-top: 48px; height: 100vh;">
       <h2 style="text-align:center; margin-bottom: 24px;">TabBar Demo</h2>
       <TabBarDemo />
-    </section>
+    </section> -->
   </v-app>
 </template>
 

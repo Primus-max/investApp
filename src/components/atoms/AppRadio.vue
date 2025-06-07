@@ -34,5 +34,70 @@ const props = defineProps({
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/atoms/app-radio.scss';
+@import '@/styles/_variables.scss';
+
+.app-radio {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  font-family: $font-main;
+  font-size: 16px;
+  margin-right: $space-l;
+
+  &__input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: $gray-50;
+    border: 2px solid $gray-200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
+    margin-right: $space-s;
+    box-sizing: border-box;
+    position: relative;
+    svg {
+      display: block;
+    }
+  }
+
+  &__check {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  &__label {
+    color: $gray-900;
+    font-size: 16px;
+    font-family: $font-main;
+    line-height: 1.2;
+  }
+
+  &--checked &__circle {
+    border: none;
+    background: transparent;
+  }
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}
 </style> 
