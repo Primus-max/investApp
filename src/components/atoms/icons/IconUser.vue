@@ -1,6 +1,3 @@
 <template>
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
-    <path d="M4 20C4 16.6863 7.13401 14 11 14H13C16.866 14 20 16.6863 20 20" stroke="currentColor" stroke-width="2"/>
-  </svg>
+  <img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/fd7d715c-20b8-4db9-a594-8250494a62ac" width="24" height="24" alt="user" />
 </template> 

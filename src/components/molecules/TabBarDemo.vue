@@ -3,10 +3,7 @@
     <TabBar
       :tabs="tabs"
       :activeIndex="activeIndex"
-      :centered="true"
-      :menuOpened="menuOpened"
       @update:activeIndex="activeIndex = $event"
-      @toggleMenu="menuOpened = !menuOpened"
     />
   </div>
 </template>
@@ -17,7 +14,6 @@ import { ref } from 'vue';
 import TabBar from './TabBar.vue';
 
 const activeIndex = ref(0)
-const menuOpened = ref(false)
 const tabs = [
   { icon: 'home-05', label: 'Главная' },
   { icon: 'briefcase-01', label: 'Портфель' },

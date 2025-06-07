@@ -1,7 +1,3 @@
 <template>
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="2"/>
-    <path d="M7 9H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    <path d="M7 15H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-  </svg>
+  <img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/3a70cda0-3b7f-417c-b9e1-3977086d5b21" width="24" height="24" alt="menu" />
 </template> 

@@ -11,17 +11,19 @@
         @click="onTabClick(idx)"
         type="button"
       >
-        <template v-if="tab.center">
-          <span class="tab-bar__center-icon">
-            <AppIcon name="plus-sign-square" />
-          </span>
-        </template>
-        <template v-else>
-          <span class="tab-bar__icon">
-            <AppIcon v-if="tab.icon" :name="tab.icon" :class="[{ 'tab-bar__item--active': idx === activeIndex }]" type="sprites"/>
-          </span>
-          <span class="tab-bar__label">{{ tab.label }}</span>
-        </template>
+        <div class="tab-bar__content">
+          <template v-if="tab.center">
+            <span class="tab-bar__center-icon">
+              <AppIcon name="plus-sign-square" />
+            </span>
+          </template>
+          <template v-else>
+            <span class="tab-bar__icon">
+              <AppIcon v-if="tab.icon" :name="tab.icon" :class="[{ 'tab-bar__item--active': idx === activeIndex }]" />
+            </span>
+          </template>
+          <span class="tab-bar__label" v-if="tab.label">{{ tab.label }}</span>
+        </div>
       </button>
     </div>
   </nav>
