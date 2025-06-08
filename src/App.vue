@@ -1,19 +1,9 @@
 <script setup>
-// import { AppButtonDemo } from '@/components/atoms';
-
-// import TabBarDemo from '@/components/molecules/TabBarDemo.vue';
+import MainLayout from '@/layout/MainLayout.vue';
 </script>
 
 <template>
-  <v-app class="app">
-    <SvgSpriteLoader />
-    <router-view />
-    <!-- <AppButtonDemo /> -->
-    <!-- <section style="margin-top: 48px; height: 100vh;">
-      <h2 style="text-align:center; margin-bottom: 24px;">TabBar Demo</h2>
-      <TabBarDemo />
-    </section> -->
-  </v-app>
+  <MainLayout />
 </template>
 
 <style scoped>
@@ -42,5 +32,18 @@ header {
     place-items: flex-start;
     flex-wrap: wrap;
   }
+}
+
+.app__tabbar-wrap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  margin: 0 auto;
+  max-width: 430px;
+  z-index: 100;
+  width: 96vw;
+  display: flex;
+  justify-content: center;
 }
 </style>

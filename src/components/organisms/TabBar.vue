@@ -134,9 +134,8 @@ function closeMenu() {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: $space-m 0;  
-  width: 358px;
-  height: 76px;
+  padding: $space-m 0;
+  width: 100%;
   background: $gray-950;
   box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.2);
   border-radius: $radius-large;
@@ -241,7 +240,7 @@ function closeMenu() {
   }
 
   &__overlay {
-    width: 358px;
+    width: 100%;
     height: 440px;
     display: flex;
     flex-direction: column;
