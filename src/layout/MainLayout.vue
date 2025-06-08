@@ -1,5 +1,5 @@
 <template>
-  <div class="main-layout">
+  <div ref="layoutRef" class="main-layout">
     <Header />
     <router-view />
   </div>
@@ -30,23 +30,29 @@ const tabs = [
 ]
 
 const isTabBarHidden = ref(false)
-let lastScrollY = window.scrollY
+const layoutRef = ref(null)
+let lastScrollY = 0
 
-function onScroll() {
-  const currentY = window.scrollY
-  if (currentY > lastScrollY && currentY > 60) {
+function handleTabBarScroll(e) {
+  const currentY = e.target.scrollTop
+  console.log('scrollY:', currentY, 'lastScrollY:', lastScrollY, 'isTabBarHidden:', isTabBarHidden.value)
+  if (currentY > lastScrollY) {
     isTabBarHidden.value = true
-  } else {
+  } else if (currentY < lastScrollY) {
     isTabBarHidden.value = false
   }
   lastScrollY = currentY
 }
 
 onMounted(() => {
-  window.addEventListener('scroll', onScroll)
+  if (layoutRef.value) {
+    layoutRef.value.addEventListener('scroll', handleTabBarScroll)
+  }
 })
 onUnmounted(() => {
-  window.removeEventListener('scroll', onScroll)
+  if (layoutRef.value) {
+    layoutRef.value.removeEventListener('scroll', handleTabBarScroll)
+  }
 })
 </script>
 

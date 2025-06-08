@@ -68,15 +68,15 @@
   font-weight: normal;
 }
 
-html, body, #app, .main-layout {
+html, body, #app {
   font-family: $font-main;
   font-size: $font-size-base;
   background: $color-bg;
   color: $color-text-main;
-  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
