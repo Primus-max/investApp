@@ -76,3 +76,14 @@ npm run build
 
 - Для компонента нужно добавить импорт SVG в `AppIcon.vue` и в объект icons.
 - Для спрайта — просто используйте id из <symbol>.
+
+## Deploy to GitHub Pages
+
+To deploy the project to GitHub Pages:
+
+1. Make sure all changes are committed.
+2. Run:
+   ```sh
+   npm run deploy
+   ```
+3. The app will be available at: https://primus-max.github.io/investApp/
