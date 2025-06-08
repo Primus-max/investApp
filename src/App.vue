@@ -7,6 +7,7 @@
 <template>
   <v-app class="app">
     <SvgSpriteLoader />
+    <router-view />
     <!-- <AppButtonDemo /> -->
     <!-- <section style="margin-top: 48px; height: 100vh;">
       <h2 style="text-align:center; margin-bottom: 24px;">TabBar Demo</h2>
