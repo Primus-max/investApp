@@ -15,37 +15,28 @@
         </Header>
       </div>
     </template>
-    <div class="mainpage__widgets-grid">
-      <WidgetCard
-        v-for="(widget, idx) in widgets"
-        :key="idx"
-        v-bind="widget"
-      />
-    </div>
+
     <div class="mainpage__body">
-      <div class="mainpage__body-title">Общий капитал</div>
-      <div class="mainpage__body-balance">267 981</div>
-      <div class="mainpage__body-currency">₽</div>
-      <div class="mainpage__body-title">Общий капитал</div>
-      <div class="mainpage__body-balance">267 981</div>
-      <div class="mainpage__body-currency">₽</div>
-      <div class="mainpage__body-title">Общий капитал</div>
-      <div class="mainpage__body-balance">267 981</div>
-      <div class="mainpage__body-currency">₽</div>
-      <div class="mainpage__body-title">Общий капитал</div>
-      <div class="mainpage__body-balance">267 981</div>
-      <div class="mainpage__body-currency">₽</div>
-      <div class="mainpage__body-title">Общий капитал</div>
-      <div class="mainpage__body-balance">267 981</div>
-      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__widgets-grid">
+        <div v-for="(widget, idx) in widgets" :key="idx" class="mainpage__widget-card">
+          <StatWidget
+            :title="widget.title"
+            :value="widget.value"
+            :percent="widget.trend.positive ? widget.trend.value : -widget.trend.value"
+            :show-value="true"
+            :show-chart="true"
+            :chart-data="widget.chartData"
+          />
+        </div>
+      </div>
     </div>
   </MainLayout>
 </template>
 
 <script setup>
-import MainLayout from '@/layout/MainLayout.vue';
+import StatWidget from '@/components/molecules/stat-widgets/StatWidget.vue';
 import Header from '@/components/organisms/Header.vue';
-import WidgetCard from '@/components/organisms/WidgetCard.vue';
+import MainLayout from '@/layout/MainLayout.vue';
 
 const widgets = [
   {
@@ -53,7 +44,7 @@ const widgets = [
     value: 67981,
     currency: '₽',
     trend: { value: 12, positive: true },
-    chartData: [1,2,3,4,5,6,7,8,9,10],
+    chartData: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     color: 'green',
   },
   {
@@ -61,7 +52,7 @@ const widgets = [
     value: 67981,
     currency: '₽',
     trend: { value: 8, positive: false },
-    chartData: [10,9,8,7,6,5,4,3,2,1],
+    chartData: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
     color: 'red',
   },
   {
@@ -69,7 +60,7 @@ const widgets = [
     value: 67981,
     currency: '₽',
     trend: { value: 24, positive: true },
-    chartData: [2,4,6,8,10,8,6,4,2,1],
+    chartData: [2, 4, 6, 8, 10, 8, 6, 4, 2, 1],
     color: 'green',
   },
 ];
@@ -120,7 +111,7 @@ const widgets = [
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0;            
+    padding: 0;
     display: flex;
   }
 
@@ -156,8 +147,7 @@ const widgets = [
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: auto;
-    background: #960000;
+    height: auto;    
     color: #181818;
     display: flex;
     align-items: center;
@@ -183,6 +173,7 @@ const widgets = [
     flex-grow: 0;
     display: block;
   }
+
   &__header-subtitle {
     width: 20px;
     height: 20px;
@@ -201,13 +192,22 @@ const widgets = [
   }
 
   &__widgets-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: $space-m;
-    width: 100%;
-    max-width: 480px;
-    margin: 0 auto $space-l auto;
-    padding: $space-m 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 0;
+  }
+
+  &__widget-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
+    width: 175px;
+    height: 166px;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    position: relative;
   }
 }
 </style>

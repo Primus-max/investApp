@@ -26,7 +26,7 @@ import {
   onMounted,
   onUnmounted,
   ref,
-  useSlots
+  useSlots,
 } from 'vue';
 
 import TabBar from '@/components/organisms/TabBar.vue';
@@ -79,7 +79,7 @@ onUnmounted(() => {
   &__header {
     width: 100%;
     background: #1b1bb1;
-    border-radius: $radius-main $radius-main 0 0;
+    border-radius: $radius-md $radius-md 0 0;
     box-shadow: 0 2px 12px rgba(0,0,0,0.04);    
     &--empty {
       min-height: 0 !important;

@@ -50,7 +50,7 @@ const pressed = ref(false)
   cursor: pointer;
   font-family: $font-main;
   font-weight: $font-weight-bold;
-  border-radius: $radius-large;
+  border-radius: $radius-xl;
   transition: background 0.15s, color 0.15s, box-shadow 0.15s;
   user-select: none;
   -webkit-user-select: none;
@@ -137,7 +137,7 @@ const pressed = ref(false)
     height: 40px;
     font-size: 15px;
     padding: 0 $space-m;
-    border-radius: $radius-small;
+    border-radius: $radius-sm;
     .app-button__icon, .app-button__loader {
       svg, img { width: 16px; height: 16px; }
     }
@@ -146,7 +146,7 @@ const pressed = ref(false)
     height: 48px;
     font-size: 16px;
     padding: 0 $space-l;
-    border-radius: $radius-main;
+    border-radius: $radius-md;
     .app-button__icon, .app-button__loader {
       svg, img { width: 20px; height: 20px; }
     }
@@ -155,7 +155,7 @@ const pressed = ref(false)
     height: 56px;
     font-size: 18px;
     padding: 0 $space-xl;
-    border-radius: $radius-large;
+    border-radius: $radius-xl;
     .app-button__icon, .app-button__loader {
       svg, img { width: 22px; height: 22px; }
     }

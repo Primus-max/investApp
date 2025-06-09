@@ -36,7 +36,7 @@ const props = defineProps({
 @import '@/styles/_variables.scss';
 
 .widget-card {
-  border-radius: $radius-large;
+  border-radius: $radius-xl;
   background: $gray-0;
   box-shadow: $shadow-main;
   padding: $space-m;
@@ -94,7 +94,7 @@ const props = defineProps({
     width: 100%;
     height: 48px;
     margin-top: $space-xs;
-    border-radius: $radius-main;
+    border-radius: $radius-md;
     overflow: hidden;
     background: transparent;
     display: flex;
@@ -104,7 +104,7 @@ const props = defineProps({
     width: 100%;
     height: 100%;
     background: repeating-linear-gradient(90deg, #e0f7e9 0 2px, transparent 2px 8px);
-    border-radius: $radius-main;
+    border-radius: $radius-md;
   }
   &--green { background: #e9f9f0; }
   &--red { background: #fff0f0; }
