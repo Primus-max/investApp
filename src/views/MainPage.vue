@@ -17,14 +17,14 @@
     </template>
 
     <div class="mainpage__body">
+      <h1>Виджеты</h1>
       <div class="mainpage__widgets-grid">
         <div v-for="(widget, idx) in widgets" :key="idx" class="mainpage__widget-card">
-          <StatWidget
+          <StatWidgetCard
             :title="widget.title"
             :value="widget.value"
-            :percent="widget.trend.positive ? widget.trend.value : -widget.trend.value"
-            :show-value="true"
-            :show-chart="true"
+            :percent="widget.trend.value"
+            :positive="widget.trend.positive"
             :chart-data="widget.chartData"
           />
         </div>
@@ -34,7 +34,8 @@
 </template>
 
 <script setup>
-import StatWidget from '@/components/molecules/stat-widgets/StatWidget.vue';
+import StatWidgetCard
+  from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import Header from '@/components/organisms/Header.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 
