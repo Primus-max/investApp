@@ -1,9 +1,15 @@
 <template>
   <div class="main-layout">
-    <div class="main-layout__header">
+    <div
+      class="main-layout__header"
+      :class="{ 'main-layout__header--empty': !$slots.header }"
+    >
       <slot name="header" />
     </div>
-    <div class="main-layout__body">
+    <div
+      class="main-layout__body"
+      :class="{ 'main-layout__body--no-header': !$slots.header }"
+    >
       <slot />
     </div>
     <div
@@ -20,6 +26,7 @@ import {
   onMounted,
   onUnmounted,
   ref,
+  useSlots
 } from 'vue';
 
 import TabBar from '@/components/organisms/TabBar.vue';
@@ -47,6 +54,8 @@ function handleTabBarScroll(e) {
   lastScrollY = currentY
 }
 
+const $slots = useSlots();
+
 onMounted(() => {
   if (layoutRef.value) {
     layoutRef.value.addEventListener('scroll', handleTabBarScroll)
@@ -69,10 +78,18 @@ onUnmounted(() => {
 
   &__header {
     width: 100%;
-    
     background: #1b1bb1;
     border-radius: $radius-main $radius-main 0 0;
     box-shadow: 0 2px 12px rgba(0,0,0,0.04);    
+    &--empty {
+      min-height: 0 !important;
+      height: 0 !important;
+      background: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      overflow: hidden;
+    }
   }
   &__body {
     width: 100%;
@@ -81,6 +98,9 @@ onUnmounted(() => {
     margin-top: -32px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.08);
     z-index: 2;
+    &--no-header {
+      margin-top: 0 !important;
+    }
   }
   &__tabbar-wrap {
     width: 96vw;

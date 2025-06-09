@@ -7,11 +7,21 @@
             <button class="mainpage__header-cancel">Cancel</button>
           </template>
           <template #right>
-            <p class="mainpage__header-nav-title"><span>Kapitalist</span> <span>bot</span></p>
+            <p class="mainpage__header-nav-title">
+              <span class="mainpage__header-title">Kapitalist</span>
+              <span class="mainpage__header-subtitle">bot</span>
+            </p>
           </template>
         </Header>
       </div>
     </template>
+    <div class="mainpage__widgets-grid">
+      <WidgetCard
+        v-for="(widget, idx) in widgets"
+        :key="idx"
+        v-bind="widget"
+      />
+    </div>
     <div class="mainpage__body">
       <div class="mainpage__body-title">Общий капитал</div>
       <div class="mainpage__body-balance">267 981</div>
@@ -28,7 +38,6 @@
       <div class="mainpage__body-title">Общий капитал</div>
       <div class="mainpage__body-balance">267 981</div>
       <div class="mainpage__body-currency">₽</div>
-
     </div>
   </MainLayout>
 </template>
@@ -36,7 +45,34 @@
 <script setup>
 import MainLayout from '@/layout/MainLayout.vue';
 import Header from '@/components/organisms/Header.vue';
-// Только разметка-заглушка
+import WidgetCard from '@/components/organisms/WidgetCard.vue';
+
+const widgets = [
+  {
+    title: 'Прибыль',
+    value: 67981,
+    currency: '₽',
+    trend: { value: 12, positive: true },
+    chartData: [1,2,3,4,5,6,7,8,9,10],
+    color: 'green',
+  },
+  {
+    title: 'Доходность',
+    value: 67981,
+    currency: '₽',
+    trend: { value: 8, positive: false },
+    chartData: [10,9,8,7,6,5,4,3,2,1],
+    color: 'red',
+  },
+  {
+    title: 'Стоимость капитала',
+    value: 67981,
+    currency: '₽',
+    trend: { value: 24, positive: true },
+    chartData: [2,4,6,8,10,8,6,4,2,1],
+    color: 'green',
+  },
+];
 </script>
 
 <style lang="scss" scoped>
@@ -52,7 +88,7 @@ import Header from '@/components/organisms/Header.vue';
 
   &__header {
     width: 100%;
-    height: auto;
+    height: 120px;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -71,7 +107,23 @@ import Header from '@/components/organisms/Header.vue';
     min-height: 64px;
   }
 
-  &__header-cancel,
+  &__header-cancel {
+    width: 54px;
+    height: 22px;
+    font-family: 'SF Pro', Arial, sans-serif;
+    font-style: normal;
+    font-weight: $font-weight-regular;
+    font-size: 17px;
+    line-height: 22px;
+    letter-spacing: -0.4px;
+    color: $gray-0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;            
+    display: flex;
+  }
+
   &__header-nav-spacer {
     min-width: 60px;
     background: none;
@@ -113,6 +165,49 @@ import Header from '@/components/organisms/Header.vue';
     font-size: 18px;
     border-radius: 20px;
     margin-bottom: 16px;
+  }
+
+  &__header-title {
+    width: 75px;
+    height: 22px;
+    font-family: 'SF Pro', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 590;
+    font-size: 17px;
+    line-height: 22px;
+    text-align: center;
+    letter-spacing: -0.4px;
+    color: $gray-0;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    display: block;
+  }
+  &__header-subtitle {
+    width: 20px;
+    height: 20px;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    color: #AAAAAA;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    display: block;
+  }
+
+  &__widgets-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-m;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto $space-l auto;
+    padding: $space-m 0 0 0;
   }
 }
 </style>
