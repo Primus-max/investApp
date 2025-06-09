@@ -13,18 +13,20 @@
             </p>
           </template>
         </Header>
-
-        <div class="mainpage__header-stats"> 
-          <div class="mainpage__header-stats-row">
-            <div class="mainpage__header-stats-info">
-              <span class="mainpage__header-stats-title">Общий капитал</span>
-              <span class="mainpage__header-stats-value">267 981<span class="mainpage__header-stats-currency">₽</span></span>
-              <BadgeAtom customClass="mainpage__header-badge">
-                + 27 861,33 ₽ <span class="mainpage__header-badge-percent">(18,44%)</span>
-              </BadgeAtom>
+        <div class="mainpage__header-stats-row">
+          <div class="mainpage__header-stats-info">
+            <span class="mainpage__header-stats-title">Общий капитал</span>
+            <div class="mainpage__header-stats-value-row">
+              <span class="mainpage__header-stats-value">267 981</span>
+              <span class="mainpage__header-stats-currency">₽</span>
+            </div>
+            <div class="mainpage__header-badge-row">
+              <span class="mainpage__header-badge">+ 27 861,33 ₽ <span class="mainpage__header-badge-percent">(18,44%)</span></span>
               <span class="mainpage__header-badge-period">за все время</span>
             </div>
-            <div class="mainpage__header-stats-icon">
+          </div>
+          <div class="mainpage__header-stats-icon">
+            <div class="mainpage__header-bell-bg">
               <Notification02 />
             </div>
           </div>
@@ -33,7 +35,13 @@
     </template>
 
     <div class="mainpage__body">
-      <h1>Виджеты</h1>
+      <div class="mainpage__body-header">
+        <h1 class="mainpage__body-header-title">Виджеты</h1>       
+          <button class="mainpage__body-header-button">
+            <Edit01 class="mainpage__body-header-button-icon" />
+          </button>       
+      </div>
+
       <div class="mainpage__widgets-grid">
         <StatWidgetCard
           v-for="(widget, idx) in widgets"
@@ -54,6 +62,7 @@
 import { ref } from 'vue';
 
 import BadgeAtom from '@/components/atoms/BadgeAtom.vue';
+import Edit01 from '@/components/atoms/icons/Edit-01.vue';
 import Notification02 from '@/components/atoms/icons/Notification-02.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
@@ -69,7 +78,7 @@ const widgets = [
     value: 67981,
     currency: '₽',
     trend: { value: 12, positive: true },
-    chartData: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    chartData: [50, 52, 48, 55, 58, 54, 60, 65, 63, 68, 72, 70, 75, 78, 82, 80, 85, 88, 92, 95],
     color: 'green',
   },
   {
@@ -77,7 +86,7 @@ const widgets = [
     value: 67981,
     currency: '₽',
     trend: { value: 8, positive: false },
-    chartData: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+    chartData: [95, 92, 88, 85, 82, 78, 75, 72, 68, 65, 62, 58, 55, 52, 48, 45, 42, 38, 35, 32],
     color: 'red',
   },
   {
@@ -85,7 +94,7 @@ const widgets = [
     value: 67981,
     currency: '₽',
     trend: { value: 24, positive: true },
-    chartData: [2, 4, 6, 8, 10, 8, 6, 4, 2, 1],
+    chartData: [40, 42, 45, 43, 48, 52, 50, 55, 58, 62, 60, 65, 68, 72, 70, 75, 78, 82, 85, 88],
     color: 'green',
   },
 ];
@@ -104,7 +113,7 @@ const widgets = [
 
   &__header {
     width: 100%;
-    height: 280px;
+    height: 300px;
     color: #fff;
     display: flex;
     flex-direction: column;   
@@ -176,8 +185,47 @@ const widgets = [
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    border-radius: 20px;
-    margin-bottom: 16px;
+    border-radius: 20px;    
+
+    &-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 90%;
+      margin-top: 16px;
+    }
+
+    &-header-title {
+      font-size: 20px;      
+      margin-bottom: 0;
+      font-weight: $font-weight-semibold;
+      color: $gray-950;
+    }
+
+    &-header-button {
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+
+      // &:hover {
+      //   background: rgba(255, 255, 255, 1);
+      //   transform: scale(1.05);
+      // }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
   }
 
   &__header-title {
@@ -242,7 +290,7 @@ const widgets = [
 
   &__header-stats {
     width: 100%;    
-    margin-top: 8px;
+    margin-top: 8px;    
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -257,6 +305,8 @@ const widgets = [
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
+    margin-top: 40px;
+    padding: 0 16px;
   }
   &__header-stats-info {
     display: flex;
@@ -266,38 +316,57 @@ const widgets = [
   }
   &__header-stats-title {
     font-family: $font-main;
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 600;
     color: $gray-0;
-    opacity: 0.8;
-    margin-bottom: 2px;
+    opacity: 1;
+    margin-bottom: 0;
+    letter-spacing: 0;
+    line-height: 24px;
+  }
+  &__header-stats-value-row {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 0;
   }
   &__header-stats-value {
     font-family: $font-main;
-    font-size: 36px;
-    font-weight: 700;
+    font-size: 40px;
+    font-weight: 600;
     color: $gray-0;
     line-height: 1.1;
-    letter-spacing: -1px;
-    margin-bottom: 2px;
+    letter-spacing: 0;
+    margin-bottom: 0;
   }
   &__header-stats-currency {
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 22px;
+    font-weight: 600;
     margin-left: 2px;
-    opacity: 0.8;
+    opacity: 1;
+    color: $gray-0;
+    line-height: 28px;
+  }
+  &__header-badge-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
   }
   &__header-badge {
-    background: rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.10);
     color: $gray-0;
-    font-size: 15px;
-    font-weight: 500;
-    border-radius: 12px;
-    padding: 2px 12px;
-    margin-right: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 10000px;
+    padding: 6px 12px;
+    margin-right: 0;
     margin-bottom: 0;
     display: inline-flex;
     align-items: center;
+    backdrop-filter: blur(32px);
   }
   &__header-badge-percent {
     color: $color-success;
@@ -305,10 +374,12 @@ const widgets = [
     margin-left: 4px;
   }
   &__header-badge-period {
-    font-size: 13px;
-    color: $gray-350;
-    margin-left: 8px;
+    font-size: 16px;
+    color: $gray-0;
+    opacity: 0.8;
+    margin-left: 0;
     font-weight: 400;
+    line-height: 22px;
   }
   &__header-stats-icon {
     margin-left: 16px;
@@ -316,8 +387,18 @@ const widgets = [
     display: flex;
     align-items: flex-start;
     justify-content: flex-end;
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
+  }
+  &__header-bell-bg {
+    background: rgba(255,255,255,0.10);
+    border-radius: 10000px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
   }
 }
 
