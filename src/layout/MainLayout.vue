@@ -69,11 +69,10 @@ onUnmounted(() => {
 
   &__header {
     width: 100%;
-    min-height: 80px;
+    
     background: #1b1bb1;
     border-radius: $radius-main $radius-main 0 0;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-    z-index: 1;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);    
   }
   &__body {
     width: 100%;
