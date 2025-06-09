@@ -1,42 +1,135 @@
 <template>
-  <div class="tg-app__container">
-    <CapitalWidget />
-    <WidgetsSection />
-    <section class="tg-app__banner">
-      <AppBanner>
-        <div class="tg-banner__content">
-          <div class="tg-banner__chips">3/3 доступно</div>
-          <div class="tg-banner__title">Умные советы ИИ</div>
-          <div class="tg-banner__desc">Подскажет, когда купить или продать</div>
-        </div>
-      </AppBanner>
-    </section>
-    <PortfolioList />
-
-    <PortfolioList /><PortfolioList />
-    <PortfolioList />
-    <PortfolioList />
-    <PortfolioList />
-  </div>
+  <MainLayout>
+    <template #header>
+      <div class="mainpage__header">
+        <div class="mainpage__header-title">Общий капитал</div>
+        <div class="mainpage__header-balance">267 981</div>
+        <div class="mainpage__header-currency">₽</div>
+        <div class="mainpage__header-title">Общий капитал</div>
+        <div class="mainpage__header-balance">267 981</div>
+        <div class="mainpage__header-currency">₽</div>       
+      </div>
+    </template>
+    <div class="mainpage__body">
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+      <div class="mainpage__body-title">Общий капитал</div>
+      <div class="mainpage__body-balance">267 981</div>
+      <div class="mainpage__body-currency">₽</div>
+    </div>
+  </MainLayout>
 </template>
 
 <script setup>
-import AppBanner from '@/components/atoms/AppBanner.vue';
-import CapitalWidget from '@/components/organisms/CapitalWidget.vue';
-import PortfolioList from '@/components/organisms/PortfolioList.vue';
-import WidgetsSection from '@/components/organisms/WidgetsSection.vue';
+import MainLayout from '@/layout/MainLayout.vue';
+// Только разметка-заглушка
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/_variables.scss';
-.tg-app__container {
+
+.mainpage {
   width: 100%;
-  max-width: 390px;
   margin: 0 auto;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 20px 0 0 0;
+
+  &__header {
+    width: 100%;
+    height: auto;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 600;    
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    background: #960000;
+    color: #181818;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
 }
-</style> 
+</style>

@@ -1,5 +1,5 @@
 // Colors
-$color-bg: #ffffff;
+$color-bg: #000000; // Временный цвет
 $color-bg-soft: #f8f8f8;
 $color-primary: #2a7cff;
 $color-accent: #00c48c;
@@ -65,6 +65,7 @@ $letter-spacing-normal: 0;
 $letter-spacing-caption: 0.01em;
 
 // Radius & Shadow
+$radius-xxl: 32px;
 $radius-large: 20px;
 $radius-main: 12px;
 $radius-small: 10px;
@@ -75,4 +76,31 @@ $space-xs: 4px;
 $space-s: 8px;
 $space-m: 16px;
 $space-l: 24px;
-$space-xl: 32px; 
+$space-xl: 32px;
+
+// CSS custom properties (для генерации через SCSS, если нужно)
+// :root {
+//   --vt-c-white: #ffffff;
+//   --vt-c-white-soft: #f8f8f8;
+//   --vt-c-white-mute: #f2f2f2;
+//   --vt-c-black: #181818;
+//   --vt-c-black-soft: #222222;
+//   --vt-c-black-mute: #282828;
+//   --vt-c-indigo: #2c3e50;
+//   --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
+//   --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
+//   --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+//   --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+//   --vt-c-text-light-1: var(--vt-c-indigo);
+//   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
+//   --vt-c-text-dark-1: var(--vt-c-white);
+//   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+//   --color-background: var(--vt-c-white);
+//   --color-background-soft: var(--vt-c-white-soft);
+//   --color-background-mute: var(--vt-c-white-mute);
+//   --color-border: var(--vt-c-divider-light-2);
+//   --color-border-hover: var(--vt-c-divider-light-1);
+//   --color-heading: var(--vt-c-text-light-1);
+//   --color-text: var(--vt-c-text-light-1);
+//   --section-gap: 160px;
+// } 
