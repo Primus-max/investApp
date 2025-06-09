@@ -13,31 +13,44 @@
             </p>
           </template>
         </Header>
+
+        <div class="mainpage__header-stats"> 
+          <p class="mainpage__header-stats-item">
+            <span class="mainpage__header-stats-title">Общий капитал</span>
+            <span class="mainpage__header-stats-value">{{ amount }} ₽</span>            
+          </p>                   
+        </div>
       </div>
     </template>
 
     <div class="mainpage__body">
       <h1>Виджеты</h1>
       <div class="mainpage__widgets-grid">
-        <div v-for="(widget, idx) in widgets" :key="idx" class="mainpage__widget-card">
-          <StatWidgetCard
-            :title="widget.title"
-            :value="widget.value"
-            :percent="widget.trend.value"
-            :positive="widget.trend.positive"
-            :chart-data="widget.chartData"
-          />
-        </div>
+        <StatWidgetCard
+          v-for="(widget, idx) in widgets"
+          :key="idx"
+          :title="widget.title"
+          :value="widget.value"
+          :percent="widget.trend.value"
+          :positive="widget.trend.positive"
+          :chart-data="widget.chartData"
+          :type="idx === 2 ? 'rect' : 'square'"
+        />
       </div>
     </div>
   </MainLayout>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import Header from '@/components/organisms/Header.vue';
 import MainLayout from '@/layout/MainLayout.vue';
+
+const amount = ref(27861.33);
+const totalAmount = ref(123456789);
 
 const widgets = [
   {
@@ -80,14 +93,12 @@ const widgets = [
 
   &__header {
     width: 100%;
-    height: 120px;
+    height: 140px;
     color: #fff;
     display: flex;
-    flex-direction: column;
-    // align-items: center;
-    // justify-content: center;
+    flex-direction: column;   
     font-size: 20px;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
   }
 
   &__header-nav {
@@ -193,22 +204,39 @@ const widgets = [
   }
 
   &__widgets-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: $widget-card-width $widget-card-width;
+    grid-template-rows: $widget-card-height $widget-card-height;
+    grid-template-areas:
+      'w1 w2'
+      'w3 w3';
     gap: 16px;
-    padding: 0;
+    width: calc(2 * #{$widget-card-width} + 16px);
+    max-width: 100vw;
+    margin: 0 auto;
+
+    & > :nth-child(1) { grid-area: w1; }
+    & > :nth-child(2) { grid-area: w2; }
+    & > :nth-child(3) { grid-area: w3; }
   }
 
-  &__widget-card {
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
+  &__widget-card {  
     width: 175px;
     height: 166px;
     display: flex;
     align-items: stretch;
     justify-content: stretch;
     position: relative;
+  }
+}
+
+@media (max-width: 600px) {
+  .mainpage__widgets-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    width: 100vw;
+    gap: 8px;
+    padding: 0 4px;
   }
 }
 </style>

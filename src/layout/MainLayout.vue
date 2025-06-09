@@ -74,7 +74,7 @@ onUnmounted(() => {
 .main-layout {
   width: 100vw;
   min-height: 100vh;
-  background: #f5f5f5;
+  background: $color-bg-main;
 
   &__header {
     width: 100%;
@@ -93,7 +93,7 @@ onUnmounted(() => {
   }
   &__body {
     width: 100%;
-    background: #fff;
+    background: $color-bg-main;
     border-radius: $radius-xxl $radius-xxl 0 0;
     margin-top: -32px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.08);
