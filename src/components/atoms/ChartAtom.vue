@@ -5,17 +5,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue';
 import {
-  Chart as ChartJS,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+} from 'vue';
+
+import {
   CategoryScale,
+  Chart as ChartJS,
+  Filler,
+  Legend,
   LinearScale,
-  PointElement,
   LineElement,
+  PointElement,
   Title,
   Tooltip,
-  Legend,
-  Filler
 } from 'chart.js';
 
 // Регистрируем необходимые компоненты Chart.js

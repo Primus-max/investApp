@@ -46,16 +46,14 @@ const props = defineProps({
 
 <style scoped lang="scss">
 .stat-widget-card {
-  width: 175px;
-  height: 166px;
+  width: 100%;
+  min-height: 166px;
   border-radius: 20px;
   background: #fff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
-  padding: 12px 12px 0 12px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  position: relative;
 }
 .stat-widget-card__title {
   font-family: 'SF Pro Rounded', 'SF Pro Display', Arial, sans-serif;
@@ -63,12 +61,16 @@ const props = defineProps({
   font-size: 18px;
   line-height: 24px;
   color: #434956;
-  margin-bottom: 8px;
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 3;
 }
 .stat-widget-card__content {
   width: 100%;
-  height: 120px;
-  border-radius: 16px;
+  min-height: 166px;
+  border-radius: 20px;
   position: relative;
   overflow: hidden;
   &--positive {
@@ -89,27 +91,25 @@ const props = defineProps({
 }
 .stat-widget-card__info {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
 }
 .stat-widget-card__value-row {
   display: flex;
   align-items: baseline;
   gap: 4px;
-  font-size: 32px;
-  font-weight: 700;
+  margin-bottom: 4px;
 }
 .stat-widget-card__sign {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
+  line-height: 1;
   &--positive {
     color: #3CB46E;
   }
@@ -118,25 +118,27 @@ const props = defineProps({
   }
 }
 .stat-widget-card__value {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   color: #181818;
+  line-height: 1;
 }
 .stat-widget-card__currency {
-  font-size: 20px;
+  font-size: 18px;
   color: #596173;
   font-weight: 600;
+  line-height: 1;
 }
 .stat-widget-card__percent-row {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 16px;
-  margin-top: 2px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .stat-widget-card__percent {
   font-weight: 600;
+  font-size: 16px;
+  line-height: 1;
   &--positive {
     color: #3CB46E;
   }
@@ -147,6 +149,7 @@ const props = defineProps({
 .stat-widget-card__arrow {
   font-size: 16px;
   font-weight: 700;
+  line-height: 1;
   &--positive {
     color: #3CB46E;
   }

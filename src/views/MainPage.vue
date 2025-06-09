@@ -217,10 +217,10 @@ const widgets = [
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       transition: all 0.2s ease;
 
-      // &:hover {
-      //   background: rgba(255, 255, 255, 1);
-      //   transform: scale(1.05);
-      // }
+      &:hover {
+        background: rgba(255, 255, 255, 1);
+        transform: scale(1.05);
+      }
 
       &:active {
         transform: scale(0.95);
@@ -264,19 +264,22 @@ const widgets = [
 
   &__widgets-grid {
     display: grid;
-    grid-template-columns: $widget-card-width $widget-card-width;
-    grid-template-rows: $widget-card-height $widget-card-height;
-    grid-template-areas:
-      'w1 w2'
-      'w3 w3';
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
     gap: 16px;
-    width: calc(2 * #{$widget-card-width} + 16px);
-    max-width: 100vw;
+    width: 100%;
+    max-width: 375px;
     margin: 0 auto;
+    padding: 0 16px;
 
-    & > :nth-child(1) { grid-area: w1; }
-    & > :nth-child(2) { grid-area: w2; }
-    & > :nth-child(3) { grid-area: w3; }
+    & > :nth-child(1), & > :nth-child(2) {
+      width: 100%;
+    }
+    
+    & > :nth-child(3) {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
   }
 
   &__widget-card {  
