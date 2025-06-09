@@ -15,10 +15,19 @@
         </Header>
 
         <div class="mainpage__header-stats"> 
-          <p class="mainpage__header-stats-item">
-            <span class="mainpage__header-stats-title">Общий капитал</span>
-            <span class="mainpage__header-stats-value">{{ amount }} ₽</span>            
-          </p>                   
+          <div class="mainpage__header-stats-row">
+            <div class="mainpage__header-stats-info">
+              <span class="mainpage__header-stats-title">Общий капитал</span>
+              <span class="mainpage__header-stats-value">267 981<span class="mainpage__header-stats-currency">₽</span></span>
+              <BadgeAtom customClass="mainpage__header-badge">
+                + 27 861,33 ₽ <span class="mainpage__header-badge-percent">(18,44%)</span>
+              </BadgeAtom>
+              <span class="mainpage__header-badge-period">за все время</span>
+            </div>
+            <div class="mainpage__header-stats-icon">
+              <Notification02 />
+            </div>
+          </div>
         </div>
       </div>
     </template>
@@ -44,6 +53,8 @@
 <script setup>
 import { ref } from 'vue';
 
+import BadgeAtom from '@/components/atoms/BadgeAtom.vue';
+import Notification02 from '@/components/atoms/icons/Notification-02.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import Header from '@/components/organisms/Header.vue';
@@ -93,7 +104,7 @@ const widgets = [
 
   &__header {
     width: 100%;
-    height: 140px;
+    height: 280px;
     color: #fff;
     display: flex;
     flex-direction: column;   
@@ -227,6 +238,86 @@ const widgets = [
     align-items: stretch;
     justify-content: stretch;
     position: relative;
+  }
+
+  &__header-stats {
+    width: 100%;    
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 20px 20px 24px 20px;
+    
+    position: relative;    
+  }
+  &__header-stats-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  &__header-stats-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  &__header-stats-title {
+    font-family: $font-main;
+    font-size: 15px;
+    font-weight: 500;
+    color: $gray-0;
+    opacity: 0.8;
+    margin-bottom: 2px;
+  }
+  &__header-stats-value {
+    font-family: $font-main;
+    font-size: 36px;
+    font-weight: 700;
+    color: $gray-0;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 2px;
+  }
+  &__header-stats-currency {
+    font-size: 24px;
+    font-weight: 500;
+    margin-left: 2px;
+    opacity: 0.8;
+  }
+  &__header-badge {
+    background: rgba(255,255,255,0.12);
+    color: $gray-0;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 12px;
+    padding: 2px 12px;
+    margin-right: 8px;
+    margin-bottom: 0;
+    display: inline-flex;
+    align-items: center;
+  }
+  &__header-badge-percent {
+    color: $color-success;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+  &__header-badge-period {
+    font-size: 13px;
+    color: $gray-350;
+    margin-left: 8px;
+    font-weight: 400;
+  }
+  &__header-stats-icon {
+    margin-left: 16px;
+    margin-top: 4px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    width: 40px;
+    height: 40px;
   }
 }
 
