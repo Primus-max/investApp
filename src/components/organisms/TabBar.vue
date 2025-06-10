@@ -104,7 +104,7 @@ const props = defineProps({
   tabs: { type: Array, required: true },
   activeIndex: { type: Number, default: 0 }
 })
-const emit = defineEmits(['update:activeIndex'])
+const emit = defineEmits(['update:activeIndex', 'menu-open'])
 
 const isMenuOpen = ref(false)
 
@@ -118,12 +118,14 @@ const menuActions = [
 function onTabClick(idx) {
   if (props.tabs[idx].center) {
     isMenuOpen.value = !isMenuOpen.value
+    emit('menu-open', isMenuOpen.value)
   } else {
     emit('update:activeIndex', idx)
   }
 }
 function closeMenu() {
   isMenuOpen.value = false
+  emit('menu-open', false)
 }
 </script>
 

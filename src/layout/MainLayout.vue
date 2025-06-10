@@ -1,5 +1,6 @@
 <template>
   <div class="main-layout">
+    <div v-if="isTabMenuOpen" class="app-blur-overlay" @click="isTabMenuOpen = false"></div>
     <div
       class="main-layout__header"
       :class="{ 'main-layout__header--empty': !$slots.header }"
@@ -16,7 +17,7 @@
       class="main-layout__tabbar-wrap"
       :class="{ 'main-layout__tabbar-wrap--hidden': isTabBarHidden }"
     >
-      <TabBar :tabs="tabs" :activeIndex="activeIndex" />
+      <TabBar :tabs="tabs" :activeIndex="activeIndex" @menu-open="isTabMenuOpen = $event" />
     </div>
   </div>
 </template>
@@ -41,6 +42,7 @@ const tabs = [
 
 const activeIndex = ref(0)
 const isTabBarHidden = ref(false)
+const isTabMenuOpen = ref(false)
 const layoutRef = ref(null)
 let lastScrollY = 0
 
@@ -70,6 +72,29 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
+
+.app-blur-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  // background: rgba(255,255,255,0.4);
+  // transition: backdrop-filter 0.2s, background 0.2s;
+}
+
+.main-layout__tabbar-wrap {
+  width: 96vw;
+  margin: 0 auto;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  z-index: 1011;
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+}
 
 .main-layout {
   width: 100vw;
@@ -101,19 +126,6 @@ onUnmounted(() => {
     &--no-header {
       margin-top: 0 !important;
     }
-  }
-  &__tabbar-wrap {
-    width: 96vw;
-    margin: 0 auto;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;  
-    z-index: 100;
-    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
   }
   &__tabbar-wrap--hidden {
     display: none;
