@@ -3,8 +3,8 @@
     type="area"
     :options="chartOptions"
     :series="series"
-    width="300"
-    height="120"
+    width="150"
+    height="100"
   />
 </template>
 
@@ -31,7 +31,9 @@ const chartOptions = {
     type: 'area',
     height: 120,
     toolbar: { show: false },
-    background: 'transparent'
+    background: 'transparent',
+    sparkline: { enabled: true },
+    parentHeightOffset: 0
   },
   dataLabels: {
     enabled: false
@@ -40,6 +42,10 @@ const chartOptions = {
   stroke: {
     curve: 'smooth',
     width: 2
+  },
+  markers: {
+    size: 0,
+    colors: [currentColor.value]
   },
   xaxis: {
     labels: { show: false },
@@ -56,4 +62,4 @@ const chartOptions = {
     enabled: false
   }
 };
-</script> 
+</script>

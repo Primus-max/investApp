@@ -11,7 +11,7 @@
         <LineChartAtom :data="chartData" :positive="positive" :color="positive ? '#3CB46E' : '#F04438'" :width="167"
           :height="120" />
       </div>
-      <!-- <div class="stat-widget-card__info">
+      <div class="stat-widget-card__info">
         <div class="stat-widget-card__value-row">
           <span
             :class="['stat-widget-card__sign', positive ? 'stat-widget-card__sign--positive' : 'stat-widget-card__sign--negative']">
@@ -31,7 +31,7 @@
             <template v-else>↓</template>
           </span>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -62,6 +62,7 @@ const props = defineProps({
   display: flex;
   flex-direction: column;
   position: relative;
+  padding: 4px
 }
 
 .stat-widget-card__title {
@@ -86,25 +87,23 @@ const props = defineProps({
   position: relative;
   border-radius: $radius-xl;
   overflow: hidden;
+  align-items: flex-end;
 }
 
-.stat-widget-card__chart-bg {
-  // position: absolute;
-  // left: 8px;
-  // top: 24px;
-  width: calc(100% - 16px);
-  height: 50%;
+.stat-widget-card__chart-bg {  
+  height: 68%;
   border-radius: $radius-lg;
   z-index: 1;
   pointer-events: none;
+  overflow: hidden;
 
-  // &--positive {
-  //   background: linear-gradient(180deg, rgba($color-success, 0.12) 0%, rgba($color-success, 0.04) 100%);
-  // }
+  &--positive {
+    background: linear-gradient(180deg, rgba($color-success, 0.12) 0%, rgba($color-success, 0.04) 100%);
+  }
 
-  // &--negative {
-  //   background: linear-gradient(180deg, rgba($color-error, 0.12) 0%, rgba($color-error, 0.04) 100%);
-  // }
+  &--negative {
+    background: linear-gradient(180deg, rgba($color-error, 0.12) 0%, rgba($color-error, 0.04) 100%);
+  }
 }
 
 .stat-widget-card__info {
