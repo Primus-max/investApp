@@ -199,8 +199,8 @@ const props = defineProps({
   justify-content: center;
   font-size: 24px;
   font-weight: bold;
-  color: $color-error;
-  background: $gray-0;
+  color: $gray-50;
+  background: $gray-50;
   border-radius: 50%;
   box-shadow: $shadow-main;
   z-index: 10;

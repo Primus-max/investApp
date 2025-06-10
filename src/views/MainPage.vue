@@ -7,10 +7,10 @@
             <button class="mainpage__header-cancel">Cancel</button>
           </template>
           <template #right>
-            <p class="mainpage__header-nav-title">
+            <!-- <p class="mainpage__header-nav-title">
               <span class="mainpage__header-title">Kapitalist</span>
               <span class="mainpage__header-subtitle">bot</span>
-            </p>
+            </p> -->
           </template>
         </Header>
         <div class="mainpage__header-stats-row">
