@@ -45,11 +45,9 @@
             </button>
           </template>
           <template v-else>
-            <button class="mainpage__body-header-plus">
-              <IconPlusSignSquare />
-            </button>
+            <PlusButtonAtom />
             <button class="mainpage__body-header-done" @click="editMode = false">
-              Готово
+              Готов
             </button>
           </template>
         </div>
@@ -91,6 +89,7 @@ import Edit01 from '@/components/atoms/icons/Edit-01.vue';
 import IconPlusSignSquare
   from '@/components/atoms/icons/IconPlusSignSquare.vue';
 import Notification02 from '@/components/atoms/icons/Notification-02.vue';
+import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
 import PortfolioCard from '@/components/molecules/PortfolioCard.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
@@ -255,6 +254,7 @@ const portfolios = ref([
       align-items: center;
       justify-content: space-between;
       width: 90%;
+      height: 40px;
       margin: 16px 0 16px 0;
     }
 
@@ -296,16 +296,16 @@ const portfolios = ref([
       padding-right: 8px;
     }
 
-    &-header-plus {
+    &-header-plus {     
       width: 40px;
       height: 40px;
-      border-radius: 50%;
-      background: #fff;
+      border-radius: $radius-xl;
+      background: $color-text-main;
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: $shadow-main;
+      // box-shadow: $shadow-main;
       padding: 0;
       cursor: pointer;
     }
@@ -314,10 +314,10 @@ const portfolios = ref([
       background: #fff;
       border: none;
       color: $gray-900;
-      font-size: 18px;
-      font-weight: 600;
+      font-size: $font-size-small;
+      font-weight: $font-weight-medium;
       padding: 0 18px;
-      height: 40px;
+      height: 36px;
       border-radius: 9999px;
       box-shadow: $shadow-main;
       display: flex;
