@@ -8,7 +8,7 @@
           :src="getIconPath(icon)"
           :alt="icon"
           class="portfolio-card__icon"
-          :style="{ left: `${idx * 18}px`, zIndex: 10 - idx }"
+          :style="{ left: `${idx * 26}px`, zIndex: idx + 1 }"
         />
       </template>
       <template v-else>
@@ -18,11 +18,11 @@
           :src="getIconPath(icon)"
           :alt="icon"
           class="portfolio-card__icon"
-          :style="{ left: `${idx * 18}px`, zIndex: 10 - idx }"
+          :style="{ left: `${idx * 26}px`, zIndex: idx + 1 }"
         />
         <div
           class="portfolio-card__icon portfolio-card__icon--more"
-          :style="{ left: `${2 * 18}px`, zIndex: 8 }"
+          :style="{ left: `${2 * 26}px`, zIndex: 3 }"
         >
           +{{ icons.length - 2 }}
         </div>
@@ -122,9 +122,9 @@ const handleClick = () => {
   display: flex;
   align-items: center;
   position: relative;
-  min-width: 60px;
+  min-width: 80px;
   margin-right: $space-m;
-  height: 32px;
+  height: 38px;
 }
 
 .portfolio-card__icon {
@@ -144,6 +144,7 @@ const handleClick = () => {
   font-size: 15px;
   font-weight: $font-weight-semibold;
   color: $gray-700;
+  transition: left 0.15s;
 }
 
 .portfolio-card__icon--more {
@@ -159,6 +160,7 @@ const handleClick = () => {
   font-size: 15px;
   font-weight: $font-weight-semibold;
   box-shadow: 0 1px 4px rgba(44, 62, 80, 0.04);
+  transition: left 0.15s;
 }
 
 .portfolio-card__content {
