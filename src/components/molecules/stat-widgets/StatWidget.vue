@@ -57,12 +57,14 @@ const midY = 54 - 24;
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/_variables.scss';
+
 .stat-widget {
   width: 175px;
   height: 166px;
-  border-radius: 20px;
-  background: #fff;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
+  border-radius: $radius-xl;
+  background: $gray-0;
+  box-shadow: $shadow-main;
   padding: 12px 12px 0 12px;
   display: flex;
   flex-direction: column;

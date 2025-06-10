@@ -45,12 +45,14 @@ const props = defineProps({
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/_variables.scss';
+
 .stat-widget-card {
   width: 100%;
   min-height: 166px;
-  border-radius: 20px;
-  background: #fff;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
+  border-radius: $radius-xl;
+  background: $gray-0;
+  box-shadow: $shadow-main;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -70,7 +72,7 @@ const props = defineProps({
 .stat-widget-card__content {
   width: 100%;
   min-height: 166px;
-  border-radius: 20px;
+  border-radius: $radius-xl;
   position: relative;
   overflow: hidden;
   &--positive {
