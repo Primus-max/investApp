@@ -9,6 +9,10 @@
 </template>
 
 <script setup>
+import '@/styles/_variables.scss';
+
+import { computed } from 'vue';
+
 import ApexChart from 'vue3-apexcharts';
 
 const props = defineProps({
@@ -20,38 +24,37 @@ const props = defineProps({
 
 const series = [
   {
+    name: 'stat',
     data: props.data
   }
 ]
 
-const mainColor = props.positive ? '#3CB46E' : '#F04438'
+const mainColor = computed(() => props.positive ? '#00c48c' : '#ff4d4f'); // насыщенный зелёный/красный
 
 const chartOptions = {
   chart: {
-    type: 'line',
+    type: 'area',
     toolbar: { show: false },
     background: 'transparent',
-    sparkline: { enabled: true },
-    animations: {
-      enabled: true,
-      easing: 'easeinout',
-      speed: 900
-    }
+    sparkline: { enabled: false },
+    zoom: { enabled: false },
   },
   stroke: {
     curve: 'smooth',
     width: 2,
-    colors: [mainColor]
+    colors: [mainColor.value]
   },
   fill: {
     type: 'solid',
-    colors: ['transparent']
+    colors: [mainColor.value],
+    opacity: 1
   },
   grid: { show: false },
   xaxis: { labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false } },
   yaxis: { show: false },
   tooltip: { enabled: false },
   markers: { size: 0 },
-  dataLabels: { enabled: false }
+  dataLabels: { enabled: false },
+  legend: { show: false }
 }
 </script> 

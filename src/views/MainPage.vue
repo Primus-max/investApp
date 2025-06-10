@@ -114,7 +114,7 @@ const widgets = [
     value: 67981,
     currency: '₽',
     trend: { value: 8, positive: false },
-    chartData: [95, 92, 88, 85, 82, 78, 75, 72, 68, 65, 62, 58, 55, 52, 48, 45, 42, 38, 35, 32],
+    chartData: [34, 32, 38, 35, 32, 30, 28, 25, 22, 20, 18, 15, 12, 10, 8, 5, 2, 0, -2, -5],
     color: 'red',
   },
   {
