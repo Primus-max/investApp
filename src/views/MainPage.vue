@@ -116,41 +116,32 @@ const widgets = [
 const portfolios = ref([
   {
     id: 1,
-    name: 'Консервативный портфель',
+    name: 'Консервативный',
     bank: 'Сбербанк',
     amount: 125000,
     currency: '₽',
-    profit: {
-      amount: 8500,
-      percent: 7.3,
-      positive: true
-    },
+    profit: 8500,
+    percent: 7.3,
     icons: ['sber', 'rub', 'bitcoinBadge']
   },
   {
     id: 2,
-    name: 'Агрессивный рост',
+    name: 'Агрессивный',
     bank: 'Тинькофф',
     amount: 89000,
     currency: '₽',
-    profit: {
-      amount: 12500,
-      percent: 16.3,
-      positive: true
-    },
+    profit: 12500,
+    percent: 16.3,
     icons: ['bitcoinBadge', 'ethereum', 'tetherBadge']
   },
   {
     id: 3,
-    name: 'Валютный хедж',
+    name: 'Комбинированный',
     bank: 'ВТБ',
     amount: 53500,
     currency: '₽',
-    profit: {
-      amount: 2100,
-      percent: 4.1,
-      positive: false
-    },
+    profit: -2100,
+    percent: -4.1,
     icons: ['tetherBadge', 'chainlinkBadge', 'minaBadge', 'bitcoinBadge', 'ethereum']
   }
 ]);

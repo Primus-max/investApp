@@ -32,8 +32,8 @@
       <div class="portfolio-card__title">{{ portfolio.name }}</div>
       <div class="portfolio-card__row">
         <span class="portfolio-card__amount">{{ formattedAmount }}</span>
-        <span v-if="hasProfit" class="portfolio-card__profit">
-          +{{ formattedProfit }} — {{ formattedPercent }}% <span class="portfolio-card__arrow">↑</span>
+        <span v-if="hasProfit" :class="['portfolio-card__profit', profitClass]">
+          {{ profitSign }}{{ formattedProfit }} <span class="portfolio-card__dot">·</span> {{ formattedPercent }}% <span class="portfolio-card__arrow">{{ profitArrow }}</span>
         </span>
       </div>
     </div>
@@ -81,12 +81,27 @@ const formattedProfit = computed(() => {
   return new Intl.NumberFormat('ru-RU', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
-  }).format(props.portfolio.profit)
+  }).format(Math.abs(props.portfolio.profit))
 })
 
 const formattedPercent = computed(() => {
   if (!hasProfit.value) return ''
   return Math.abs(props.portfolio.percent).toFixed(0)
+})
+
+const profitClass = computed(() => {
+  if (!hasProfit.value) return ''
+  return props.portfolio.profit >= 0 ? 'portfolio-card__profit--positive' : 'portfolio-card__profit--negative'
+})
+
+const profitSign = computed(() => {
+  if (!hasProfit.value) return ''
+  return props.portfolio.profit >= 0 ? '+' : '-'
+})
+
+const profitArrow = computed(() => {
+  if (!hasProfit.value) return ''
+  return props.portfolio.profit >= 0 ? '↑' : '↓'
 })
 
 const getIconPath = (icon) => {
@@ -170,7 +185,7 @@ const handleClick = () => {
 
 .portfolio-card__title {
   font-family: $font-main;
-  font-size: $font-size-body;
+  font-size: $font-size-h3;
   font-weight: $font-weight-semibold;
   color: $gray-900;
   margin-bottom: 2px;
@@ -196,16 +211,27 @@ const handleClick = () => {
   font-family: $font-main;
   font-size: $font-size-caption;
   font-weight: $font-weight-medium;
-  color: $color-success;
   display: flex;
   align-items: center;
   gap: 2px;
 }
 
+.portfolio-card__profit--positive {
+  color: $color-success;
+}
+
+.portfolio-card__profit--negative {
+  color: $color-error;
+}
+
 .portfolio-card__arrow {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
   margin-left: 2px;
+}
+
+.portfolio-card__dot {
+  margin: 0 2px;
 }
 
 @media (max-width: 480px) {
