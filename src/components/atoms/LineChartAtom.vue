@@ -39,6 +39,12 @@
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
+      ref="pathRef"
+      :style="isAnimated ? {
+        strokeDasharray: pathLength + 'px',
+        strokeDashoffset: pathLength + 'px',
+        animation: 'drawLine 1.2s cubic-bezier(0.4,0,0.2,1) forwards'
+      } : {}"
     />
   </svg>
 </template>
@@ -46,6 +52,9 @@
 <script setup>
 import {
   computed,
+  nextTick,
+  onMounted,
+  ref,
   watchEffect,
 } from 'vue';
 
@@ -143,10 +152,28 @@ const fillPath = computed(() => {
   
   return `${mainPath} L ${lastX} ${bottomY} L ${padding} ${bottomY} Z`;
 });
+
+// --- Animation logic ---
+const pathRef = ref(null);
+const pathLength = ref(0);
+const isAnimated = ref(false);
+
+onMounted(async () => {
+  await nextTick();
+  if (pathRef.value) {
+    pathLength.value = pathRef.value.getTotalLength();
+    isAnimated.value = true;
+  }
+});
 </script>
 
 <style scoped lang="scss">
 .line-chart {
   overflow: visible;
+}
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 </style> 
