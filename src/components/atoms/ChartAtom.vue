@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="chart-container">
     <canvas ref="chartCanvas"></canvas>
   </div>
@@ -152,4 +152,4 @@ onUnmounted(() => {
     height: 100% !important;
   }
 }
-</style> 
+</style>  -->

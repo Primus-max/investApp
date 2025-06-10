@@ -4,6 +4,7 @@ import 'vuetify/styles';
 import { createApp } from 'vue';
 
 import { createPinia } from 'pinia';
+import VueApexCharts from 'vue3-apexcharts';
 import { createVuetify } from 'vuetify';
 
 import { PiniaColada } from '@pinia/colada';
@@ -16,4 +17,5 @@ app.use(createPinia())
 app.use(PiniaColada, {})
 app.use(createVuetify())
 app.use(router)
+app.use(VueApexCharts)
 app.mount('#app')
