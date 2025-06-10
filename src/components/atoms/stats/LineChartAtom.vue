@@ -9,7 +9,15 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
 import ApexChart from 'vue3-apexcharts';
+
+const props = defineProps({
+  positive: { type: Boolean, default: true }
+})
+
+const currentColor = computed(() => props.positive ? '#00c48c' : '#ff4d4f');
 
 const series = [
   {
@@ -23,11 +31,12 @@ const chartOptions = {
     type: 'area',
     height: 120,
     toolbar: { show: false },
-    background: 'transparent',   
+    background: 'transparent'
   },
   dataLabels: {
     enabled: false
   },
+  colors: [currentColor.value],
   stroke: {
     curve: 'smooth',
     width: 2
