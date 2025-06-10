@@ -1,5 +1,6 @@
 <template>
   <div class="stat-widget-card">
+    <div v-if="editMode" class="stat-widget-card__remove">-</div>
     <div class="stat-widget-card__title">{{ title }}</div>
     <div :class="['stat-widget-card__content', positive ? 'stat-widget-card__content--positive' : 'stat-widget-card__content--negative']">
       <LineChartAtom
@@ -41,6 +42,7 @@ const props = defineProps({
   percent: { type: [String, Number], required: true },
   positive: { type: Boolean, required: true },
   chartData: { type: Array, default: () => [] },
+  editMode: Boolean,
 });
 </script>
 
@@ -158,5 +160,22 @@ const props = defineProps({
   &--negative {
     color: #F04438;
   }
+}
+.stat-widget-card__remove {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: $color-error;
+  background: $gray-0;
+  border-radius: 50%;
+  box-shadow: $shadow-main;
+  z-index: 10;
 }
 </style> 

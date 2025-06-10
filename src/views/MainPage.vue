@@ -38,15 +38,25 @@
     <div class="mainpage__body">
       <div class="mainpage__body-header">
         <h1 class="mainpage__body-header-title">Виджеты</h1>
-        <button class="mainpage__body-header-button">
-          <Edit01 class="mainpage__body-header-button-icon" />
-        </button>
+        <template v-if="!editMode">
+          <button class="mainpage__body-header-button" @click="editMode = true">
+            <Edit01 class="mainpage__body-header-button-icon" />
+          </button>
+        </template>
+        <template v-else>
+          <button class="mainpage__body-header-button">
+            <IconPlusSignSquare style="width: 32px; height: 32px;" />
+          </button>
+          <button class="mainpage__body-header-done" @click="editMode = false">
+            Готово
+          </button>
+        </template>
       </div>
 
       <div class="mainpage__widgets-grid">
         <StatWidgetCard v-for="(widget, idx) in widgets" :key="idx" :title="widget.title" :value="widget.value"
           :percent="widget.trend.value" :positive="widget.trend.positive" :chart-data="widget.chartData"
-          :type="idx === 2 ? 'rect' : 'square'" />
+          :type="idx === 2 ? 'rect' : 'square'" :editMode="editMode" />
       </div>
 
       <AppBanner class="mainpage__app-banner">
@@ -76,6 +86,8 @@ import { ref } from 'vue';
 import AppBanner from '@/components/atoms/AppBanner.vue';
 import BadgeAtom from '@/components/atoms/BadgeAtom.vue';
 import Edit01 from '@/components/atoms/icons/Edit-01.vue';
+import IconPlusSignSquare
+  from '@/components/atoms/icons/IconPlusSignSquare.vue';
 import Notification02 from '@/components/atoms/icons/Notification-02.vue';
 import PortfolioCard from '@/components/molecules/PortfolioCard.vue';
 import StatWidgetCard
@@ -85,6 +97,7 @@ import MainLayout from '@/layout/MainLayout.vue';
 
 const amount = ref(27861.33);
 const totalAmount = ref(123456789);
+const editMode = ref(false);
 
 const widgets = [
   {
