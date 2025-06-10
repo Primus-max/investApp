@@ -128,14 +128,15 @@ const handleClick = () => {
 }
 
 .portfolio-card__icon {
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: $gray-0;
   object-fit: cover;
   box-shadow: 0 1px 4px rgba(44, 62, 80, 0.04);
   position: absolute;
   top: 0;
+  left: 0;
   border: 2px solid $gray-0;
   display: flex;
   align-items: center;
@@ -146,9 +147,18 @@ const handleClick = () => {
 }
 
 .portfolio-card__icon--more {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
   background: $gray-100;
   color: $gray-700;
   border: 2px solid $gray-0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: $font-weight-semibold;
+  box-shadow: 0 1px 4px rgba(44, 62, 80, 0.04);
 }
 
 .portfolio-card__content {
@@ -202,8 +212,8 @@ const handleClick = () => {
     min-height: 56px;
   }
   .portfolio-card__icon {
-    width: 28px;
-    height: 28px;
+    width: 38px;
+    height: 38px;
   }
   .portfolio-card__amount {
     font-size: $font-size-body;

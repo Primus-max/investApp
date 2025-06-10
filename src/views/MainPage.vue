@@ -151,7 +151,7 @@ const portfolios = ref([
       percent: 4.1,
       positive: false
     },
-    icons: ['tetherBadge', 'chainlinkBadge', 'minaBadge']
+    icons: ['tetherBadge', 'chainlinkBadge', 'minaBadge', 'bitcoinBadge', 'ethereum']
   }
 ]);
 </script>
