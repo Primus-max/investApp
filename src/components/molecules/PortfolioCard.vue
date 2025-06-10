@@ -1,0 +1,212 @@
+<template>
+  <div class="portfolio-card" @click="handleClick">
+    <div class="portfolio-card__icons">
+      <template v-if="icons.length <= 3">
+        <img
+          v-for="(icon, idx) in icons"
+          :key="idx"
+          :src="getIconPath(icon)"
+          :alt="icon"
+          class="portfolio-card__icon"
+          :style="{ left: `${idx * 18}px`, zIndex: 10 - idx }"
+        />
+      </template>
+      <template v-else>
+        <img
+          v-for="(icon, idx) in icons.slice(0, 2)"
+          :key="idx"
+          :src="getIconPath(icon)"
+          :alt="icon"
+          class="portfolio-card__icon"
+          :style="{ left: `${idx * 18}px`, zIndex: 10 - idx }"
+        />
+        <div
+          class="portfolio-card__icon portfolio-card__icon--more"
+          :style="{ left: `${2 * 18}px`, zIndex: 8 }"
+        >
+          +{{ icons.length - 2 }}
+        </div>
+      </template>
+    </div>
+    <div class="portfolio-card__content">
+      <div class="portfolio-card__title">{{ portfolio.name }}</div>
+      <div class="portfolio-card__row">
+        <span class="portfolio-card__amount">{{ formattedAmount }}</span>
+        <span v-if="hasProfit" class="portfolio-card__profit">
+          +{{ formattedProfit }} — {{ formattedPercent }}% <span class="portfolio-card__arrow">↑</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed } from 'vue';
+
+import { useRouter } from 'vue-router';
+
+const props = defineProps({
+  portfolio: {
+    type: Object,
+    required: true,
+    validator: (value) => {
+      return (
+        value &&
+        typeof value.name === 'string' &&
+        typeof value.amount === 'number' &&
+        Array.isArray(value.icons)
+      )
+    }
+  }
+})
+
+const router = useRouter()
+
+const icons = computed(() => props.portfolio.icons)
+
+const formattedAmount = computed(() => {
+  return new Intl.NumberFormat('ru-RU', {
+    style: 'currency',
+    currency: 'RUB',
+    minimumFractionDigits: 2
+  }).format(props.portfolio.amount)
+})
+
+const hasProfit = computed(() =>
+  typeof props.portfolio.profit === 'number' && typeof props.portfolio.percent === 'number'
+)
+
+const formattedProfit = computed(() => {
+  if (!hasProfit.value) return ''
+  return new Intl.NumberFormat('ru-RU', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(props.portfolio.profit)
+})
+
+const formattedPercent = computed(() => {
+  if (!hasProfit.value) return ''
+  return Math.abs(props.portfolio.percent).toFixed(0)
+})
+
+const getIconPath = (icon) => {
+  return new URL(`../../assets/icons/coins/${icon}.svg`, import.meta.url).href
+}
+
+const handleClick = () => {
+  router.push(`/portfolio/${props.portfolio.id}`)
+}
+</script>
+
+<style lang="scss" scoped>
+@import '@/styles/variables';
+
+.portfolio-card {
+  display: flex;
+  align-items: center;
+  background: $gray-0;
+  border-radius: $radius-xl;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
+  padding: $space-m $space-l;
+  cursor: pointer;
+  min-height: 64px;
+  transition: box-shadow 0.2s, border 0.2s;
+  border: 2px solid transparent;
+  &:hover {
+    box-shadow: 0 4px 16px rgba(44, 62, 80, 0.10);
+    border-color: $primary-100;
+  }
+}
+
+.portfolio-card__icons {
+  display: flex;
+  align-items: center;
+  position: relative;
+  min-width: 60px;
+  margin-right: $space-m;
+  height: 32px;
+}
+
+.portfolio-card__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: $gray-0;
+  object-fit: cover;
+  box-shadow: 0 1px 4px rgba(44, 62, 80, 0.04);
+  position: absolute;
+  top: 0;
+  border: 2px solid $gray-0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: $font-weight-semibold;
+  color: $gray-700;
+}
+
+.portfolio-card__icon--more {
+  background: $gray-100;
+  color: $gray-700;
+  border: 2px solid $gray-0;
+}
+
+.portfolio-card__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.portfolio-card__title {
+  font-family: $font-main;
+  font-size: $font-size-body;
+  font-weight: $font-weight-semibold;
+  color: $gray-900;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.portfolio-card__row {
+  display: flex;
+  align-items: baseline;
+  gap: $space-s;
+}
+
+.portfolio-card__amount {
+  font-family: $font-main;
+  font-size: $font-size-h2;
+  font-weight: $font-weight-bold;
+  color: $gray-900;
+}
+
+.portfolio-card__profit {
+  font-family: $font-main;
+  font-size: $font-size-caption;
+  font-weight: $font-weight-medium;
+  color: $color-success;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.portfolio-card__arrow {
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+@media (max-width: 480px) {
+  .portfolio-card {
+    padding: $space-s $space-m;
+    min-height: 56px;
+  }
+  .portfolio-card__icon {
+    width: 28px;
+    height: 28px;
+  }
+  .portfolio-card__amount {
+    font-size: $font-size-body;
+  }
+}
+</style> 

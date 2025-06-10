@@ -96,7 +96,7 @@ onUnmounted(() => {
     background: $color-bg-main;
     border-radius: $radius-xxl $radius-xxl 0 0;
     margin-top: -32px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    // box-shadow: 0 8px 32px rgba(0,0,0,0.08);
     z-index: 2;
     &--no-header {
       margin-top: 0 !important;

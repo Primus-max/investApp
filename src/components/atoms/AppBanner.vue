@@ -173,8 +173,7 @@
     border-radius: 20px;
   }
 
-  &__content {
-    position: relative;
+  &__content {    
     z-index: 10;
     display: flex;
     align-items: center;
@@ -182,6 +181,7 @@
     width: 100%;
     padding: 0 16px;
     justify-content: space-between;
+    color: $color-text-main;
   }
 
   &__text-block {
@@ -196,7 +196,7 @@
     font-family: 'SF Pro Rounded', $font-main, sans-serif;
     font-size: 22px;
     font-weight: 600;
-    color: #fff;
+    color: $color-text-main;
     line-height: 28px;
     margin-bottom: 0;
     white-space: pre-line;
@@ -206,7 +206,7 @@
     font-family: 'SF Pro Rounded', $font-main, sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: #fff;
+    color: $color-text-main;
     line-height: 20px;
     opacity: 0.9;
     white-space: pre-line;

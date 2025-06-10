@@ -21,7 +21,8 @@
               <span class="mainpage__header-stats-currency">₽</span>
             </div>
             <div class="mainpage__header-badge-row">
-              <span class="mainpage__header-badge">+ 27 861,33 ₽ <span class="mainpage__header-badge-percent">(18,44%)</span></span>
+              <span class="mainpage__header-badge">+ 27 861,33 ₽ <span
+                  class="mainpage__header-badge-percent">(18,44%)</span></span>
               <span class="mainpage__header-badge-period">за все время</span>
             </div>
           </div>
@@ -36,24 +37,35 @@
 
     <div class="mainpage__body">
       <div class="mainpage__body-header">
-        <h1 class="mainpage__body-header-title">Виджеты</h1>       
-          <button class="mainpage__body-header-button">
-            <Edit01 class="mainpage__body-header-button-icon" />
-          </button>       
+        <h1 class="mainpage__body-header-title">Виджеты</h1>
+        <button class="mainpage__body-header-button">
+          <Edit01 class="mainpage__body-header-button-icon" />
+        </button>
       </div>
 
       <div class="mainpage__widgets-grid">
-        <StatWidgetCard
-          v-for="(widget, idx) in widgets"
-          :key="idx"
-          :title="widget.title"
-          :value="widget.value"
-          :percent="widget.trend.value"
-          :positive="widget.trend.positive"
-          :chart-data="widget.chartData"
-          :type="idx === 2 ? 'rect' : 'square'"
-        />
+        <StatWidgetCard v-for="(widget, idx) in widgets" :key="idx" :title="widget.title" :value="widget.value"
+          :percent="widget.trend.value" :positive="widget.trend.positive" :chart-data="widget.chartData"
+          :type="idx === 2 ? 'rect' : 'square'" />
       </div>
+
+      <AppBanner class="mainpage__app-banner">
+        Умные советы и инструменты для роста
+      </AppBanner>
+
+      <section class="mainpage__body-portfolio">
+        <h2 class="mainpage__body-portfolio-title">
+          Мои портфели
+        </h2>
+
+        <ul class="mainpage__body-portfolio-list">
+          <PortfolioCard 
+            v-for="portfolio in portfolios" 
+            :key="portfolio.id" 
+            :portfolio="portfolio" 
+          />
+        </ul>
+      </section>
     </div>
   </MainLayout>
 </template>
@@ -61,9 +73,11 @@
 <script setup>
 import { ref } from 'vue';
 
+import AppBanner from '@/components/atoms/AppBanner.vue';
 import BadgeAtom from '@/components/atoms/BadgeAtom.vue';
 import Edit01 from '@/components/atoms/icons/Edit-01.vue';
 import Notification02 from '@/components/atoms/icons/Notification-02.vue';
+import PortfolioCard from '@/components/molecules/PortfolioCard.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import Header from '@/components/organisms/Header.vue';
@@ -98,6 +112,48 @@ const widgets = [
     color: 'green',
   },
 ];
+
+const portfolios = ref([
+  {
+    id: 1,
+    name: 'Консервативный портфель',
+    bank: 'Сбербанк',
+    amount: 125000,
+    currency: '₽',
+    profit: {
+      amount: 8500,
+      percent: 7.3,
+      positive: true
+    },
+    icons: ['sber', 'rub']
+  },
+  {
+    id: 2,
+    name: 'Агрессивный рост',
+    bank: 'Тинькофф',
+    amount: 89000,
+    currency: '₽',
+    profit: {
+      amount: 12500,
+      percent: 16.3,
+      positive: true
+    },
+    icons: ['bitcoinBadge', 'ethereum']
+  },
+  {
+    id: 3,
+    name: 'Валютный хедж',
+    bank: 'ВТБ',
+    amount: 53500,
+    currency: '₽',
+    profit: {
+      amount: 2100,
+      percent: 4.1,
+      positive: false
+    },
+    icons: ['tetherBadge', 'chainlinkBadge', 'minaBadge']
+  }
+]);
 </script>
 
 <style lang="scss" scoped>
@@ -116,7 +172,7 @@ const widgets = [
     height: 300px;
     color: #fff;
     display: flex;
-    flex-direction: column;   
+    flex-direction: column;
     font-size: 20px;
     font-weight: $font-weight-semibold;
   }
@@ -179,13 +235,13 @@ const widgets = [
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: auto;    
+    height: auto;
     color: #181818;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    border-radius: 20px;    
+    border-radius: 20px;
 
     &-header {
       display: flex;
@@ -197,7 +253,7 @@ const widgets = [
     }
 
     &-header-title {
-      font-size: 20px;      
+      font-size: 20px;
       margin-bottom: 0;
       font-weight: $font-weight-semibold;
       color: $gray-950;
@@ -272,17 +328,18 @@ const widgets = [
     margin: 0 auto;
     padding: 0 16px;
 
-    & > :nth-child(1), & > :nth-child(2) {
+    &> :nth-child(1),
+    &> :nth-child(2) {
       width: 100%;
     }
-    
-    & > :nth-child(3) {
+
+    &> :nth-child(3) {
       grid-column: 1 / -1;
       width: 100%;
     }
   }
 
-  &__widget-card {  
+  &__widget-card {
     width: 175px;
     height: 166px;
     display: flex;
@@ -292,16 +349,17 @@ const widgets = [
   }
 
   &__header-stats {
-    width: 100%;    
-    margin-top: 8px;    
+    width: 100%;
+    margin-top: 8px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     padding: 20px 20px 24px 20px;
-    
-    position: relative;    
+
+    position: relative;
   }
+
   &__header-stats-row {
     width: 100%;
     display: flex;
@@ -311,12 +369,14 @@ const widgets = [
     margin-top: 40px;
     padding: 0 16px;
   }
+
   &__header-stats-info {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
+
   &__header-stats-title {
     font-family: $font-main;
     font-size: 18px;
@@ -327,6 +387,7 @@ const widgets = [
     letter-spacing: 0;
     line-height: 24px;
   }
+
   &__header-stats-value-row {
     display: flex;
     flex-direction: row;
@@ -334,6 +395,7 @@ const widgets = [
     gap: 4px;
     margin-bottom: 0;
   }
+
   &__header-stats-value {
     font-family: $font-main;
     font-size: 40px;
@@ -343,6 +405,7 @@ const widgets = [
     letter-spacing: 0;
     margin-bottom: 0;
   }
+
   &__header-stats-currency {
     font-size: 22px;
     font-weight: 600;
@@ -351,6 +414,7 @@ const widgets = [
     color: $gray-0;
     line-height: 28px;
   }
+
   &__header-badge-row {
     display: flex;
     flex-direction: row;
@@ -358,8 +422,9 @@ const widgets = [
     gap: 12px;
     margin-top: 8px;
   }
+
   &__header-badge {
-    background: rgba(255,255,255,0.10);
+    background: rgba(255, 255, 255, 0.10);
     color: $gray-0;
     font-size: 16px;
     font-weight: 400;
@@ -371,11 +436,13 @@ const widgets = [
     align-items: center;
     backdrop-filter: blur(32px);
   }
+
   &__header-badge-percent {
     color: $color-success;
     font-weight: 600;
     margin-left: 4px;
   }
+
   &__header-badge-period {
     font-size: 16px;
     color: $gray-0;
@@ -384,6 +451,7 @@ const widgets = [
     font-weight: 400;
     line-height: 22px;
   }
+
   &__header-stats-icon {
     margin-left: 16px;
     margin-top: 4px;
@@ -393,8 +461,9 @@ const widgets = [
     width: 48px;
     height: 48px;
   }
+
   &__header-bell-bg {
-    background: rgba(255,255,255,0.10);
+    background: rgba(255, 255, 255, 0.10);
     border-radius: 10000px;
     width: 48px;
     height: 48px;
@@ -402,6 +471,32 @@ const widgets = [
     align-items: center;
     justify-content: center;
     padding: 12px;
+  }
+
+  &__app-banner {
+    width: 90%;
+    margin-top: 16px;
+  }
+
+  &__body-portfolio {
+    width: 90%;
+    margin-top: 24px;
+  }
+
+  &__body-portfolio-title {
+    font-size: 20px;
+    font-weight: $font-weight-semibold;
+    color: $gray-950;
+    margin-bottom: 16px;
+  }
+
+  &__body-portfolio-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 40%;
+    padding: 0;
+    list-style: none;
   }
 }
 
