@@ -38,19 +38,21 @@
     <div class="mainpage__body">
       <div class="mainpage__body-header">
         <h1 class="mainpage__body-header-title">Виджеты</h1>
-        <template v-if="!editMode">
-          <button class="mainpage__body-header-button" @click="editMode = true">
-            <Edit01 class="mainpage__body-header-button-icon" />
-          </button>
-        </template>
-        <template v-else>
-          <button class="mainpage__body-header-button">
-            <IconPlusSignSquare style="width: 32px; height: 32px;" />
-          </button>
-          <button class="mainpage__body-header-done" @click="editMode = false">
-            Готово
-          </button>
-        </template>
+        <div class="mainpage__body-header-actions">
+          <template v-if="!editMode">
+            <button class="mainpage__body-header-button" @click="editMode = true">
+              <Edit01 class="mainpage__body-header-button-icon" />
+            </button>
+          </template>
+          <template v-else>
+            <button class="mainpage__body-header-plus">
+              <IconPlusSignSquare />
+            </button>
+            <button class="mainpage__body-header-done" @click="editMode = false">
+              Готово
+            </button>
+          </template>
+        </div>
       </div>
 
       <div class="mainpage__widgets-grid">
@@ -253,7 +255,7 @@ const portfolios = ref([
       align-items: center;
       justify-content: space-between;
       width: 90%;
-      margin-top: 16px;
+      margin: 16px 0 16px 0;
     }
 
     &-header-title {
@@ -285,6 +287,36 @@ const portfolios = ref([
       &:active {
         transform: scale(0.95);
       }
+    }
+
+    &-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    &-header-plus {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #fff;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: $shadow-main;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    &-header-done {
+      background: none;
+      border: none;
+      color: $gray-900;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 0 8px;
+      cursor: pointer;
     }
   }
 
