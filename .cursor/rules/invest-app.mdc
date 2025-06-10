@@ -21,7 +21,7 @@ alwaysApply: true
 - Use **SCSS** for all custom styles.
 - All custom styles must be placed in separate `.scss` files and imported into components as needed.
 - Follow **BEM methodology** for class naming.
-- Use variables if there are any, otherwise write to variables and use.
+- Before writing any value for color, font-size, font-weight, border-radius, spacing, etc., always check if there is an existing SCSS variable (in variables.scss or similar). Only use a hardcoded value if there is no suitable variable. This applies to all new code, edits, and style changes.
 
 ## 4. Mobile First
 - All layouts and components must be designed **Mobile First** and fully responsive.

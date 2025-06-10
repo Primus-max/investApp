@@ -1,6 +1,8 @@
 <template>
   <div class="stat-widget-card">
-    <div v-if="editMode" class="stat-widget-card__remove">-</div>
+    <div v-if="editMode" class="stat-widget-card__remove">
+      <IconMinus />
+    </div>
     <div class="stat-widget-card__title">{{ title }}</div>
     <div :class="['stat-widget-card__content', positive ? 'stat-widget-card__content--positive' : 'stat-widget-card__content--negative']">
       <LineChartAtom
@@ -34,6 +36,7 @@
 </template>
 
 <script setup>
+import IconMinus from '@/components/atoms/icons/IconMinus.vue';
 import LineChartAtom from '@/components/atoms/LineChartAtom.vue';
 
 const props = defineProps({
