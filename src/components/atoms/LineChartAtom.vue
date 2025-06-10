@@ -1,52 +1,57 @@
 <template>
   <svg :width="width" :height="height" :viewBox="`0 0 ${width} ${height}`" class="line-chart">
     <defs>
-      <!-- Градиент для заливки -->
-      <linearGradient :id="`gradient-${chartId}`" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" :stop-color="lineColor" stop-opacity="0.2" />
-        <stop offset="100%" :stop-color="lineColor" stop-opacity="0.05" />
-      </linearGradient>
-      <!-- Градиентный фон для графика -->
-      <linearGradient id="chart-bg-gradient" x1="0" y1="0" x2="0" y2="1">
+      <!-- Градиенты для фона -->
+      <linearGradient id="chart-bg-gradient-green" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="#E9F9F1" />
         <stop offset="100%" stop-color="#F6FBF8" />
       </linearGradient>
-      <!-- Паттерн для пунктирной линии -->
+      <linearGradient id="chart-bg-gradient-red" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#FDEEEE" />
+        <stop offset="100%" stop-color="#FCF6F6" />
+      </linearGradient>
+      <!-- Градиенты для заливки под графиком -->
+      <linearGradient :id="`gradient-${chartId}`" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" :stop-color="lineColor" stop-opacity="0.18" />
+        <stop offset="100%" :stop-color="lineColor" stop-opacity="0.06" />
+      </linearGradient>
+      <!-- Паттерн для пунктира -->
       <pattern :id="`dotted-${chartId}`" patternUnits="userSpaceOnUse" width="8" height="2">
-        <rect width="4" height="2" :fill="lineColor" opacity="0.4" />
+        <rect width="4" height="2" :fill="lineColor" opacity="0.5" />
         <rect x="4" width="4" height="2" fill="transparent" />
       </pattern>
     </defs>
-    <!-- Градиентный фон с радиусом -->
+    <!-- Градиентный фон -->
     <rect
       x="0" y="0"
       :width="width"
       :height="height"
       :rx="20" :ry="20"
-      fill="url(#chart-bg-gradient)"
+      :fill="positive ? 'url(#chart-bg-gradient-green)' : 'url(#chart-bg-gradient-red)'"
       class="line-chart__bg"
     />
     <!-- Пунктирная горизонтальная линия по центру -->
     <line 
       x1="8" 
       :y1="midY" 
-      :x2="width - 8" 
+      :x2="width - 5" 
       :y2="midY" 
       :stroke="`url(#dotted-${chartId})`" 
-      stroke-width="1"
+      stroke-width="2"
     />
     <!-- Заливка под графиком -->
     <path
       v-if="fillPath"
       :d="fillPath"
-      :fill="`url(#gradient-${chartId})`"
+      :fill="`url(#gradient-${chartId})`"            
     />
+
     <!-- Основная линия графика -->
     <path
       :d="chartPath"
       :stroke="lineColor"
       fill="none"
-      :stroke-width="3"
+      stroke-width="10"
       stroke-linecap="round"
       stroke-linejoin="round"
       ref="pathRef"
@@ -72,26 +77,25 @@ const props = defineProps({
   data: { type: Array, required: true },
   color: { type: String, default: '' },
   positive: { type: Boolean, default: true },
-  width: { type: Number, default: 167 },
-  height: { type: Number, default: 120 },
+  width: { type: Number, default: 200 },
+  height: { type: Number, default: 300 },
   showMidLine: { type: Boolean, default: true },
 });
 
-// Уникальный ID для градиентов
 const chartId = Math.random().toString(36).substr(2, 9);
+
+const positive = computed(() => props.positive);
+const lineColor = computed(() => {
+  if (props.color) return props.color;
+  return positive.value ? '#3CB46E' : '#F04438';
+});
+const midY = computed(() => props.height / 2);
 
 watchEffect(() => {
   // Диагностика: выводим chartData
   // eslint-disable-next-line no-console
   console.log('LineChartAtom data:', props.data);
 });
-
-const lineColor = computed(() => {
-  if (props.color) return props.color;
-  return props.positive ? '#3CB46E' : '#F04438';
-});
-
-const midY = computed(() => props.height / 2);
 
 // Создаем smooth path с помощью cubic bezier curves
 const chartPath = computed(() => {
