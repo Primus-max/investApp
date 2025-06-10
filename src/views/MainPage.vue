@@ -292,12 +292,13 @@ const portfolios = ref([
     &-header-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
+      padding-right: 8px;
     }
 
     &-header-plus {
-      width: 32px;
-      height: 32px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: #fff;
       border: none;
@@ -310,12 +311,17 @@ const portfolios = ref([
     }
 
     &-header-done {
-      background: none;
+      background: #fff;
       border: none;
       color: $gray-900;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 600;
-      padding: 0 8px;
+      padding: 0 18px;
+      height: 40px;
+      border-radius: 9999px;
+      box-shadow: $shadow-main;
+      display: flex;
+      align-items: center;
       cursor: pointer;
     }
   }
