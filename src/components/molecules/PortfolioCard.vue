@@ -188,7 +188,10 @@ const handleClick = () => {
   font-size: $font-size-h3;
   font-weight: $font-weight-semibold;
   color: $gray-900;
-  margin-bottom: 2px;
+  line-height: $line-height-h3;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -196,24 +199,27 @@ const handleClick = () => {
 
 .portfolio-card__row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: $space-s;
+  min-height: $line-height-body * 1em;
 }
 
 .portfolio-card__amount {
   font-family: $font-main;
-  font-size: $font-size-h2;
-  font-weight: $font-weight-bold;
-  color: $gray-900;
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+  color: $gray-800;
+  line-height: $line-height-body;
 }
 
 .portfolio-card__profit {
   font-family: $font-main;
   font-size: $font-size-caption;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-regular;
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: $space-xs;
+  line-height: $line-height-caption;
 }
 
 .portfolio-card__profit--positive {
@@ -224,14 +230,24 @@ const handleClick = () => {
   color: $color-error;
 }
 
-.portfolio-card__arrow {
-  font-size: 15px;
-  font-weight: bold;
-  margin-left: 2px;
+.portfolio-card__dot {
+  width: 2px;
+  height: 2px;
+  background: $color-success;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 $space-xs;
 }
 
-.portfolio-card__dot {
-  margin: 0 2px;
+.portfolio-card__arrow {
+  font-size: $font-size-caption;
+  font-weight: $font-weight-medium;
+  margin-left: 2px;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 480px) {
