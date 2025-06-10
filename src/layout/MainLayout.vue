@@ -17,7 +17,7 @@
       class="main-layout__tabbar-wrap"
       :class="{ 'main-layout__tabbar-wrap--hidden': isTabBarHidden }"
     >
-      <TabBar :tabs="tabs" :activeIndex="activeIndex" @menu-open="isTabMenuOpen = $event" />
+      <TabBar :tabs="tabs" :activeIndex="activeIndex" @update:activeIndex="activeIndex = $event" @menu-open="isTabMenuOpen = $event" />
     </div>
   </div>
 </template>
