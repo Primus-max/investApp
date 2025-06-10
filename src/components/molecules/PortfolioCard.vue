@@ -109,7 +109,7 @@ const handleClick = () => {
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
   padding: $space-m $space-l;
   cursor: pointer;
-  min-height: 64px;
+  min-height: 74px;
   transition: box-shadow 0.2s, border 0.2s;
   border: 2px solid transparent;
   &:hover {

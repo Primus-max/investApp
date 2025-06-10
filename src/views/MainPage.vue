@@ -125,7 +125,7 @@ const portfolios = ref([
       percent: 7.3,
       positive: true
     },
-    icons: ['sber', 'rub']
+    icons: ['sber', 'rub', 'bitcoinBadge']
   },
   {
     id: 2,
@@ -138,7 +138,7 @@ const portfolios = ref([
       percent: 16.3,
       positive: true
     },
-    icons: ['bitcoinBadge', 'ethereum']
+    icons: ['bitcoinBadge', 'ethereum', 'tetherBadge']
   },
   {
     id: 3,
