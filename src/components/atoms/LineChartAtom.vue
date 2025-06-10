@@ -6,14 +6,26 @@
         <stop offset="0%" :stop-color="lineColor" stop-opacity="0.2" />
         <stop offset="100%" :stop-color="lineColor" stop-opacity="0.05" />
       </linearGradient>
-      
+      <!-- Градиентный фон для графика -->
+      <linearGradient id="chart-bg-gradient" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#E9F9F1" />
+        <stop offset="100%" stop-color="#F6FBF8" />
+      </linearGradient>
       <!-- Паттерн для пунктирной линии -->
       <pattern :id="`dotted-${chartId}`" patternUnits="userSpaceOnUse" width="8" height="2">
         <rect width="4" height="2" :fill="lineColor" opacity="0.4" />
         <rect x="4" width="4" height="2" fill="transparent" />
       </pattern>
     </defs>
-    
+    <!-- Градиентный фон с радиусом -->
+    <rect
+      x="0" y="0"
+      :width="width"
+      :height="height"
+      :rx="20" :ry="20"
+      fill="url(#chart-bg-gradient)"
+      class="line-chart__bg"
+    />
     <!-- Пунктирная горизонтальная линия по центру -->
     <line 
       x1="8" 
@@ -21,22 +33,20 @@
       :x2="width - 8" 
       :y2="midY" 
       :stroke="`url(#dotted-${chartId})`" 
-      stroke-width="2"
+      stroke-width="1"
     />
-    
     <!-- Заливка под графиком -->
     <path
       v-if="fillPath"
       :d="fillPath"
       :fill="`url(#gradient-${chartId})`"
     />
-    
     <!-- Основная линия графика -->
     <path
       :d="chartPath"
       :stroke="lineColor"
       fill="none"
-      stroke-width="2"
+      :stroke-width="3"
       stroke-linecap="round"
       stroke-linejoin="round"
       ref="pathRef"
