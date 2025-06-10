@@ -1,6 +1,6 @@
 <template>
   <div class="main-layout">
-    <div v-if="isTabMenuOpen" class="app-blur-overlay" @click="isTabMenuOpen = false"></div>
+    <div v-if="isTabMenuOpen" class="app-blur-overlay"></div>
     <div
       class="main-layout__header"
       :class="{ 'main-layout__header--empty': !$slots.header }"
