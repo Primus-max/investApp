@@ -14,22 +14,23 @@
           </template>
         </Header>
         <div class="mainpage__header-stats-row">
-          <div class="mainpage__header-stats-info">
-            <span class="mainpage__header-stats-title">Общий капитал</span>
-            <div class="mainpage__header-stats-value-row">
-              <span class="mainpage__header-stats-value">267 981</span>
-              <span class="mainpage__header-stats-currency">₽</span>
+          <div class="mainpage__header-stats-main">
+            <div class="mainpage__header-stats-info">
+              <span class="mainpage__header-stats-title">Общий капитал</span>
+              <div class="mainpage__header-stats-value-row">
+                <span class="mainpage__header-stats-value">267 981</span>
+                <span class="mainpage__header-stats-currency">₽</span>
+              </div>
             </div>
-            <div class="mainpage__header-badge-row">
-              <span class="mainpage__header-badge">+ 27 861,33 ₽ <span
-                  class="mainpage__header-badge-percent">(18,44%)</span></span>
-              <span class="mainpage__header-badge-period">за все время</span>
+            <div class="mainpage__header-stats-icon">
+              <div class="mainpage__header-bell-bg">
+                <Notification02 />
+              </div>
             </div>
           </div>
-          <div class="mainpage__header-stats-icon">
-            <div class="mainpage__header-bell-bg">
-              <Notification02 />
-            </div>
+          <div class="mainpage__header-badge-row">
+            <span class="mainpage__header-badge">+ 27 861,33 ₽ <span class="mainpage__header-badge-percent">(18,44%)</span></span>
+            <span class="mainpage__header-badge-period">за все время</span>
           </div>
         </div>
       </div>
@@ -423,13 +424,20 @@ const portfolios = ref([
   }
 
   &__header-stats-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     width: 100%;
+    margin-top: 40px;
+    padding: 0 16px;
+  }
+
+  &__header-stats-main {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
-    margin-top: 40px;
-    padding: 0 16px;
+    width: 100%;
   }
 
   &__header-stats-info {
