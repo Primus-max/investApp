@@ -104,26 +104,28 @@ const props = defineProps({
   tabs: { type: Array, required: true },
   activeIndex: { type: Number, default: 0 }
 })
-const emit = defineEmits(['update:activeIndex'])
+const emit = defineEmits(['update:activeIndex', 'menu-open'])
 
 const isMenuOpen = ref(false)
 
 const menuActions = [
   { icon: 'briefcase-01', label: 'Создать портфель' },
-  { icon: 'menu-square', label: 'Создать сделку' },
-  { icon: 'user-group', label: 'Добавить виджет' },
-  { icon: 'file', label: 'Загрузить отчет' },
+  { icon: 'coins-swap', label: 'Создать сделку' },
+  { icon: 'elements', label: 'Добавить виджет' },
+  { icon: 'document-text', label: 'Загрузить отчет' },
 ]
 
 function onTabClick(idx) {
   if (props.tabs[idx].center) {
     isMenuOpen.value = !isMenuOpen.value
+    emit('menu-open', isMenuOpen.value)
   } else {
     emit('update:activeIndex', idx)
   }
 }
 function closeMenu() {
   isMenuOpen.value = false
+  emit('menu-open', false)
 }
 </script>
 
@@ -134,12 +136,11 @@ function closeMenu() {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: $space-m 0;  
-  width: 358px;
-  height: 76px;
+  padding: $space-m 0;
+  width: 100%;
   background: $gray-950;
   box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.2);
-  border-radius: $radius-large;
+  border-radius: $radius-xl;
   border: none !important;
 
   &__menu-nav {
@@ -157,7 +158,7 @@ function closeMenu() {
     width: 96%;
     height: 56px;
     margin-bottom: 12px;
-    border-radius: $radius-small;
+    border-radius: $radius-sm;
     margin-left: auto;
     margin-right: auto;
   }
@@ -179,7 +180,7 @@ function closeMenu() {
     color: #fff;
     font-size: 13px;
     font-weight: 500;
-    border-radius: 8px;
+    border-radius: $radius-md;
     padding: 2px 10px;
   }
 
@@ -205,7 +206,7 @@ function closeMenu() {
     width: 96%;
     height: 56px;
     background: $gray-900;
-    border-radius: $radius-small;
+    border-radius: $radius-sm;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -241,14 +242,14 @@ function closeMenu() {
   }
 
   &__overlay {
-    width: 358px;
+    width: 100%;
     height: 440px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;      
       background: $gray-950;
-    border-radius: $radius-large;   
+    border-radius: $radius-xl;   
   }
 
   &__tabs {
@@ -279,7 +280,7 @@ function closeMenu() {
     font-weight: $font-weight-regular;
     line-height: 16px;
     letter-spacing: $letter-spacing-normal;
-    border-radius: $radius-main;
+    border-radius: $radius-md;
     position: relative;
     transition: color 0.18s;
 
@@ -312,7 +313,7 @@ function closeMenu() {
       z-index: 30;
       margin: 0;
       background: $gray-0;
-      border-radius: $radius-main;
+      border-radius: $radius-md;
       box-shadow: $shadow-main;
       display: flex;
       align-items: center;

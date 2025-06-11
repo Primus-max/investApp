@@ -90,7 +90,7 @@ watch(() => props.modelValue, () => { isOpen.value = false })
     align-items: center;
     background: $gray-0;
     border: 2px solid $gray-200;
-    border-radius: $radius-main;
+    border-radius: $radius-md;
     transition: border-color 0.2s, box-shadow 0.2s;
     height: 48px;
     padding: 0 $space-m;
@@ -147,7 +147,7 @@ watch(() => props.modelValue, () => { isOpen.value = false })
     z-index: 10;
     background: $gray-0;
     border: 2px solid $gray-200;
-    border-radius: $radius-main;
+    border-radius: $radius-md;
     box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     margin: 0;
     padding: 4px 0;

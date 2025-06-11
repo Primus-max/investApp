@@ -1,0 +1,66 @@
+.mesh-bg {
+  position: absolute;
+  width: 682.87px;
+  height: 572.3px;
+  left: 518.87px;
+  top: 52px;
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+  z-index: 1;
+}
+.ellipse-13 {
+  position: absolute;
+  width: 391.49px;
+  height: 357.1px;
+  left: 225.39px;
+  top: 104px;
+  background: #0645A3;
+  mix-blend-mode: screen;
+  filter: blur(42.9894px);
+  transform: matrix(-0.99, 0.1, 0.1, 0.99, 0, 0);
+  border-radius: 50%;
+}
+.ellipse-14 {
+  position: absolute;
+  width: 373.62px;
+  height: 241.83px;
+  left: 450.28px;
+  top: 52px;
+  background: #0007CE;
+  filter: blur(60.1852px);
+  transform: matrix(-0.96, 0.28, 0.28, 0.96, 0, 0);
+  border-radius: 50%;
+}
+.vector-11 {
+  position: absolute;
+  width: 505.26px;
+  height: 333.17px;
+  left: 490.62px;
+  top: 333.44px;
+  background: #3199A3;
+  mix-blend-mode: plus-lighter;
+  filter: blur(75px);
+  transform: matrix(-0.87, -0.49, -0.49, 0.87, 0, 0);
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+.shadow {
+  position: absolute;
+  width: 390px;
+  height: 294px;
+  left: 50%;
+  top: calc(50% - 22px);
+  transform: translate(-50%, -50%);
+  background: url('@/assets/images/Shadow #0004.png');
+  mix-blend-mode: color-dodge;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.waves-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: url('@/assets/images/waves_back.png') no-repeat center/cover;
+  z-index: -1;
+  pointer-events: none;
+} 

@@ -1,101 +1,153 @@
 <template>
-  <div class="tg-app">
-    <Header class="tg-app__header">
-      <template #left>
-        <AppIcon name="logo" />
-      </template>
-      Портфель
-      <template #right>
-        <AppIcon name="settings" />
-      </template>
-    </Header>
-    <main class="tg-app__main">
-      <div class="tg-app__container">
-        <AppBanner class="tg-app__banner" />
-        <section class="tg-app__widget tg-app__widget--main">
-          <!-- Здесь будет график/основной виджет -->
-        </section>
+  <MainLayout>
+    <template #header>
+      <section class="page__header">
+        <Header class="page__header-nav">
+          <template #left>
+            <button class="page__header-cancel">Cancel</button>
+          </template>
+          <template #right>
+            <!-- <p class="section__header-nav-title">
+              <span class="section__header-title">Kapitalist</span>
+              <span class="section__header-subtitle">bot</span>
+            </p> -->
+          </template>
+        </Header>
+        <div class="page__header-stats-row">
+          <div class="page__header-stats-main">
+            <div class="page__header-stats-info">
+              <span class="page__header-stats-title">Общий капитал</span>
+              <div class="page__header-stats-value-row">
+                <span class="page__header-stats-value"> {{  isNotData ? '0' : '267 981' }}</span>
+                <span class="page__header-stats-currency">₽</span>
+              </div>
+            </div>
+            <div class="page__header-stats-icon">
+              <div class="page__header-bell-bg">
+                <Notification02 />
+              </div>
+            </div>
+          </div>
+          <div v-if="!isNotData" class="page__header-badge-row">
+            <span class="page__header-badge">+ 27 861,33 ₽ <span class="page__header-badge-percent">(18,44%)</span></span>
+            <span class="page__header-badge-period">за все время</span>
+          </div>
+        </div>
+      </section>
+    </template>
+
+    <section class="page__body">
+      <div class="page__body-header">
+        <h1 class="page__body-header-title">Виджеты</h1>
+        <div class="page__body-header-edit-mode">
+          <template v-if="!editMode">
+            <button class="page__body-header-button" @click="editMode = true">
+              <Edit01 class="page__body-header-button-icon" />
+            </button>
+          </template>
+          <template v-else>
+            <PlusButtonAtom />
+            <button class="page__body-header-done" @click="editMode = false">
+              Готов
+            </button>
+          </template>
+        </div>
       </div>
-    </main>
-    <TabBar class="tg-app__tabbar" :tabs="tabs" :activeIndex="0" />
-  </div>
+      <div class="page__widgets-grid">
+        <StatWidgetCard v-for="(widget, idx) in widgets" :key="idx" :title="widget.title" :value="widget.value"
+          :percent="widget.trend.value" :positive="widget.trend.positive" :chart-data="widget.chartData"
+          :type="idx === 2 ? 'rect' : 'square'" :editMode="editMode" :is-not-data="isNotData" />
+      </div>
+      <AppBanner class="page__app-banner">
+        Умные советы и инструменты для роста
+      </AppBanner>
+      <section v-if="!isNotData" class="page__body-portfolio">
+        <h2 class="page__body-portfolio-title">
+          Мои портфели
+        </h2>
+        <ul class="page__body-portfolio-list">
+          <PortfolioCard 
+            v-for="portfolio in portfolios" 
+            :key="portfolio.id" 
+            :portfolio="portfolio" 
+          />
+        </ul>
+      </section>
+      <div v-else class="page__body-portfolio-empty">
+        <AppPillButton>          
+          <template #default>
+            <div class="page__body-portfolio-empty-button">
+              <IconBriefcase01 class="page__body-portfolio-empty-button-icon" />
+              <span class="page__body-portfolio-empty-button-label">Добавить портфель</span>
+            </div>            
+          </template>         
+        </AppPillButton>
+      </div>
+    </section>
+  </MainLayout>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
 import AppBanner from '@/components/atoms/AppBanner.vue';
-import AppIcon from '@/components/atoms/AppIcon.vue';
-import TabBar from '@/components/molecules/TabBar.vue';
+import AppPillButton from '@/components/atoms/AppPillButton.vue';
+import BadgeAtom from '@/components/atoms/BadgeAtom.vue';
+import Edit01 from '@/components/atoms/icons/Edit-01.vue';
+import IconBriefcase01 from '@/components/atoms/icons/IconBriefcase01.vue';
+import IconPlusSignSquare
+  from '@/components/atoms/icons/IconPlusSignSquare.vue';
+import Notification02 from '@/components/atoms/icons/Notification-02.vue';
+import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
+import PortfolioCard from '@/components/molecules/PortfolioCard.vue';
+import StatWidgetCard
+  from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import Header from '@/components/organisms/Header.vue';
+import MainLayout from '@/layout/MainLayout.vue';
+import { usePortfoliosStore } from '@/stores/portfolios.js';
+
+const amount = ref(27861.33);
+const totalAmount = ref(123456789);
+const editMode = ref(false);
+const isNotData = ref(false);
+
+const widgets = [
+  {
+    title: 'Прибыль',
+    value: 67981,
+    currency: '₽',
+    trend: { value: 12, positive: true },
+    chartData: [20, 22, 28, 25, 28, 12, 30, 32, 33, 38, 42, 40, 45, 22, 23, 21, 42, 26, 25, 40],
+    color: 'green',
+  },
+  {
+    title: 'Доходность',
+    value: 67981,
+    currency: '₽',
+    trend: { value: 8, positive: false },
+    chartData: [34, 32, 38, 35, 32, 30, 28, 25, 22, 20, 18, 15, 12, 10, 8, 5, 2, 0, -2, -5],
+    color: 'red',
+  },
+  {
+    title: 'Стоимость капитала',
+    value: 67981,
+    currency: '₽',
+    trend: { value: 24, positive: true },
+    chartData: [40, 42, 45, 43, 48, 52, 50, 55, 58, 62, 60, 65, 68, 72, 70, 75, 78, 82, 85, 88],
+    color: 'green',
+  },
+];
+
+const store = usePortfoliosStore();
+const portfolios = store.getAllPortfolios().map(p => ({
+  ...p,
+  amount: p.totalAmount,
+  profit: p.totalProfit,
+  percent: p.totalPercent,
+  icons: Array.isArray(p.assets) ? p.assets.map(a => a.logo) : [],
+}));
 </script>
 
-<style scoped lang="scss">
-@import '@/styles/_variables.scss';
-.tg-app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: $gray-950;
-  &__header {
-    flex: 0 0 auto;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: $gray-950;
-  }
-  &__main {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    padding: 0;
-  }
-  &__container {
-    width: 100%;
-    max-width: 358px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    padding: 20px 0 0 0;
-  }
-  &__banner {
-    width: 100%;
-    margin-bottom: 12px;
-  }
-  &__widget {
-    width: 100%;
-    background: #fff;
-    border-radius: $radius-large;
-    box-shadow: $shadow-main;
-    min-height: 140px;
-    padding: 0;
-    margin-bottom: 0;
-    &--main {
-      /* для главного виджета */
-    }
-  }
-  &__tabbar {
-    flex: 0 0 auto;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 20;
-    background: transparent;
-    display: flex;
-    justify-content: center;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-}
-@media (min-width: 500px) {
-  .tg-app {
-    max-width: 430px;
-    margin: 0 auto;
-    border-radius: 24px;
-    box-shadow: 0 0 32px rgba(16,18,24,0.10);
-    overflow: hidden;
-  }
-}
-</style> 
+<style lang="scss" scoped>
+@import '@/styles/_sections.scss';
+</style>

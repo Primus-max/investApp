@@ -1,0 +1,110 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# InvestApp Project Rules
+
+## 1. Framework
+- Use **Vue 3** with Composition API and `<script setup>`.
+
+## 2. UI Library
+- Use **Vuetify 3** as the main UI library.
+- All components must be customized to match the Figma design and Telegram Mini App style.
+
+## 3. Styling
+- Use **SCSS** for all custom styles.
+- All custom styles must be placed in separate `.scss` files and imported into components as needed.
+- Follow **BEM methodology** for class naming.
+- Before writing any value for color, font-size, font-weight, border-radius, spacing, etc., always check if there is an existing SCSS variable (in variables.scss or similar). Only use a hardcoded value if there is no suitable variable. This applies to all new code, edits, and style changes.
+
+## 4. Mobile First
+- All layouts and components must be designed **Mobile First** and fully responsive.
+- Test all UI on different mobile screen sizes.
+
+## 5. Routing
+- Use **Vue Router** for navigation.
+- Define all routes in a dedicated `router` directory/file.
+- Use route guards if needed for navigation logic.
+
+## 6. State Management
+- Use **Pinia** for global state management.
+- Use **Pinia Colada** for async data and mocking.
+- Organize stores in a dedicated `stores` directory.
+
+## 7. Data
+- All data must be **mocked** using Pinia Colada.
+- Structure the code so that switching to real API will require minimal changes.
+
+## 8. Language
+- Use **JavaScript (ESNext)** for all code.
+- Do not use TypeScript.
+
+## 9. Component Design
+- All components must be **reusable** and follow **atomic design principles** (atoms, molecules, organisms).
+- Place components in a structured `components` directory.
+- Use props and emits for component communication.
+
+## 10. Code Quality
+- Write **clean, readable, and well-commented code**.
+- Use **ESLint** and **Prettier** for code formatting and linting.
+- Fix all linter and formatter warnings before commit.
+
+## 11. Commits
+- Commit messages must be in **English** and follow the **Conventional Commits** style.
+- Make small, atomic commits for each logical change.
+
+## 12. Business Logic
+- Separate business logic from UI components.
+- Place business logic in **composables** or **stores**.
+
+## 13. Configuration
+- Use **environment variables** for all configuration.
+- Do not hardcode any sensitive or environment-specific data.
+
+## 14. Third-party Libraries
+- All third-party libraries must be **approved** before use.
+- Document the reason for adding any new dependency.
+
+<!-- ## 15. Testing
+- Write **unit tests** for all business logic and stores (if possible).
+- Cover navigation and state logic with **integration or e2e tests** (if possible). -->
+
+## 15. Figma
+- Always check the **Figma design** before implementing or updating any UI 
+- Pages : https://www.figma.com/design/leuQycT60RTB5MuoGszv18/Kapitalist---Copy-for-client?node-id=2-4&p=f&t=7xRfmmfgild1bVPr-0.
+- UI Kit : https://www.figma.com/design/leuQycT60RTB5MuoGszv18/Kapitalist---Copy-for-client?node-id=101-2
+- Match spacing, colors, and typography exactly as in the design.
+
+## 16. Documentation
+- Document all custom components, stores, and business logic.
+- Update **README** with setup and usage instructions.
+
+## 17. Push Policy
+- All code must be pushed to the repository with clear commit messages.
+- Do not push broken or untested code to the main branch.
+
+## 18. Nuxt
+- **Do not use Nuxt** in this project.
+
+## 19. Review
+- All code must be reviewed before merging to the main branch (if working in a team).
+
+## 20. Atomic Design
+- All UI components must be organized according to **atomic design principles**:
+- atoms — atomic elements (buttons, icons, input fields)
+- molecules — combinations of atoms (input with label, button with icon)
+- organisms — complex blocks (header, user card, lists)
+- The structure must be reflected in `src/components/atoms`, `src/components/molecules`, `src/components/organisms`.
+- Components should be as reusable and independent as possible.
+
+## 21. Testing
+- Use MCP puppeteer. Lose it until it's one-on-one like in the layout
+
+
+- Always follow atomic design when adding new components.
