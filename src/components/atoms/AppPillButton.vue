@@ -50,17 +50,15 @@
   height: 20px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: $primary-400;
-  fill: currentColor;
+  justify-content: center; 
 }
 
-.app-pill-btn__icon :deep(svg) {
-  width: 20px;
-  height: 20px;
-  display: block;
-  color: inherit;
-  fill: currentColor;
+.app-pill-btn__icon :deep(svg),
+.app-pill-btn__icon :deep(path),
+.app-pill-btn__icon :deep(rect),
+.app-pill-btn__icon :deep(circle) {
+  color: $primary-400 !important;
+  fill: $primary-400 !important;
 }
 
 .app-pill-btn__label {
