@@ -17,7 +17,7 @@
       class="main-layout__tabbar-wrap"
       :class="{ 'main-layout__tabbar-wrap--hidden': isTabBarHidden }"
     >
-      <TabBar :tabs="tabs" :activeIndex="activeIndex" @update:activeIndex="activeIndex = $event" @menu-open="isTabMenuOpen = $event" />
+      <TabBar :tabs="tabs" :activeIndex="activeIndex" @update:activeIndex="handleTabChange" @menu-open="isTabMenuOpen = $event" />
     </div>
   </div>
 </template>
@@ -28,7 +28,13 @@ import {
   onUnmounted,
   ref,
   useSlots,
+  watch,
 } from 'vue';
+
+import {
+  useRoute,
+  useRouter,
+} from 'vue-router';
 
 import TabBar from '@/components/organisms/TabBar.vue';
 
@@ -40,11 +46,36 @@ const tabs = [
   { icon: 'user', label: 'Профиль' }
 ]
 
+const router = useRouter()
+const route = useRoute()
 const activeIndex = ref(0)
 const isTabBarHidden = ref(false)
 const isTabMenuOpen = ref(false)
 const layoutRef = ref(null)
 let lastScrollY = 0
+
+function handleTabChange(newIndex) {
+  activeIndex.value = newIndex
+  
+  // Навигация по табам
+  switch (newIndex) {
+    case 0: // Главная
+      router.push('/')
+      break
+    case 1: // Портфель
+      // Перейдем на первый портфель из стора, или создадим заглушку
+      router.push('/portfolio/1')
+      break
+    case 3: // Рынок (пропускаем центральную кнопку с индексом 2)
+      // TODO: добавить роут для рынка
+      console.log('Рынок - пока не реализован')
+      break
+    case 4: // Профиль
+      // TODO: добавить роут для профиля
+      console.log('Профиль - пока не реализован')
+      break
+  }
+}
 
 function handleTabBarScroll(e) {
   const currentY = e.target.scrollTop
@@ -56,7 +87,19 @@ function handleTabBarScroll(e) {
   lastScrollY = currentY
 }
 
+function updateActiveTabFromRoute() {
+  if (route.name === 'MainPage') {
+    activeIndex.value = 0
+  } else if (route.name === 'PortfolioPage') {
+    activeIndex.value = 1
+  }
+  // Добавить другие роуты при необходимости
+}
+
 const $slots = useSlots();
+
+// Следим за изменениями роута
+watch(route, updateActiveTabFromRoute, { immediate: true })
 
 onMounted(() => {
   if (layoutRef.value) {
