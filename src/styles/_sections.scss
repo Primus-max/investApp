@@ -92,6 +92,13 @@
       width: 90%;
       height: 40px;
       margin: 16px 0 16px 0;
+
+      &-stats-button-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
     }
 
     &-header-title {
@@ -125,11 +132,19 @@
       }
     }
 
-    &-header-actions {
+    &-header-edit-mode {
       display: flex;
       align-items: center;
       gap: 12px;
       padding-right: 8px;
+    }
+
+    &-header-stats-buttons {
+      width: 86%;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;          
     }
 
     &-header-plus {

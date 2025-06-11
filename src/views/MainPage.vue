@@ -39,7 +39,7 @@
     <section class="page__body">
       <div class="page__body-header">
         <h1 class="page__body-header-title">Виджеты</h1>
-        <div class="page__body-header-actions">
+        <div class="page__body-header-edit-mode">
           <template v-if="!editMode">
             <button class="page__body-header-button" @click="editMode = true">
               <Edit01 class="page__body-header-button-icon" />
@@ -109,7 +109,7 @@ import { usePortfoliosStore } from '@/stores/portfolios.js';
 const amount = ref(27861.33);
 const totalAmount = ref(123456789);
 const editMode = ref(false);
-const isNotData = ref(true);
+const isNotData = ref(false);
 
 const widgets = [
   {

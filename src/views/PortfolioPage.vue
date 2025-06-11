@@ -10,17 +10,10 @@
           <div class="page__header-stats-main">
             <div class="page__header-stats-info">
               <div class="page__header-stats-title">
-                <input 
-                  v-if="isEditingName"
-                  v-model="editedName"
-                  @blur="saveNameEdit"
-                  @keyup.enter="saveNameEdit"
-                  @keyup.escape="cancelNameEdit"
-                  class="page__header-edit-input"
-                  ref="nameInput"
-                />
+                <input v-if="isEditingName" v-model="editedName" @blur="saveNameEdit" @keyup.enter="saveNameEdit"
+                  @keyup.escape="cancelNameEdit" class="page__header-edit-input" ref="nameInput" />
                 <span v-else>{{ portfolio?.name || '—' }}</span>
-                <Edit01 :color="'#fff'" class="page__header-edit" @click="startNameEdit"/>
+                <Edit01 :color="'#fff'" class="page__header-edit" @click="startNameEdit" />
               </div>
               <div class="page__header-stats-value-row">
                 <span class="page__header-stats-value">{{ isNotData ? '0' : formattedAmount }}</span>
@@ -34,7 +27,8 @@
             </div>
           </div>
           <div v-if="!isNotData && hasProfit" class="page__header-badge-row">
-            <span class="page__header-badge">{{ profitSign }} {{ formattedProfit }} ₽ <span class="page__header-badge-percent">({{ formattedPercent }}%)</span></span>
+            <span class="page__header-badge">{{ profitSign }} {{ formattedProfit }} ₽ <span
+                class="page__header-badge-percent">({{ formattedPercent }}%)</span></span>
             <span class="page__header-badge-period">за все время</span>
           </div>
           <div v-if="!isNotData" class="page__header-progress">
@@ -45,9 +39,27 @@
     </template>
 
     <section class="page__body">
+      <div class="page__body-header-stats-buttons">
+        <AppPillButton class="page__body-header-stats-button">
+          <template #default>
+            <div class="page__body-header-stats-button-content">
+              <IconClock01 class="page__body-header-stats-button-icon" />
+              <span class="page__body-header-stats-button-label">Операции</span>
+            </div>
+          </template>
+        </AppPillButton>
+        <AppPillButton class="page__body-header-stats-button">
+          <template #default>
+            <div class="page__body-header-stats-button-content">
+              <IconChartRing class="page__body-header-stats-button-icon" />
+              <span class="page__body-header-stats-button-label">Аналитика</span>
+            </div>
+          </template>
+        </AppPillButton>
+      </div>
       <div class="page__body-header">
         <h1 class="page__body-header-title">Виджеты</h1>
-        <div class="page__body-header-actions">
+        <div class="page__body-header-edit-mode">
           <template v-if="!editMode">
             <button class="page__body-header-button" @click="editMode = true">
               <Edit01 class="page__body-header-button-icon" />
@@ -107,6 +119,8 @@ import AppPillButton from '@/components/atoms/AppPillButton.vue';
 import Edit01 from '@/components/atoms/icons/Edit-01.vue';
 import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
 import IconBriefcase01 from '@/components/atoms/icons/IconBriefcase01.vue';
+import IconChartRing from '@/components/atoms/icons/IconChartRing.vue';
+import IconClock01 from '@/components/atoms/icons/IconClock01.vue';
 import IconSettings from '@/components/atoms/icons/IconSettings.vue';
 import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
 import ProgressBar from '@/components/atoms/ProgressBar.vue';
@@ -253,9 +267,17 @@ const widgets = [
 <style scoped lang="scss">
 @import '@/styles/_sections.scss';
 
+.page {
+  &__body-header-stats-button {
+    width: 168px;
+    height: 64px;
+  }
+}
+
 .page__header {
   height: 330px;
 }
+
 
 .page__back {
   display: flex;
@@ -274,27 +296,30 @@ const widgets = [
   transition: background 0.15s;
 
   &:hover {
-    background: rgba(255,255,255,0.04);
+    background: rgba(255, 255, 255, 0.04);
   }
 }
-.page__back-icon {  
+
+.page__back-icon {
   font-size: 22px;
   margin-right: 3px;
   display: flex;
   align-items: center;
   font-weight: 590;
 }
+
 .page__back-text {
   font-size: 17px;
   font-family: 'SF Pro', Arial, sans-serif;
   font-weight: 400;
   letter-spacing: -0.4px;
 }
+
 .page__header-edit {
   margin-left: 6px;
   cursor: pointer;
   vertical-align: middle;
-  color: #fff;  
+  color: #fff;
 }
 
 .page__header-edit-input {
@@ -307,12 +332,12 @@ const widgets = [
   font-weight: 600;
   padding: 4px 8px;
   outline: none;
-  
+
   &:focus {
     border-color: rgba(255, 255, 255, 0.6);
     background: rgba(255, 255, 255, 0.15);
   }
-  
+
   &::placeholder {
     color: rgba(255, 255, 255, 0.6);
   }
