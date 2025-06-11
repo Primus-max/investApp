@@ -90,11 +90,13 @@
         </div>
       </section>
       <div v-else class="page__body-portfolio-empty">
-        <AppPillButton>
-          <template #icon>
-            <IconBriefcase01 />
-          </template>
-          Добавить портфель
+        <AppPillButton>          
+          <template #default>
+            <div class="page__body-portfolio-empty-button">
+              <IconCoinsSwap class="page__body-portfolio-empty-button-icon" />
+              <span class="page__body-portfolio-empty-button-label">Создать сделку</span>
+            </div>            
+          </template>         
         </AppPillButton>
       </div>
     </section>
@@ -121,6 +123,7 @@ import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
 import IconBriefcase01 from '@/components/atoms/icons/IconBriefcase01.vue';
 import IconChartRing from '@/components/atoms/icons/IconChartRing.vue';
 import IconClock01 from '@/components/atoms/icons/IconClock01.vue';
+import IconCoinsSwap from '@/components/atoms/icons/IconCoinsSwap.vue';
 import IconSettings from '@/components/atoms/icons/IconSettings.vue';
 import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
 import ProgressBar from '@/components/atoms/ProgressBar.vue';
@@ -136,7 +139,7 @@ const store = usePortfoliosStore();
 
 const portfolio = ref(null);
 const isLoading = ref(true);
-const isNotData = ref(false);
+const isNotData = ref(true);
 const editMode = ref(false);
 const isEditingName = ref(false);
 const editedName = ref('');

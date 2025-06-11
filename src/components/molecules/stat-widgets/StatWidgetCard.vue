@@ -42,10 +42,11 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
+import IconEmptyStat from '@/components/atoms/icons/IconEmptyStat.vue';
 import IconMinus from '@/components/atoms/icons/IconMinus.vue';
 import LineChartAtom from '@/components/atoms/stats/LineChartAtom.vue';
-import IconEmptyStat from '@/components/atoms/icons/IconEmptyStat.vue';
-import { computed } from 'vue';
 
 const props = defineProps({
   title: { type: String, required: true },
@@ -82,7 +83,7 @@ const isNotData = computed(() => {
 
 .stat-widget-card__title {
   font-family: 'SF Pro Rounded', 'SF Pro Display', Arial, sans-serif;
-  font-weight: 600;
+  font-weight: $font-weight-medium;
   font-size: 18px;
   line-height: 24px;
   color: #434956;
