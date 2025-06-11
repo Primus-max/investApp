@@ -87,6 +87,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { usePortfoliosStore } from '@/stores/portfolios.js';
 
 import AppBanner from '@/components/atoms/AppBanner.vue';
 import BadgeAtom from '@/components/atoms/BadgeAtom.vue';
@@ -135,38 +136,14 @@ const widgets = [
   },
 ];
 
-const portfolios = ref([
-  {
-    id: 1,
-    name: 'Консервативный',
-    bank: 'Сбербанк',
-    amount: 125000,
-    currency: '₽',
-    profit: 8500,
-    percent: 7.3,
-    icons: ['sber', 'rub', 'bitcoinBadge']
-  },
-  {
-    id: 2,
-    name: 'Агрессивный',
-    bank: 'Тинькофф',
-    amount: 89000,
-    currency: '₽',
-    profit: 12500,
-    percent: 16.3,
-    icons: ['bitcoinBadge', 'ethereum', 'tetherBadge']
-  },
-  {
-    id: 3,
-    name: 'Комбинированный',
-    bank: 'ВТБ',
-    amount: 53500,
-    currency: '₽',
-    profit: -2100,
-    percent: -4.1,
-    icons: ['tetherBadge', 'chainlinkBadge', 'minaBadge', 'bitcoinBadge', 'ethereum']
-  }
-]);
+const store = usePortfoliosStore();
+const portfolios = store.getAllPortfolios().map(p => ({
+  ...p,
+  amount: p.totalAmount,
+  profit: p.totalProfit,
+  percent: p.totalPercent,
+  icons: Array.isArray(p.assets) ? p.assets.map(a => a.logo) : [],
+}));
 </script>
 
 <style lang="scss" scoped>
