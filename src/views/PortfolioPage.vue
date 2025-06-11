@@ -9,10 +9,13 @@
         <div class="page__header-stats-row">
           <div class="page__header-stats-main">
             <div class="page__header-stats-info">
-              <span class="page__header-stats-title">Общий капитал</span>
+              <span class="page__header-stats-title">
+                {{ portfolio?.name || '—' }}
+                <Edit01 class="page__header-edit" style="margin-left: 6px; cursor: pointer; vertical-align: middle;" />
+              </span>
               <div class="page__header-stats-value-row">
-                <span class="page__header-stats-value"> {{ isNotData ? '0' : '267 981' }}</span>
-                <span class="page__header-stats-currency">₽</span>
+                <span class="page__header-stats-value">{{ isNotData ? '0' : formattedAmount }}</span>
+                <!-- <span class="page__header-stats-currency">₽</span> -->
               </div>
             </div>
             <div class="page__header-stats-icon">
@@ -21,9 +24,8 @@
               </div>
             </div>
           </div>
-          <div v-if="!isNotData" class="page__header-badge-row">
-            <span class="page__header-badge">+ 27 861,33 ₽ <span
-                class="page__header-badge-percent">(18,44%)</span></span>
+          <div v-if="!isNotData && hasProfit" class="page__header-badge-row">
+            <span class="page__header-badge">{{ profitSign }} {{ formattedProfit }} ₽ <span class="page__header-badge-percent">({{ formattedPercent }}%)</span></span>
             <span class="page__header-badge-period">за все время</span>
           </div>
         </div>
@@ -76,13 +78,71 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { ref, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { usePortfoliosStore } from '@/stores/portfolios.js';
 import MainLayout from '@/layout/MainLayout.vue';
 import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
 import IconSettings from '@/components/atoms/icons/IconSettings.vue';
-// import IconMenuDots from '@/components/atoms/icons/IconMenuDots.vue';
+import Edit01 from '@/components/atoms/icons/Edit-01.vue';
 
+const route = useRoute();
 const router = useRouter();
+const store = usePortfoliosStore();
+
+const portfolio = ref(null);
+const isLoading = ref(true);
+const isNotData = ref(false);
+
+onMounted(async () => {
+  const id = route.params.id;
+  const p = await store.fetchPortfolioById(id);
+  if (!p) {
+    isNotData.value = true;
+    isLoading.value = false;
+    return;
+  }
+  portfolio.value = {
+    ...p,
+    amount: p.totalAmount,
+    profit: p.totalProfit,
+    percent: p.totalPercent,
+    icons: Array.isArray(p.assets) ? p.assets.map(a => a.logo) : [],
+  };
+  isLoading.value = false;
+});
+
+const formattedAmount = computed(() => {
+  if (!portfolio.value) return '0';
+  return new Intl.NumberFormat('ru-RU', {
+    style: 'currency',
+    currency: 'RUB',
+    minimumFractionDigits: 2
+  }).format(portfolio.value.amount);
+});
+
+const hasProfit = computed(() =>
+  portfolio.value && typeof portfolio.value.profit === 'number' && typeof portfolio.value.percent === 'number'
+);
+
+const formattedProfit = computed(() => {
+  if (!hasProfit.value) return '';
+  return new Intl.NumberFormat('ru-RU', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(Math.abs(portfolio.value.profit));
+});
+
+const formattedPercent = computed(() => {
+  if (!hasProfit.value) return '';
+  return Math.abs(portfolio.value.percent).toFixed(2);
+});
+
+const profitSign = computed(() => {
+  if (!hasProfit.value) return '';
+  return portfolio.value.profit >= 0 ? '+' : '-';
+});
+
 function goBack() {
   router.back();
 }
