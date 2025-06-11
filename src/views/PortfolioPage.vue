@@ -31,7 +31,7 @@
                 class="page__header-badge-percent">({{ formattedPercent }}%)</span></span>
             <span class="page__header-badge-period">за все время</span>
           </div>
-          <div v-if="!isNotData" class="page__header-progress">
+          <div class="page__header-progress">
             <ProgressBar :progress="portfolioProgress" size="thin" color="primary" />
           </div>
         </div>

@@ -230,26 +230,24 @@
 
   &__widgets-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     grid-template-rows: auto auto;
-    gap: 16px;
+    gap: clamp(8px, 2vw, 16px);
     width: 100%;
-    max-width: calc(100vw - 32px);
-    margin: 0 auto;
-    padding: 0 16px;
+    margin: 0 auto;    
+    max-width: 100%;
+    box-sizing: border-box;
 
     &> :nth-child(1),
     &> :nth-child(2) {
       width: 100%;
+      min-width: 0;
     }
 
     &> :nth-child(3) {
       grid-column: 1 / -1;
       width: 100%;
-    }
-
-    @media (min-width: 400px) {
-      max-width: 375px;
+      min-width: 0;
     }
   }
 
@@ -400,7 +398,7 @@
   }
 
   &__body-portfolio {
-    width: 90%;
+    width: 100%;
     margin-top: 24px;
   }
 
@@ -446,18 +444,3 @@
 }
 
 
-@media (max-width: 400px) {
-  .page__widgets-grid {
-    gap: 8px;
-    padding: 0 8px;
-    max-width: calc(100vw - 16px);
-  }
-}
-
-@media (max-width: 320px) {
-  .page__widgets-grid {
-    gap: 4px;
-    padding: 0 4px;
-    max-width: calc(100vw - 8px);
-  }
-}
