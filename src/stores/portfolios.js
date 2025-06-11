@@ -42,7 +42,7 @@ export const usePortfoliosStore = defineStore('portfolios', {
           },
           {
             bank: 'Совкомбанк',
-            logo: 'sovcom',
+            logo: 'sovkom',
             amount: 17020.66,
             count: 10,
             price: 102.41,

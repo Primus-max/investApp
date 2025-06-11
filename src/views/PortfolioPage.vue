@@ -9,10 +9,19 @@
         <div class="page__header-stats-row">
           <div class="page__header-stats-main">
             <div class="page__header-stats-info">
-              <span class="page__header-stats-title">
-                {{ portfolio?.name || '—' }}
-                <Edit01 class="page__header-edit" style="margin-left: 6px; cursor: pointer; vertical-align: middle;" />
-              </span>
+              <div class="page__header-stats-title">
+                <input 
+                  v-if="isEditingName"
+                  v-model="editedName"
+                  @blur="saveNameEdit"
+                  @keyup.enter="saveNameEdit"
+                  @keyup.escape="cancelNameEdit"
+                  class="page__header-edit-input"
+                  ref="nameInput"
+                />
+                <span v-else>{{ portfolio?.name || '—' }}</span>
+                <Edit01 :color="'#fff'" class="page__header-edit" @click="startNameEdit"/>
+              </div>
               <div class="page__header-stats-value-row">
                 <span class="page__header-stats-value">{{ isNotData ? '0' : formattedAmount }}</span>
                 <!-- <span class="page__header-stats-currency">₽</span> -->
@@ -59,11 +68,11 @@
       </AppBanner>
       <section v-if="!isNotData" class="page__body-portfolio">
         <h2 class="page__body-portfolio-title">
-          Мои портфели
+          Мои активы
         </h2>
-        <ul class="page__body-portfolio-list">
-          <PortfolioCard v-for="portfolio in portfolios" :key="portfolio.id" :portfolio="portfolio" />
-        </ul>
+        <div class="page__body-portfolio-list page__body-portfolio-list--unified">
+          <PortfolioAssetCard v-for="asset in assets" :key="asset.bank" :asset="asset" />
+        </div>
       </section>
       <div v-else class="page__body-portfolio-empty">
         <AppPillButton>
@@ -78,13 +87,30 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { usePortfoliosStore } from '@/stores/portfolios.js';
-import MainLayout from '@/layout/MainLayout.vue';
-import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
-import IconSettings from '@/components/atoms/icons/IconSettings.vue';
+import {
+  computed,
+  nextTick,
+  onMounted,
+  ref,
+} from 'vue';
+
+import {
+  useRoute,
+  useRouter,
+} from 'vue-router';
+
+import AppBanner from '@/components/atoms/AppBanner.vue';
+import AppPillButton from '@/components/atoms/AppPillButton.vue';
 import Edit01 from '@/components/atoms/icons/Edit-01.vue';
+import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
+import IconBriefcase01 from '@/components/atoms/icons/IconBriefcase01.vue';
+import IconSettings from '@/components/atoms/icons/IconSettings.vue';
+import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
+import PortfolioAssetCard from '@/components/molecules/PortfolioAssetCard.vue';
+import StatWidgetCard
+  from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
+import MainLayout from '@/layout/MainLayout.vue';
+import { usePortfoliosStore } from '@/stores/portfolios.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -93,6 +119,10 @@ const store = usePortfoliosStore();
 const portfolio = ref(null);
 const isLoading = ref(true);
 const isNotData = ref(false);
+const editMode = ref(false);
+const isEditingName = ref(false);
+const editedName = ref('');
+const nameInput = ref(null);
 
 onMounted(async () => {
   const id = route.params.id;
@@ -143,9 +173,71 @@ const profitSign = computed(() => {
   return portfolio.value.profit >= 0 ? '+' : '-';
 });
 
+const assets = computed(() => {
+  if (!portfolio.value || !portfolio.value.assets) return [];
+  return portfolio.value.assets;
+});
+
 function goBack() {
   router.back();
 }
+
+function startNameEdit() {
+  if (!portfolio.value) return;
+  editedName.value = portfolio.value.name;
+  isEditingName.value = true;
+  // Фокус на input после следующего тика
+  nextTick(() => {
+    if (nameInput.value) {
+      nameInput.value.focus();
+      nameInput.value.select();
+    }
+  });
+}
+
+function saveNameEdit() {
+  if (!editedName.value.trim()) {
+    cancelNameEdit();
+    return;
+  }
+  if (portfolio.value) {
+    portfolio.value.name = editedName.value.trim();
+  }
+  isEditingName.value = false;
+}
+
+function cancelNameEdit() {
+  isEditingName.value = false;
+  editedName.value = '';
+}
+
+const widgets = [
+  {
+    title: 'Прибыль',
+    value: 67981,
+    currency: '₽',
+    trend: { value: 12, positive: true },
+    chartData: [20, 22, 28, 25, 28, 12, 30, 32, 33, 38, 42, 40, 45, 22, 23, 21, 42, 26, 25, 40],
+    color: 'green',
+  },
+  {
+    title: 'Доходность',
+    value: 67981,
+    currency: '₽',
+    trend: { value: 8, positive: false },
+    chartData: [34, 32, 38, 35, 32, 30, 28, 25, 22, 20, 18, 15, 12, 10, 8, 5, 2, 0, -2, -5],
+    color: 'red',
+  },
+  {
+    title: 'Стоимость капитала',
+    value: 67981,
+    currency: '₽',
+    trend: { value: 24, positive: true },
+    chartData: [40, 42, 45, 43, 48, 52, 50, 55, 58, 62, 60, 65, 68, 72, 70, 75, 78, 82, 85, 88],
+    color: 'green',
+  },
+];
+
 </script>
 
 <style scoped lang="scss">
@@ -183,5 +275,32 @@ function goBack() {
   font-family: 'SF Pro', Arial, sans-serif;
   font-weight: 400;
   letter-spacing: -0.4px;
+}
+.page__header-edit {
+  margin-left: 6px;
+  cursor: pointer;
+  vertical-align: middle;
+  color: #fff;  
+}
+
+.page__header-edit-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: #fff;
+  font-family: $font-main;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 4px 8px;
+  outline: none;
+  
+  &:focus {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
 }
 </style>
