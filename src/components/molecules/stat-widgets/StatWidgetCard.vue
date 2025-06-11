@@ -57,7 +57,7 @@ const props = defineProps({
 });
 
 const isNotData = computed(() => {
-  return true;
+  return false;
   // const valEmpty = !props.value || props.value === 0;
   // const percentEmpty = !props.percent || props.percent === 0;
   // const chartEmpty = !props.chartData || props.chartData.length === 0;

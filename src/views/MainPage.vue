@@ -110,7 +110,7 @@ import IconBriefcase01 from '@/components/atoms/icons/IconBriefcase01.vue';
 const amount = ref(27861.33);
 const totalAmount = ref(123456789);
 const editMode = ref(false);
-const isNotData = ref(true);
+const isNotData = ref(false);
 
 const widgets = [
   {
@@ -220,15 +220,15 @@ const portfolios = ref([
     display: flex;
   }
 
-  &__header-nav-spacer {
-    min-width: 60px;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 0 12px;
-  }
+  // &__header-nav-spacer {
+  //   min-width: 60px;
+  //   background: none;
+  //   border: none;
+  //   color: #fff;
+  //   font-size: 16px;
+  //   cursor: pointer;
+  //   padding: 0 12px;
+  // }
 
   &__header-nav-title {
     position: absolute;
@@ -411,6 +411,11 @@ const portfolios = ref([
     position: relative;
   }
 
+  &__app-banner{
+    width: 96%;
+    margin-top: 24px;
+  }
+
   &__header-stats {
     width: 100%;
     margin-top: 8px;
@@ -541,12 +546,7 @@ const portfolios = ref([
     align-items: center;
     justify-content: center;
     padding: 12px;
-  }
-
-  &__app-banner {
-    width: 90%;
-    margin-top: 16px;
-  }
+  } 
 
   &__body-portfolio {
     width: 90%;

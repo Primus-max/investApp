@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="stat-widget">
     <div class="stat-widget__title">{{ title }}</div>
     <div :class="['stat-widget__content', positive ? 'stat-widget__content--positive' : 'stat-widget__content--negative']">
@@ -165,4 +165,4 @@ const midY = 54 - 24;
   justify-content: flex-end;
   padding-bottom: 8px;
 }
-</style> 
+</style>  -->

@@ -110,9 +110,9 @@ const isMenuOpen = ref(false)
 
 const menuActions = [
   { icon: 'briefcase-01', label: 'Создать портфель' },
-  { icon: 'menu-square', label: 'Создать сделку' },
-  { icon: 'user-group', label: 'Добавить виджет' },
-  { icon: 'file', label: 'Загрузить отчет' },
+  { icon: 'coins-swap', label: 'Создать сделку' },
+  { icon: 'elements', label: 'Добавить виджет' },
+  { icon: 'document-text', label: 'Загрузить отчет' },
 ]
 
 function onTabClick(idx) {
