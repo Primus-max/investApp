@@ -26,10 +26,12 @@
               </div>
             </div>
           </div>
-          <div v-if="!isNotData && hasProfit" class="page__header-badge-row">
-            <span class="page__header-badge">{{ profitSign }} {{ formattedProfit }} ₽ <span
-                class="page__header-badge-percent">({{ formattedPercent }}%)</span></span>
-            <span class="page__header-badge-period">за все время</span>
+          <div class="page__header-badge-container">
+            <div v-if="!isNotData && hasProfit" class="page__header-badge-row">
+              <span class="page__header-badge">{{ profitSign }} {{ formattedProfit }} ₽ <span
+                  class="page__header-badge-percent">({{ formattedPercent }}%)</span></span>
+              <span class="page__header-badge-period">за все время</span>
+            </div>
           </div>
           <div class="page__header-progress">
             <ProgressBar :progress="portfolioProgress" size="thin" color="primary" />
@@ -346,8 +348,14 @@ const widgets = [
   }
 }
 
+.page__header-badge-container {
+  height: 48px; // Фиксированная высота всегда резервирует место
+  display: flex;
+  align-items: center;
+}
+
 .page__header-progress {
   width: 100%;
-  margin-top: 32px;
+  margin-top: 16px; 
 }
 </style>
