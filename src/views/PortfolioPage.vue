@@ -2,12 +2,11 @@
   <MainLayout>
     <template #header>
       <section class="page__header">
-        <Header class="page__header-nav">
-          <template #left>
-            <span class="page__header-cancel"><IconArrowLeft />Back</span>
-          </template>          
-        </Header>
-        <div class="page__header-stats-row">          
+        <button class="page__back" @click="goBack">
+          <IconArrowLeft class="page__back-icon" />
+          <span class="page__back-text">Back</span>
+        </button>
+        <div class="page__header-stats-row">
           <div class="page__header-stats-main">
             <div class="page__header-stats-info">
               <span class="page__header-stats-title">Общий капитал</span>
@@ -18,7 +17,7 @@
             </div>
             <div class="page__header-stats-icon">
               <div class="page__header-bell-bg">
-                <Notification02 />
+                <IconSettings />
               </div>
             </div>
           </div>
@@ -77,11 +76,52 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
 import MainLayout from '@/layout/MainLayout.vue';
 import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
+import IconSettings from '@/components/atoms/icons/IconSettings.vue';
 // import IconMenuDots from '@/components/atoms/icons/IconMenuDots.vue';
+
+const router = useRouter();
+function goBack() {
+  router.back();
+}
 </script>
 
 <style scoped lang="scss">
 @import '@/styles/_sections.scss';
+
+.page__back {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 17px;
+  font-family: 'SF Pro', Arial, sans-serif;
+  font-weight: 400;
+  padding: 0 16px;
+  height: 56px;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(255,255,255,0.04);
+  }
+}
+.page__back-icon {  
+  font-size: 22px;
+  margin-right: 3px;
+  display: flex;
+  align-items: center;
+  font-weight: 590;
+}
+.page__back-text {
+  font-size: 17px;
+  font-family: 'SF Pro', Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.4px;
+}
 </style>

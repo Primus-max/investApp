@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header class="header" v-bind="$attrs">
     <div class="header__icon">
       <slot name="left" />
     </div>
