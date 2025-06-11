@@ -1,15 +1,15 @@
 <template>
   <MainLayout>
     <template #header>
-      <div class="mainpage__header">
-        <Header class="mainpage__header-nav">
+      <div class="section__header">
+        <Header class="section__header-nav">
           <template #left>
-            <button class="mainpage__header-cancel">Cancel</button>
+            <button class="section__header-cancel">Cancel</button>
           </template>
           <template #right>
-            <!-- <p class="mainpage__header-nav-title">
-              <span class="mainpage__header-title">Kapitalist</span>
-              <span class="mainpage__header-subtitle">bot</span>
+            <!-- <p class="section__header-nav-title">
+              <span class="section__header-title">Kapitalist</span>
+              <span class="section__header-subtitle">bot</span>
             </p> -->
           </template>
         </Header>
@@ -36,39 +36,35 @@
       </div>
     </template>
 
-    <div class="mainpage__body">
-      <div class="mainpage__body-header">
-        <h1 class="mainpage__body-header-title">Виджеты</h1>
-        <div class="mainpage__body-header-actions">
+    <div class="section__body">
+      <div class="section__body-header">
+        <h1 class="section__body-header-title">Виджеты</h1>
+        <div class="section__body-header-actions">
           <template v-if="!editMode">
-            <button class="mainpage__body-header-button" @click="editMode = true">
-              <Edit01 class="mainpage__body-header-button-icon" />
+            <button class="section__body-header-button" @click="editMode = true">
+              <Edit01 class="section__body-header-button-icon" />
             </button>
           </template>
           <template v-else>
             <PlusButtonAtom />
-            <button class="mainpage__body-header-done" @click="editMode = false">
+            <button class="section__body-header-done" @click="editMode = false">
               Готов
             </button>
           </template>
         </div>
       </div>
-
       <div class="mainpage__widgets-grid">
         <StatWidgetCard v-for="(widget, idx) in widgets" :key="idx" :title="widget.title" :value="widget.value"
           :percent="widget.trend.value" :positive="widget.trend.positive" :chart-data="widget.chartData"
           :type="idx === 2 ? 'rect' : 'square'" :editMode="editMode" />
       </div>
-
       <AppBanner class="mainpage__app-banner">
         Умные советы и инструменты для роста
       </AppBanner>
-
       <section v-if="!isNotData" class="mainpage__body-portfolio">
         <h2 class="mainpage__body-portfolio-title">
           Мои портфели
         </h2>
-
         <ul class="mainpage__body-portfolio-list">
           <PortfolioCard 
             v-for="portfolio in portfolios" 
@@ -175,6 +171,7 @@ const portfolios = ref([
 
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
+@import '@/styles/_sections.scss';
 
 .mainpage {
   width: 100%;
