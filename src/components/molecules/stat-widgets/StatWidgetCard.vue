@@ -55,14 +55,11 @@ const props = defineProps({
   positive: { type: Boolean, required: true },
   chartData: { type: Array, default: () => [] },
   editMode: Boolean,
+  isNotData: { type: Boolean, default: false },
 });
 
 const isNotData = computed(() => {
-  return false;
-  // const valEmpty = !props.value || props.value === 0;
-  // const percentEmpty = !props.percent || props.percent === 0;
-  // const chartEmpty = !props.chartData || props.chartData.length === 0;
-  // return valEmpty && percentEmpty && chartEmpty;
+  return props.isNotData;
 });
 </script>
 
@@ -249,7 +246,7 @@ const isNotData = computed(() => {
   border-radius: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   padding: 4px 11px;
-  margin-top: 34%;
+  margin-top: 47%;
   text-align: center;
   display: inline-block;
 }

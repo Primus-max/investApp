@@ -78,7 +78,7 @@
       <div class="page__widgets-grid">
         <StatWidgetCard v-for="(widget, idx) in widgets" :key="idx" :title="widget.title" :value="widget.value"
           :percent="widget.trend.value" :positive="widget.trend.positive" :chart-data="widget.chartData"
-          :type="idx === 2 ? 'rect' : 'square'" :editMode="editMode" />
+          :type="idx === 2 ? 'rect' : 'square'" :editMode="editMode" :is-not-data="isNotData" />
       </div>
       <AppBanner class="page__app-banner">
         Умные советы и инструменты для роста
@@ -141,7 +141,7 @@ const store = usePortfoliosStore();
 
 const portfolio = ref(null);
 const isLoading = ref(true);
-const isNotData = ref(false);
+const isNotData = ref(true);
 const editMode = ref(false);
 const isEditingName = ref(false);
 const editedName = ref('');
