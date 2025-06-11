@@ -74,11 +74,13 @@
         </ul>
       </section>
       <div v-else class="page__body-portfolio-empty">
-        <AppPillButton>
-          <template #icon>
-            <IconBriefcase01 />
-          </template>
-          Добавить портфель
+        <AppPillButton>          
+          <template #default>
+            <div class="page__body-portfolio-empty-button">
+              <IconBriefcase01 class="page__body-portfolio-empty-button-icon" />
+              <span class="page__body-portfolio-empty-button-label">Добавить портфель</span>
+            </div>            
+          </template>         
         </AppPillButton>
       </div>
     </section>
@@ -87,11 +89,12 @@
 
 <script setup>
 import { ref } from 'vue';
-import { usePortfoliosStore } from '@/stores/portfolios.js';
 
 import AppBanner from '@/components/atoms/AppBanner.vue';
+import AppPillButton from '@/components/atoms/AppPillButton.vue';
 import BadgeAtom from '@/components/atoms/BadgeAtom.vue';
 import Edit01 from '@/components/atoms/icons/Edit-01.vue';
+import IconBriefcase01 from '@/components/atoms/icons/IconBriefcase01.vue';
 import IconPlusSignSquare
   from '@/components/atoms/icons/IconPlusSignSquare.vue';
 import Notification02 from '@/components/atoms/icons/Notification-02.vue';
@@ -101,13 +104,12 @@ import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import Header from '@/components/organisms/Header.vue';
 import MainLayout from '@/layout/MainLayout.vue';
-import AppPillButton from '@/components/atoms/AppPillButton.vue';
-import IconBriefcase01 from '@/components/atoms/icons/IconBriefcase01.vue';
+import { usePortfoliosStore } from '@/stores/portfolios.js';
 
 const amount = ref(27861.33);
 const totalAmount = ref(123456789);
 const editMode = ref(false);
-const isNotData = ref(false);
+const isNotData = ref(true);
 
 const widgets = [
   {
