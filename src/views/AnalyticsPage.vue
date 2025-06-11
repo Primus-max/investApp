@@ -10,14 +10,11 @@
           <div class="page__header-stats-main">
             <div class="page__header-stats-info">
               <div class="page__header-stats-title">
-                <input v-if="isEditingName" v-model="editedName" @blur="saveNameEdit" @keyup.enter="saveNameEdit"
-                  @keyup.escape="cancelNameEdit" class="page__header-edit-input" ref="nameInput" />
-                <span v-else>{{ portfolio?.name || '—' }}</span>
-                <Edit01 :color="'#fff'" class="page__header-edit" @click="startNameEdit" />
+                <span>Аналитика</span>
               </div>
               <div class="page__header-stats-value-row">
-                <span class="page__header-stats-value">{{ isNotData ? '0' : formattedAmount }}</span>
-                <!-- <span class="page__header-stats-currency">₽</span> -->
+                <span class="page__header-stats-value">{{ isNotData ? '0' : '267 981' }}</span>
+                <span class="page__header-stats-currency">₽</span>
               </div>
             </div>
             <div class="page__header-stats-icon">
@@ -27,14 +24,14 @@
             </div>
           </div>
           <div class="page__header-badge-container">
-            <div v-if="!isNotData && hasProfit" class="page__header-badge-row">
-              <span class="page__header-badge">{{ profitSign }} {{ formattedProfit }} ₽ <span
-                  class="page__header-badge-percent">({{ formattedPercent }}%)</span></span>
+            <div v-if="!isNotData" class="page__header-badge-row">
+              <span class="page__header-badge">+ 27 861,33 ₽ <span
+                  class="page__header-badge-percent">(18,44%)</span></span>
               <span class="page__header-badge-period">за все время</span>
             </div>
           </div>
           <div class="page__header-progress">
-            <ProgressBar :progress="portfolioProgress" size="thin" color="primary" />
+            <ProgressBar :progress="75" size="thin" color="primary" />
           </div>
         </div>
       </section>
@@ -50,7 +47,7 @@
             </div>
           </template>
         </AppPillButton>
-        <AppPillButton class="page__body-header-stats-button" @click="goToAnalytics">
+        <AppPillButton class="page__body-header-stats-button">
           <template #default>
             <div class="page__body-header-stats-button-content">
               <IconChartRing class="page__body-header-stats-button-icon" />
@@ -83,20 +80,23 @@
       <AppBanner class="page__app-banner">
         Умные советы и инструменты для роста
       </AppBanner>
-      <section v-if="!isNotData" class="page__body-portfolio">
-        <h2 class="page__body-portfolio-title">
-          Мои активы
+      <section v-if="!isNotData" class="page__body-analytics">
+        <h2 class="page__body-analytics-title">
+          Аналитические данные
         </h2>
-        <div class="page__body-portfolio-list page__body-portfolio-list--unified">
-          <PortfolioAssetCard v-for="asset in assets" :key="asset.bank" :asset="asset" />
+        <div class="page__body-analytics-content">
+          <!-- Здесь будет контент аналитики согласно макету -->
+          <div class="analytics-placeholder">
+            Контент аналитики будет добавлен согласно макету
+          </div>
         </div>
       </section>
-      <div v-else class="page__body-portfolio-empty">
+      <div v-else class="page__body-analytics-empty">
         <AppPillButton>          
           <template #default>
-            <div class="page__body-portfolio-empty-button">
-              <IconCoinsSwap class="page__body-portfolio-empty-button-icon" />
-              <span class="page__body-portfolio-empty-button-label">Создать сделку</span>
+            <div class="page__body-analytics-empty-button">
+              <IconChartRing class="page__body-analytics-empty-button-icon" />
+              <span class="page__body-analytics-empty-button-label">Построить аналитику</span>
             </div>            
           </template>         
         </AppPillButton>
@@ -106,142 +106,30 @@
 </template>
 
 <script setup>
-import {
-  computed,
-  nextTick,
-  onMounted,
-  ref,
-} from 'vue';
+import { ref } from 'vue';
 
-import {
-  useRoute,
-  useRouter,
-} from 'vue-router';
+import { useRouter } from 'vue-router';
 
 import AppBanner from '@/components/atoms/AppBanner.vue';
 import AppPillButton from '@/components/atoms/AppPillButton.vue';
 import Edit01 from '@/components/atoms/icons/Edit-01.vue';
 import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
-import IconBriefcase01 from '@/components/atoms/icons/IconBriefcase01.vue';
 import IconChartRing from '@/components/atoms/icons/IconChartRing.vue';
 import IconClock01 from '@/components/atoms/icons/IconClock01.vue';
-import IconCoinsSwap from '@/components/atoms/icons/IconCoinsSwap.vue';
 import IconSettings from '@/components/atoms/icons/IconSettings.vue';
 import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
 import ProgressBar from '@/components/atoms/ProgressBar.vue';
-import PortfolioAssetCard from '@/components/molecules/PortfolioAssetCard.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import MainLayout from '@/layout/MainLayout.vue';
-import { usePortfoliosStore } from '@/stores/portfolios.js';
 
-const route = useRoute();
 const router = useRouter();
-const store = usePortfoliosStore();
 
-const portfolio = ref(null);
-const isLoading = ref(true);
 const isNotData = ref(false);
 const editMode = ref(false);
-const isEditingName = ref(false);
-const editedName = ref('');
-const nameInput = ref(null);
-
-onMounted(async () => {
-  const id = route.params.id;
-  const p = await store.fetchPortfolioById(id);
-  if (!p) {
-    isNotData.value = true;
-    isLoading.value = false;
-    return;
-  }
-  portfolio.value = {
-    ...p,
-    amount: p.totalAmount,
-    profit: p.totalProfit,
-    percent: p.totalPercent,
-    icons: Array.isArray(p.assets) ? p.assets.map(a => a.logo) : [],
-  };
-  isLoading.value = false;
-});
-
-const formattedAmount = computed(() => {
-  if (!portfolio.value) return '0';
-  return new Intl.NumberFormat('ru-RU', {
-    style: 'currency',
-    currency: 'RUB',
-    minimumFractionDigits: 2
-  }).format(portfolio.value.amount);
-});
-
-const hasProfit = computed(() =>
-  portfolio.value && typeof portfolio.value.profit === 'number' && typeof portfolio.value.percent === 'number'
-);
-
-const formattedProfit = computed(() => {
-  if (!hasProfit.value) return '';
-  return new Intl.NumberFormat('ru-RU', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(Math.abs(portfolio.value.profit));
-});
-
-const formattedPercent = computed(() => {
-  if (!hasProfit.value) return '';
-  return Math.abs(portfolio.value.percent).toFixed(2);
-});
-
-const profitSign = computed(() => {
-  if (!hasProfit.value) return '';
-  return portfolio.value.profit >= 0 ? '+' : '-';
-});
-
-const assets = computed(() => {
-  if (!portfolio.value || !portfolio.value.assets) return [];
-  return portfolio.value.assets;
-});
-
-const portfolioProgress = computed(() => {
-  // Примерный расчет прогресса на основе прибыли (можно настроить под вашу логику)
-  if (!hasProfit.value) return 0;
-  return Math.min(100, Math.max(0, portfolio.value.percent + 50)); // +50 чтобы сделать более реалистичным
-});
 
 function goBack() {
   router.back();
-}
-
-function goToAnalytics() {
-  router.push('/analytics');
-}
-
-function startNameEdit() {
-  if (!portfolio.value) return;
-  editedName.value = portfolio.value.name;
-  isEditingName.value = true;
-  // Фокус на input после следующего тика
-  nextTick(() => {
-    if (nameInput.value) {
-      nameInput.value.focus();
-      nameInput.value.select();
-    }
-  });
-}
-
-function saveNameEdit() {
-  if (!editedName.value.trim()) {
-    cancelNameEdit();
-    return;
-  }
-  if (portfolio.value) {
-    portfolio.value.name = editedName.value.trim();
-  }
-  isEditingName.value = false;
-}
-
-function cancelNameEdit() {
-  isEditingName.value = false;
-  editedName.value = '';
 }
 
 const widgets = [
@@ -270,7 +158,6 @@ const widgets = [
     color: 'green',
   },
 ];
-
 </script>
 
 <style scoped lang="scss">
@@ -286,7 +173,6 @@ const widgets = [
 .page__header {
   height: 330px;
 }
-
 
 .page__back {
   display: flex;
@@ -324,36 +210,8 @@ const widgets = [
   letter-spacing: -0.4px;
 }
 
-.page__header-edit {
-  margin-left: 6px;
-  cursor: pointer;
-  vertical-align: middle;
-  color: #fff;
-}
-
-.page__header-edit-input {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 8px;
-  color: #fff;
-  font-family: $font-main;
-  font-size: 18px;
-  font-weight: 600;
-  padding: 4px 8px;
-  outline: none;
-
-  &:focus {
-    border-color: rgba(255, 255, 255, 0.6);
-    background: rgba(255, 255, 255, 0.15);
-  }
-
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-  }
-}
-
 .page__header-badge-container {
-  height: 48px; // Фиксированная высота всегда резервирует место
+  height: 48px;
   display: flex;
   align-items: center;
 }
@@ -362,4 +220,54 @@ const widgets = [
   width: 100%;
   margin-top: 16px; 
 }
-</style>
+
+.page__body-analytics {
+  margin-top: 32px;
+}
+
+.page__body-analytics-title {
+  font-family: 'SF Pro Rounded', Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #181818;
+  margin-bottom: 16px;
+  padding: 0 16px;
+}
+
+.page__body-analytics-content {
+  padding: 0 16px;
+}
+
+.analytics-placeholder {
+  background: $gray-50;
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  color: $gray-600;
+  font-size: 16px;
+}
+
+.page__body-analytics-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 16px;
+  margin-top: 32px;
+}
+
+.page__body-analytics-empty-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.page__body-analytics-empty-button-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.page__body-analytics-empty-button-label {
+  font-size: 16px;
+  font-weight: 500;
+}
+</style> 

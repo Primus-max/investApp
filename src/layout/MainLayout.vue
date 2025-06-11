@@ -92,6 +92,8 @@ function updateActiveTabFromRoute() {
     activeIndex.value = 0
   } else if (route.name === 'PortfolioPage') {
     activeIndex.value = 1
+  } else if (route.name === 'AnalyticsPage') {
+    activeIndex.value = 1 // Аналитика тоже относится к портфелю
   }
   // Добавить другие роуты при необходимости
 }
