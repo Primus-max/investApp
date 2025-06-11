@@ -56,7 +56,7 @@
       <div class="page__widgets-grid">
         <StatWidgetCard v-for="(widget, idx) in widgets" :key="idx" :title="widget.title" :value="widget.value"
           :percent="widget.trend.value" :positive="widget.trend.positive" :chart-data="widget.chartData"
-          :type="idx === 2 ? 'rect' : 'square'" :editMode="editMode" />
+          :type="idx === 2 ? 'rect' : 'square'" :editMode="editMode" :is-not-data="isNotData" />
       </div>
       <AppBanner class="page__app-banner">
         Умные советы и инструменты для роста
@@ -109,7 +109,7 @@ import { usePortfoliosStore } from '@/stores/portfolios.js';
 const amount = ref(27861.33);
 const totalAmount = ref(123456789);
 const editMode = ref(false);
-const isNotData = ref(true);
+const isNotData = ref(false);
 
 const widgets = [
   {
