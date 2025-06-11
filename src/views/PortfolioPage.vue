@@ -141,7 +141,7 @@ const store = usePortfoliosStore();
 
 const portfolio = ref(null);
 const isLoading = ref(true);
-const isNotData = ref(true);
+const isNotData = ref(false);
 const editMode = ref(false);
 const isEditingName = ref(false);
 const editedName = ref('');
