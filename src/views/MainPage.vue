@@ -1,10 +1,10 @@
 <template>
   <MainLayout>
     <template #header>
-      <div class="section__header">
-        <Header class="section__header-nav">
+      <section class="page__header">
+        <Header class="page__header-nav">
           <template #left>
-            <button class="section__header-cancel">Cancel</button>
+            <button class="page__header-cancel">Cancel</button>
           </template>
           <template #right>
             <!-- <p class="section__header-nav-title">
@@ -13,59 +13,59 @@
             </p> -->
           </template>
         </Header>
-        <div class="mainpage__header-stats-row">
-          <div class="mainpage__header-stats-main">
-            <div class="mainpage__header-stats-info">
-              <span class="mainpage__header-stats-title">Общий капитал</span>
-              <div class="mainpage__header-stats-value-row">
-                <span class="mainpage__header-stats-value"> {{  isNotData ? '0' : '267 981' }}</span>
-                <span class="mainpage__header-stats-currency">₽</span>
+        <div class="page__header-stats-row">
+          <div class="page__header-stats-main">
+            <div class="page__header-stats-info">
+              <span class="page__header-stats-title">Общий капитал</span>
+              <div class="page__header-stats-value-row">
+                <span class="page__header-stats-value"> {{  isNotData ? '0' : '267 981' }}</span>
+                <span class="page__header-stats-currency">₽</span>
               </div>
             </div>
-            <div class="mainpage__header-stats-icon">
-              <div class="mainpage__header-bell-bg">
+            <div class="page__header-stats-icon">
+              <div class="page__header-bell-bg">
                 <Notification02 />
               </div>
             </div>
           </div>
-          <div v-if="!isNotData" class="mainpage__header-badge-row">
-            <span class="mainpage__header-badge">+ 27 861,33 ₽ <span class="mainpage__header-badge-percent">(18,44%)</span></span>
-            <span class="mainpage__header-badge-period">за все время</span>
+          <div v-if="!isNotData" class="page__header-badge-row">
+            <span class="page__header-badge">+ 27 861,33 ₽ <span class="page__header-badge-percent">(18,44%)</span></span>
+            <span class="page__header-badge-period">за все время</span>
           </div>
         </div>
-      </div>
+      </section>
     </template>
 
-    <div class="section__body">
-      <div class="section__body-header">
-        <h1 class="section__body-header-title">Виджеты</h1>
-        <div class="section__body-header-actions">
+    <section class="page__body">
+      <div class="page__body-header">
+        <h1 class="page__body-header-title">Виджеты</h1>
+        <div class="page__body-header-actions">
           <template v-if="!editMode">
-            <button class="section__body-header-button" @click="editMode = true">
-              <Edit01 class="section__body-header-button-icon" />
+            <button class="page__body-header-button" @click="editMode = true">
+              <Edit01 class="page__body-header-button-icon" />
             </button>
           </template>
           <template v-else>
             <PlusButtonAtom />
-            <button class="section__body-header-done" @click="editMode = false">
+            <button class="page__body-header-done" @click="editMode = false">
               Готов
             </button>
           </template>
         </div>
       </div>
-      <div class="mainpage__widgets-grid">
+      <div class="page__widgets-grid">
         <StatWidgetCard v-for="(widget, idx) in widgets" :key="idx" :title="widget.title" :value="widget.value"
           :percent="widget.trend.value" :positive="widget.trend.positive" :chart-data="widget.chartData"
           :type="idx === 2 ? 'rect' : 'square'" :editMode="editMode" />
       </div>
-      <AppBanner class="mainpage__app-banner">
+      <AppBanner class="page__app-banner">
         Умные советы и инструменты для роста
       </AppBanner>
-      <section v-if="!isNotData" class="mainpage__body-portfolio">
-        <h2 class="mainpage__body-portfolio-title">
+      <section v-if="!isNotData" class="page__body-portfolio">
+        <h2 class="page__body-portfolio-title">
           Мои портфели
         </h2>
-        <ul class="mainpage__body-portfolio-list">
+        <ul class="page__body-portfolio-list">
           <PortfolioCard 
             v-for="portfolio in portfolios" 
             :key="portfolio.id" 
@@ -73,7 +73,7 @@
           />
         </ul>
       </section>
-      <div v-else class="mainpage__body-portfolio-empty">
+      <div v-else class="page__body-portfolio-empty">
         <AppPillButton>
           <template #icon>
             <IconBriefcase01 />
@@ -81,7 +81,7 @@
           Добавить портфель
         </AppPillButton>
       </div>
-    </div>
+    </section>
   </MainLayout>
 </template>
 
@@ -170,410 +170,5 @@ const portfolios = ref([
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/_variables.scss';
 @import '@/styles/_sections.scss';
-
-.mainpage {
-  width: 100%;
-  margin: 0 auto;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  &__header {
-    width: 100%;
-    height: 300px;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    font-size: 20px;
-    font-weight: $font-weight-semibold;
-  }
-
-  &__header-nav {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    min-height: 64px;
-  }
-
-  &__header-cancel {
-    width: 54px;
-    height: 22px;
-    font-family: 'SF Pro', Arial, sans-serif;
-    font-style: normal;
-    font-weight: $font-weight-regular;
-    font-size: 17px;
-    line-height: 22px;
-    letter-spacing: -0.4px;
-    color: $gray-0;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-  }
-
-  // &__header-nav-spacer {
-  //   min-width: 60px;
-  //   background: none;
-  //   border: none;
-  //   color: #fff;
-  //   font-size: 16px;
-  //   cursor: pointer;
-  //   padding: 0 12px;
-  // }
-
-  &__header-nav-title {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #fff;
-    font-weight: 600;
-    font-size: 18px;
-    margin: 0;
-    line-height: 1.1;
-    pointer-events: none;
-  }
-
-  &__body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: auto;
-    color: #181818;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    border-radius: 20px;
-
-    &-header {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      width: 90%;
-      height: 40px;
-      margin: 16px 0 16px 0;
-    }
-
-    &-header-title {
-      font-size: 20px;
-      margin-bottom: 0;
-      font-weight: $font-weight-semibold;
-      color: $gray-950;
-    }
-
-    &-header-button {
-      background: rgba(255, 255, 255, 0.9);
-      border: none;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: all 0.2s ease;
-
-      &:hover {
-        background: rgba(255, 255, 255, 1);
-        transform: scale(1.05);
-      }
-
-      &:active {
-        transform: scale(0.95);
-      }
-    }
-
-    &-header-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding-right: 8px;
-    }
-
-    &-header-plus {     
-      width: 40px;
-      height: 40px;
-      border-radius: $radius-xl;
-      background: $color-text-main;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      // box-shadow: $shadow-main;
-      padding: 0;
-      cursor: pointer;
-    }
-
-    &-header-done {
-      background: #fff;
-      border: none;
-      color: $gray-900;
-      font-size: $font-size-small;
-      font-weight: $font-weight-medium;
-      padding: 0 18px;
-      height: 36px;
-      border-radius: 9999px;
-      box-shadow: $shadow-main;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    &-portfolio-empty {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 28px;
-      margin-bottom: 40%;
-    }
-  }
-
-  &__header-title {
-    width: 75px;
-    height: 22px;
-    font-family: 'SF Pro', Arial, sans-serif;
-    font-style: normal;
-    font-weight: 590;
-    font-size: 17px;
-    line-height: 22px;
-    text-align: center;
-    letter-spacing: -0.4px;
-    color: $gray-0;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    display: block;
-  }
-
-  &__header-subtitle {
-    width: 20px;
-    height: 20px;
-    font-family: 'Roboto', Arial, sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 20px;
-    text-align: center;
-    letter-spacing: 0.1px;
-    color: #AAAAAA;
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-    display: block;
-  }
-
-  &__widgets-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 16px;
-    width: 100%;
-    max-width: 375px;
-    margin: 0 auto;
-    padding: 0 16px;
-
-    &> :nth-child(1),
-    &> :nth-child(2) {
-      width: 100%;
-    }
-
-    &> :nth-child(3) {
-      grid-column: 1 / -1;
-      width: 100%;
-    }
-  }
-
-  &__widget-card {
-    width: 175px;
-    height: 166px;
-    display: flex;
-    align-items: stretch;
-    justify-content: stretch;
-    position: relative;
-  }
-
-  &__app-banner{
-    width: 96%;
-    margin-top: 24px;
-  }
-
-  &__header-stats {
-    width: 100%;
-    margin-top: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 20px 20px 24px 20px;
-
-    position: relative;
-  }
-
-  &__header-stats-row {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    margin-top: 40px;
-    padding: 0 16px;
-  }
-
-  &__header-stats-main {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  &__header-stats-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  &__header-stats-title {
-    font-family: $font-main;
-    font-size: 18px;
-    font-weight: 600;
-    color: $gray-0;
-    opacity: 1;
-    margin-bottom: 0;
-    letter-spacing: 0;
-    line-height: 24px;
-  }
-
-  &__header-stats-value-row {
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-    gap: 4px;
-    margin-bottom: 0;
-  }
-
-  &__header-stats-value {
-    font-family: $font-main;
-    font-size: 40px;
-    font-weight: 600;
-    color: $gray-0;
-    line-height: 1.1;
-    letter-spacing: 0;
-    margin-bottom: 0;
-  }
-
-  &__header-stats-currency {
-    font-size: 22px;
-    font-weight: 600;
-    margin-left: 2px;
-    opacity: 1;
-    color: $gray-0;
-    line-height: 28px;
-  }
-
-  &__header-badge-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-    margin-top: 8px;
-  }
-
-  &__header-badge {
-    background: rgba(255, 255, 255, 0.10);
-    color: $gray-0;
-    font-size: 16px;
-    font-weight: 400;
-    border-radius: 10000px;
-    padding: 6px 12px;
-    margin-right: 0;
-    margin-bottom: 0;
-    display: inline-flex;
-    align-items: center;
-    backdrop-filter: blur(32px);
-  }
-
-  &__header-badge-percent {
-    color: $color-success;
-    font-weight: 600;
-    margin-left: 4px;
-  }
-
-  &__header-badge-period {
-    font-size: 16px;
-    color: $gray-0;
-    opacity: 0.8;
-    margin-left: 0;
-    font-weight: 400;
-    line-height: 22px;
-  }
-
-  &__header-stats-icon {
-    margin-left: 16px;
-    margin-top: 4px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    width: 48px;
-    height: 48px;
-  }
-
-  &__header-bell-bg {
-    background: rgba(255, 255, 255, 0.10);
-    border-radius: 10000px;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-  } 
-
-  &__body-portfolio {
-    width: 90%;
-    margin-top: 24px;
-  }
-
-  &__body-portfolio-title {
-    font-size: 20px;
-    font-weight: $font-weight-semibold;
-    color: $gray-950;
-    margin-bottom: 16px;
-  }
-
-  &__body-portfolio-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 40%;
-    padding: 0;
-    list-style: none;
-  }
-}
-
-@media (max-width: 600px) {
-  .mainpage__widgets-grid {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    width: 100vw;
-    gap: 8px;
-    padding: 0 4px;
-  }
-}
 </style>
