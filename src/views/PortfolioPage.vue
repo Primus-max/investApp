@@ -37,6 +37,9 @@
             <span class="page__header-badge">{{ profitSign }} {{ formattedProfit }} ₽ <span class="page__header-badge-percent">({{ formattedPercent }}%)</span></span>
             <span class="page__header-badge-period">за все время</span>
           </div>
+          <div v-if="!isNotData" class="page__header-progress">
+            <ProgressBar :progress="portfolioProgress" size="thin" color="primary" />
+          </div>
         </div>
       </section>
     </template>
@@ -106,6 +109,7 @@ import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
 import IconBriefcase01 from '@/components/atoms/icons/IconBriefcase01.vue';
 import IconSettings from '@/components/atoms/icons/IconSettings.vue';
 import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
+import ProgressBar from '@/components/atoms/ProgressBar.vue';
 import PortfolioAssetCard from '@/components/molecules/PortfolioAssetCard.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
@@ -178,6 +182,12 @@ const assets = computed(() => {
   return portfolio.value.assets;
 });
 
+const portfolioProgress = computed(() => {
+  // Примерный расчет прогресса на основе прибыли (можно настроить под вашу логику)
+  if (!hasProfit.value) return 0;
+  return Math.min(100, Math.max(0, portfolio.value.percent + 50)); // +50 чтобы сделать более реалистичным
+});
+
 function goBack() {
   router.back();
 }
@@ -243,6 +253,10 @@ const widgets = [
 <style scoped lang="scss">
 @import '@/styles/_sections.scss';
 
+.page__header {
+  height: 330px;
+}
+
 .page__back {
   display: flex;
   align-items: center;
@@ -302,5 +316,10 @@ const widgets = [
   &::placeholder {
     color: rgba(255, 255, 255, 0.6);
   }
+}
+
+.page__header-progress {
+  width: 100%;
+  margin-top: 32px;
 }
 </style>
