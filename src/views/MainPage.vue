@@ -63,7 +63,7 @@
         Умные советы и инструменты для роста
       </AppBanner>
 
-      <section class="mainpage__body-portfolio">
+      <section v-if="!isNotData" class="mainpage__body-portfolio">
         <h2 class="mainpage__body-portfolio-title">
           Мои портфели
         </h2>
@@ -76,6 +76,14 @@
           />
         </ul>
       </section>
+      <div v-else class="mainpage__body-portfolio-empty">
+        <AppPillButton>
+          <template #icon>
+            <IconBriefcase01 />
+          </template>
+          Добавить портфель
+        </AppPillButton>
+      </div>
     </div>
   </MainLayout>
 </template>
@@ -95,10 +103,13 @@ import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import Header from '@/components/organisms/Header.vue';
 import MainLayout from '@/layout/MainLayout.vue';
+import AppPillButton from '@/components/atoms/AppPillButton.vue';
+import IconBriefcase01 from '@/components/atoms/icons/IconBriefcase01.vue';
 
 const amount = ref(27861.33);
 const totalAmount = ref(123456789);
 const editMode = ref(false);
+const isNotData = ref(true);
 
 const widgets = [
   {
@@ -323,6 +334,15 @@ const portfolios = ref([
       display: flex;
       align-items: center;
       cursor: pointer;
+    }
+
+    &-portfolio-empty {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 28px;
+      margin-bottom: 40%;
     }
   }
 
