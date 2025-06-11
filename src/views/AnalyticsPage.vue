@@ -9,13 +9,12 @@
         <div class="page__header-stats-row">
           <div class="page__header-stats-main">
             <div class="page__header-stats-info">
-              <div class="page__header-stats-title">
-                <span>Аналитика</span>
-              </div>
-              <div class="page__header-stats-value-row">
-                <span class="page__header-stats-value">{{ isNotData ? '0' : '267 981' }}</span>
-                <span class="page__header-stats-currency">₽</span>
-              </div>
+                             <div class="page__header-stats-title">
+                 <span>{{ portfolio?.name || 'Аналитика' }}</span>
+               </div>
+               <div class="page__header-stats-value-row">
+                 <span class="page__header-stats-value">{{ isNotData ? '0' : formattedAmount }}</span>
+               </div>
             </div>
             <div class="page__header-stats-icon">
               <div class="page__header-bell-bg">
@@ -23,16 +22,16 @@
               </div>
             </div>
           </div>
-          <div class="page__header-badge-container">
-            <div v-if="!isNotData" class="page__header-badge-row">
-              <span class="page__header-badge">+ 27 861,33 ₽ <span
-                  class="page__header-badge-percent">(18,44%)</span></span>
-              <span class="page__header-badge-period">за все время</span>
-            </div>
-          </div>
-          <div class="page__header-progress">
-            <ProgressBar :progress="75" size="thin" color="primary" />
-          </div>
+                     <div class="page__header-badge-container">
+             <div v-if="!isNotData && hasProfit" class="page__header-badge-row">
+               <span class="page__header-badge">{{ profitSign }} {{ formattedProfit }} ₽ <span
+                   class="page__header-badge-percent">({{ formattedPercent }}%)</span></span>
+               <span class="page__header-badge-period">за все время</span>
+             </div>
+           </div>
+           <div class="page__header-progress">
+             <ProgressBar :progress="portfolioProgress" size="thin" color="primary" />
+           </div>
         </div>
       </section>
     </template>
@@ -106,9 +105,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import {
+  computed,
+  onMounted,
+  ref,
+} from 'vue';
 
-import { useRouter } from 'vue-router';
+import {
+  useRoute,
+  useRouter,
+} from 'vue-router';
 
 import AppBanner from '@/components/atoms/AppBanner.vue';
 import AppPillButton from '@/components/atoms/AppPillButton.vue';
@@ -122,11 +128,69 @@ import ProgressBar from '@/components/atoms/ProgressBar.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import MainLayout from '@/layout/MainLayout.vue';
+import { usePortfoliosStore } from '@/stores/portfolios.js';
 
 const router = useRouter();
+const route = useRoute();
+const store = usePortfoliosStore();
 
+const portfolio = ref(null);
+const isLoading = ref(true);
 const isNotData = ref(false);
 const editMode = ref(false);
+
+onMounted(async () => {
+  const portfolioId = route.params.portfolioId;
+  const p = await store.fetchPortfolioById(portfolioId);
+  if (!p) {
+    isNotData.value = true;
+    isLoading.value = false;
+    return;
+  }
+  portfolio.value = {
+    ...p,
+    amount: p.totalAmount,
+    profit: p.totalProfit,
+    percent: p.totalPercent,
+  };
+  isLoading.value = false;
+});
+
+const formattedAmount = computed(() => {
+  if (!portfolio.value) return '0';
+  return new Intl.NumberFormat('ru-RU', {
+    style: 'currency',
+    currency: 'RUB',
+    minimumFractionDigits: 2
+  }).format(portfolio.value.amount);
+});
+
+const hasProfit = computed(() =>
+  portfolio.value && typeof portfolio.value.profit === 'number' && typeof portfolio.value.percent === 'number'
+);
+
+const formattedProfit = computed(() => {
+  if (!hasProfit.value) return '';
+  return new Intl.NumberFormat('ru-RU', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(Math.abs(portfolio.value.profit));
+});
+
+const formattedPercent = computed(() => {
+  if (!hasProfit.value) return '';
+  return Math.abs(portfolio.value.percent).toFixed(2);
+});
+
+const profitSign = computed(() => {
+  if (!hasProfit.value) return '';
+  return portfolio.value.profit >= 0 ? '+' : '-';
+});
+
+const portfolioProgress = computed(() => {
+  if (!hasProfit.value) return 0;
+  return Math.min(100, Math.max(0, portfolio.value.percent + 50));
+});
 
 function goBack() {
   router.back();

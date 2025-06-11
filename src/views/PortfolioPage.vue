@@ -212,7 +212,8 @@ function goBack() {
 }
 
 function goToAnalytics() {
-  router.push('/analytics');
+  const portfolioId = route.params.id;
+  router.push(`/analytics/${portfolioId}`);
 }
 
 function startNameEdit() {
