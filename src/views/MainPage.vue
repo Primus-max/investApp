@@ -18,7 +18,7 @@
             <div class="mainpage__header-stats-info">
               <span class="mainpage__header-stats-title">Общий капитал</span>
               <div class="mainpage__header-stats-value-row">
-                <span class="mainpage__header-stats-value">267 981</span>
+                <span class="mainpage__header-stats-value"> {{  isNotData ? '0' : '267 981' }}</span>
                 <span class="mainpage__header-stats-currency">₽</span>
               </div>
             </div>
@@ -28,7 +28,7 @@
               </div>
             </div>
           </div>
-          <div class="mainpage__header-badge-row">
+          <div v-if="!isNotData" class="mainpage__header-badge-row">
             <span class="mainpage__header-badge">+ 27 861,33 ₽ <span class="mainpage__header-badge-percent">(18,44%)</span></span>
             <span class="mainpage__header-badge-period">за все время</span>
           </div>
