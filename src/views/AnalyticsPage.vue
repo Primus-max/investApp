@@ -336,7 +336,7 @@ function cancelGoalEdit() {
 
          &-content {
              margin-top: $space-l;
-             
+             width: 100%;
          }
      }
  }

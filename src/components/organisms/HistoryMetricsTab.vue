@@ -17,7 +17,7 @@
           :options="chartOptions"
           :series="chartSeries"
           width="100%"
-          height="180"
+          height="234"
         />
       </div>
       
@@ -121,7 +121,7 @@ const chartSeries = computed(() => [
 const chartOptions = computed(() => ({
   chart: {
     type: 'bar',
-    height: 180,
+    height: 234,
     toolbar: { show: false },
     background: 'transparent',
     parentHeightOffset: 0,
@@ -130,7 +130,7 @@ const chartOptions = computed(() => ({
   annotations: {
     xaxis: [
       {
-        x: 0.5,
+        x: 0,
         strokeDashArray: 0,
         borderColor: 'transparent',
         label: {
@@ -140,13 +140,14 @@ const chartOptions = computed(() => ({
             background: 'transparent',
             fontSize: '12px'
           },
-          text: '2024',
+          // text: '2024',
           position: 'top',
-          offsetY: -10
+          offsetY: 0,
+          offsetX: 0
         }
       },
       {
-        x: chartData[activePeriod.value].values.length - 0.5,
+        x: chartData[activePeriod.value].values.length - 1,
         strokeDashArray: 0,
         borderColor: 'transparent',
         label: {
@@ -156,16 +157,17 @@ const chartOptions = computed(() => ({
             background: 'transparent',
             fontSize: '12px'
           },
-          text: '2025',
+          // text: '2025',
           position: 'top',
-          offsetY: -10
+          offsetY: 0,
+          offsetX: 0
         }
       }
     ]
   },
   plotOptions: {
     bar: {
-      columnWidth: '70%',
+      columnWidth: '60%',
       borderRadius: 2,
       distributed: true,
       dataLabels: {
@@ -231,7 +233,7 @@ const chartOptions = computed(() => ({
   grid: {
     show: true,
     borderColor: '#E5E7EB',
-    strokeDashArray: 0,
+    strokeDashArray: 3,
     xaxis: { lines: { show: false } },
     yaxis: { lines: { show: true } }
   },
@@ -297,13 +299,14 @@ const metrics = computed(() => [
 @import '@/styles/_variables.scss';
 
 .history-metrics {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: $space-l;
   background: $gray-0;
   border-radius: $radius-xl;
-  padding: $space-l;
-  margin: 0 $space-m;
+  padding: 0 4px;
+  margin: 0;
 
   &__chart {    
     &-header {
@@ -325,7 +328,7 @@ const metrics = computed(() => [
 
           &-container {
         margin: 0;
-        height: 180px;
+        height: 234px;
       }
   }
 
