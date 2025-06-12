@@ -199,9 +199,6 @@ const chartOptions = computed(() => ({
     // Если есть выбранный столбец, выделяем его primary цветом
     if (selectedBarIndex.value >= 0) {
       colors[selectedBarIndex.value] = '#6366F1'; // $primary-500
-    } else {
-      // Иначе выделяем предпоследний столбец синим (как в макете)
-      colors[data.length - 2] = '#3B82F6';
     }
     
     return colors;
