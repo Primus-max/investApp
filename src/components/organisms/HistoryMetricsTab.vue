@@ -19,6 +19,26 @@
           width="100%"
           height="234"
         />
+        
+        <!-- Кастомный тултип -->
+        <div 
+          v-if="tooltipData.show"
+          class="history-metrics__tooltip"
+          :style="{
+            left: `${tooltipData.position.x}px`,
+            top: `${tooltipData.position.y}px`,
+            transform: 'translateX(-50%)'
+          }"
+        >
+          <div class="history-metrics__tooltip-value">
+            {{ tooltipData.value }}
+          </div>
+          <div class="history-metrics__tooltip-date">
+            {{ tooltipData.date }}
+          </div>
+          <!-- Стрелка указатель -->
+          <div class="history-metrics__tooltip-arrow"></div>
+        </div>
       </div>
       
       <!-- Периоды фильтрации -->
@@ -84,9 +104,18 @@ const activePeriod = ref('6M');
 // Выбранный столбец (индекс)
 const selectedBarIndex = ref(-1);
 
+// Данные для тултипа
+const tooltipData = ref({
+  show: false,
+  value: '',
+  date: '',
+  position: { x: 0, y: 0 }
+});
+
 // Сбрасываем выбор при смене периода
 watch(activePeriod, () => {
   selectedBarIndex.value = -1;
+  tooltipData.value.show = false;
 });
 
 // Периоды для фильтрации
@@ -100,11 +129,26 @@ const periods = [
 
 // Моковые данные для графика (как в макете)
 const chartData = {
-  '1M': { values: [1200000, 1400000, 1300000, 1600000, 1500000, 1700000, 1837471], dates: [] },
-  '6M': { values: [1000000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], dates: [] },
-  '1Y': { values: [800000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], dates: [] },
-  '3Y': { values: [600000, 800000, 700000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], dates: [] },
-  'ALL': { values: [400000, 600000, 500000, 800000, 700000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], dates: [] }
+  '1M': { 
+    values: [1200000, 1400000, 1300000, 1600000, 1500000, 1700000, 1837471], 
+    dates: ['01.04.2024', '05.04.2024', '10.04.2024', '15.04.2024', '20.04.2024', '25.04.2024', '30.04.2024']
+  },
+  '6M': { 
+    values: [1000000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], 
+    dates: ['01.01.2024', '15.01.2024', '01.02.2024', '15.02.2024', '01.03.2024', '15.03.2024', '01.04.2024', '10.04.2024', '20.04.2024', '30.04.2024']
+  },
+  '1Y': { 
+    values: [800000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], 
+    dates: ['01.05.2023', '01.07.2023', '01.09.2023', '01.11.2023', '01.01.2024', '01.02.2024', '01.03.2024', '01.04.2024', '10.04.2024', '15.04.2024', '25.04.2024', '30.04.2024']
+  },
+  '3Y': { 
+    values: [600000, 800000, 700000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], 
+    dates: ['01.05.2021', '01.01.2022', '01.07.2022', '01.01.2023', '01.04.2023', '01.07.2023', '01.10.2023', '01.01.2024', '01.02.2024', '01.03.2024', '10.04.2024', '15.04.2024', '25.04.2024', '30.04.2024']
+  },
+  'ALL': { 
+    values: [400000, 600000, 500000, 800000, 700000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], 
+    dates: ['01.01.2020', '01.07.2020', '01.01.2021', '01.07.2021', '01.01.2022', '01.07.2022', '01.01.2023', '01.04.2023', '01.07.2023', '01.10.2023', '01.01.2024', '01.02.2024', '01.03.2024', '10.04.2024', '20.04.2024', '30.04.2024']
+  }
 };
 
 // Текущее значение портфеля
@@ -137,7 +181,32 @@ const chartOptions = computed(() => ({
     zoom: { enabled: false },
     events: {
       dataPointSelection: (event, chartContext, config) => {
-        selectedBarIndex.value = selectedBarIndex.value === config.dataPointIndex ? -1 : config.dataPointIndex;
+        const clickedIndex = config.dataPointIndex;
+        
+        if (selectedBarIndex.value === clickedIndex) {
+          // Если кликнули на уже выбранный бар - скрываем тултип
+          selectedBarIndex.value = -1;
+          tooltipData.value.show = false;
+        } else {
+          // Показываем тултип для нового бара
+          selectedBarIndex.value = clickedIndex;
+          
+          const currentData = chartData[activePeriod.value];
+          const value = currentData.values[clickedIndex];
+          const date = currentData.dates[clickedIndex];
+          
+          // Вычисляем позицию тултипа над баром
+          const chartWidth = chartContext.el.clientWidth;
+          const barWidth = chartWidth / currentData.values.length;
+          const barCenterX = (clickedIndex + 0.5) * barWidth;
+          
+          tooltipData.value = {
+            show: true,
+            value: new Intl.NumberFormat('ru-RU').format(value) + ' ₽',
+            date: date,
+            position: { x: barCenterX, y: 20 }
+          };
+        }
       }
     }
   },
@@ -198,7 +267,7 @@ const chartOptions = computed(() => ({
     
     // Если есть выбранный столбец, выделяем его primary цветом
     if (selectedBarIndex.value >= 0) {
-      colors[selectedBarIndex.value] = '#6366F1'; // $primary-500
+      colors[selectedBarIndex.value] = '#1B43E5'; // $primary-500
     }
     
     return colors;
@@ -256,11 +325,7 @@ const chartOptions = computed(() => ({
     yaxis: { lines: { show: true } }
   },
   tooltip: {
-    enabled: true,
-    theme: 'light',
-    y: {
-      formatter: (value) => new Intl.NumberFormat('ru-RU').format(value) + ' ₽'
-    }
+    enabled: false
   }
 }));
 
@@ -347,7 +412,46 @@ const metrics = computed(() => [
           &-container {
         margin: 0;
         height: 234px;
+        position: relative;
       }
+  }
+
+  &__tooltip {
+    position: absolute;
+    background: $gray-950;
+    color: $gray-0;
+    border-radius: $radius-lg;
+    padding: $space-s $space-m;
+    z-index: 10;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 120px;
+
+    &-value {
+      font-size: $font-size-body;
+      font-weight: $font-weight-semibold;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    &-date {
+      font-size: $font-size-small;
+      color: rgba($gray-0, 0.8);
+      margin-top: 2px;
+      text-align: center;
+    }
+
+    &-arrow {
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid $gray-950;
+    }
   }
 
   &__periods {
