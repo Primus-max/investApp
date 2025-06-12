@@ -17,7 +17,7 @@
           :options="chartOptions"
           :series="chartSeries"
           width="100%"
-          height="100%"
+          height="180"
         />
       </div>
       
@@ -89,13 +89,13 @@ const periods = [
   { label: 'ВСЕ', value: 'ALL' }
 ];
 
-// Моковые данные для графика
+// Моковые данные для графика (как в макете)
 const chartData = {
-  '1M': { values: [1800000, 1820000, 1810000, 1837471, 1845000, 1830000, 1837471], dates: [] },
-  '6M': { values: [1500000, 1600000, 1550000, 1650000, 1700000, 1750000, 1800000, 1820000, 1810000, 1837471], dates: [] },
-  '1Y': { values: [1200000, 1300000, 1400000, 1500000, 1600000, 1550000, 1650000, 1700000, 1750000, 1800000, 1820000, 1837471], dates: [] },
-  '3Y': { values: [800000, 900000, 1000000, 1100000, 1200000, 1300000, 1400000, 1500000, 1600000, 1650000, 1700000, 1750000, 1800000, 1837471], dates: [] },
-  'ALL': { values: [500000, 600000, 700000, 800000, 900000, 1000000, 1100000, 1200000, 1300000, 1400000, 1500000, 1600000, 1700000, 1800000, 1837471], dates: [] }
+  '1M': { values: [1200000, 1400000, 1300000, 1600000, 1500000, 1700000, 1837471], dates: [] },
+  '6M': { values: [1000000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], dates: [] },
+  '1Y': { values: [800000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], dates: [] },
+  '3Y': { values: [600000, 800000, 700000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], dates: [] },
+  'ALL': { values: [400000, 600000, 500000, 800000, 700000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], dates: [] }
 };
 
 // Текущее значение портфеля
@@ -121,16 +121,52 @@ const chartSeries = computed(() => [
 const chartOptions = computed(() => ({
   chart: {
     type: 'bar',
-    height: 200,
+    height: 180,
     toolbar: { show: false },
     background: 'transparent',
     parentHeightOffset: 0,
     zoom: { enabled: false }
   },
+  annotations: {
+    xaxis: [
+      {
+        x: 0.5,
+        strokeDashArray: 0,
+        borderColor: 'transparent',
+        label: {
+          borderColor: 'transparent',
+          style: {
+            color: '#9CA3AF',
+            background: 'transparent',
+            fontSize: '12px'
+          },
+          text: '2024',
+          position: 'top',
+          offsetY: -10
+        }
+      },
+      {
+        x: chartData[activePeriod.value].values.length - 0.5,
+        strokeDashArray: 0,
+        borderColor: 'transparent',
+        label: {
+          borderColor: 'transparent',
+          style: {
+            color: '#9CA3AF',
+            background: 'transparent',
+            fontSize: '12px'
+          },
+          text: '2025',
+          position: 'top',
+          offsetY: -10
+        }
+      }
+    ]
+  },
   plotOptions: {
     bar: {
-      columnWidth: '60%',
-      borderRadius: 4,
+      columnWidth: '70%',
+      borderRadius: 2,
       distributed: true,
       dataLabels: {
         position: 'top'
@@ -140,7 +176,13 @@ const chartOptions = computed(() => ({
   dataLabels: {
     enabled: false
   },
-  colors: ['#E5E7EB', '#E5E7EB', '#E5E7EB', '#E5E7EB', '#E5E7EB', '#E5E7EB', '#3B82F6', '#E5E7EB', '#E5E7EB', '#E5E7EB'],
+  colors: computed(() => {
+    const data = chartData[activePeriod.value].values;
+    const colors = new Array(data.length).fill('#D1D5DB');
+    // Выделяем предпоследний столбец синим (как в макете)
+    colors[data.length - 2] = '#3B82F6';
+    return colors;
+  }).value,
   stroke: {
     show: false
   },
@@ -151,13 +193,12 @@ const chartOptions = computed(() => ({
     show: false
   },
   xaxis: {
-    categories: ['2024', '', '', '', '', '', '', '', '', '2025'],
+    categories: computed(() => {
+      const data = chartData[activePeriod.value].values;
+      return new Array(data.length).fill('');
+    }).value,
     labels: { 
-      show: true,
-      style: {
-        colors: '#9CA3AF',
-        fontSize: '12px'
-      }
+      show: false
     },
     axisBorder: { show: false },
     axisTicks: { show: false },
@@ -170,21 +211,26 @@ const chartOptions = computed(() => ({
       show: true,
       style: {
         colors: '#9CA3AF',
-        fontSize: '12px'
+        fontSize: '11px'
       },
       formatter: (value) => {
         if (value >= 1000000) {
           return (value / 1000000).toFixed(1) + 'м'
+        } else if (value >= 1000) {
+          return (value / 1000).toFixed(0) + 'к'
         }
-        return value.toLocaleString()
+        return value.toString()
       }
     },
     axisBorder: { show: false },
-    axisTicks: { show: false }
+    axisTicks: { show: false },
+    min: 0,
+    max: 2500000,
+    tickAmount: 5
   },
   grid: {
     show: true,
-    borderColor: '#F3F4F6',
+    borderColor: '#E5E7EB',
     strokeDashArray: 0,
     xaxis: { lines: { show: false } },
     yaxis: { lines: { show: true } }
@@ -277,19 +323,16 @@ const metrics = computed(() => [
       margin-top: $space-xs;
     }
 
-    &-container {
-      margin: $space-l 0;      
-      border-radius: $radius-lg;      
-    }
+          &-container {
+        margin: 0;
+        height: 180px;
+      }
   }
 
   &__periods {
     display: flex;
     gap: $space-xs;
     justify-content: space-between;
-    background: $gray-50;
-    border-radius: $radius-lg;
-    padding: $space-xs;
   }
 
   &__period {
@@ -305,13 +348,13 @@ const metrics = computed(() => [
     transition: all 0.2s;
 
     &--active {
-      background: $gray-0;
+      background: $gray-100;
       color: $gray-950;
-      box-shadow: $shadow-main;
+      border-radius: $radius-lg;
     }
 
     &:hover:not(&--active) {
-      background: rgba($gray-100, 0.5);
+      background: rgba($gray-100, 0.3);
     }
   }
 
