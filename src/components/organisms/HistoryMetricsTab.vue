@@ -2,7 +2,7 @@
   <div class="history-metrics">
     <!-- График доходности -->
     <div class="history-metrics__chart">
-      <div class="history-metrics__chart-header">
+      <!-- <div class="history-metrics__chart-header">
         <div class="history-metrics__chart-value">
           {{ formattedCurrentValue }}
         </div>
@@ -10,13 +10,14 @@
           {{ currentDate }}
         </div>
       </div>
-      
+       -->
       <div class="history-metrics__chart-container">
         <ApexChart
-          type="area"
+          type="bar"
           :options="chartOptions"
           :series="chartSeries"
-          height="200"
+          width="100%"
+          height="100%"
         />
       </div>
       
@@ -119,60 +120,72 @@ const chartSeries = computed(() => [
 // Настройки графика
 const chartOptions = computed(() => ({
   chart: {
-    type: 'area',
+    type: 'bar',
     height: 200,
     toolbar: { show: false },
     background: 'transparent',
     parentHeightOffset: 0,
     zoom: { enabled: false }
   },
+  plotOptions: {
+    bar: {
+      columnWidth: '60%',
+      borderRadius: 4,
+      distributed: true,
+      dataLabels: {
+        position: 'top'
+      }
+    }
+  },
   dataLabels: {
     enabled: false
   },
-  colors: ['#3b82f6'],
+  colors: ['#E5E7EB', '#E5E7EB', '#E5E7EB', '#E5E7EB', '#E5E7EB', '#E5E7EB', '#3B82F6', '#E5E7EB', '#E5E7EB', '#E5E7EB'],
   stroke: {
-    curve: 'smooth',
-    width: 3
+    show: false
   },
   fill: {
-    type: 'gradient',
-    gradient: {
-      shade: 'light',
-      type: 'vertical',
-      opacityFrom: 0.4,
-      opacityTo: 0.1,
-      colorStops: [{
-        offset: 0,
-        color: '#3b82f6',
-        opacity: 0.4
-      }, {
-        offset: 100,
-        color: '#3b82f6',
-        opacity: 0.1
-      }]
-    }
+    opacity: 1
   },
-  markers: {
-    size: 4,
-    colors: ['#3b82f6'],
-    strokeColors: '#fff',
-    strokeWidth: 2,
-    hover: {
-      size: 6
-    }
+  legend: {
+    show: false
   },
   xaxis: {
-    labels: { show: false },
+    categories: ['2024', '', '', '', '', '', '', '', '', '2025'],
+    labels: { 
+      show: true,
+      style: {
+        colors: '#9CA3AF',
+        fontSize: '12px'
+      }
+    },
+    axisBorder: { show: false },
+    axisTicks: { show: false },
+    crosshairs: {
+      show: false
+    }
+  },
+  yaxis: {
+    labels: {
+      show: true,
+      style: {
+        colors: '#9CA3AF',
+        fontSize: '12px'
+      },
+      formatter: (value) => {
+        if (value >= 1000000) {
+          return (value / 1000000).toFixed(1) + 'м'
+        }
+        return value.toLocaleString()
+      }
+    },
     axisBorder: { show: false },
     axisTicks: { show: false }
   },
-  yaxis: {
-    show: false
-  },
   grid: {
     show: true,
-    borderColor: '#f1f5f9',
-    strokeDashArray: 3,
+    borderColor: '#F3F4F6',
+    strokeDashArray: 0,
     xaxis: { lines: { show: false } },
     yaxis: { lines: { show: true } }
   },
@@ -241,13 +254,12 @@ const metrics = computed(() => [
   display: flex;
   flex-direction: column;
   gap: $space-l;
+  background: $gray-0;
+  border-radius: $radius-xl;
+  padding: $space-l;
+  margin: 0 $space-m;
 
-  &__chart {
-    background: $gray-0;
-    border-radius: $radius-xl;
-    padding: $space-l;
-    margin: 0 (-$space-m);
-
+  &__chart {    
     &-header {
       margin-bottom: $space-l;
     }
@@ -266,7 +278,8 @@ const metrics = computed(() => [
     }
 
     &-container {
-      margin: $space-l 0;
+      margin: $space-l 0;      
+      border-radius: $radius-lg;      
     }
   }
 
