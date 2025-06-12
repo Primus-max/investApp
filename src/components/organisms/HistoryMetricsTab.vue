@@ -195,29 +195,27 @@ const chartOptions = computed(() => ({
           const value = currentData.values[clickedIndex];
           const date = currentData.dates[clickedIndex];
           
-          // Вычисляем позицию тултипа над баром с учетом отступов
-          const chartElement = chartContext.el;
-          const svgElement = chartElement.querySelector('svg');
-          const plotGroup = svgElement.querySelector('.apexcharts-inner');
-          
-          // Получаем реальные размеры области графика
-          const svgRect = svgElement.getBoundingClientRect();
-          const chartRect = chartElement.getBoundingClientRect();
-          
-          // Приблизительные отступы (обычно ApexCharts оставляет ~50-60px слева для Y-axis)
-          const leftPadding = 50;
-          const rightPadding = 20;
-          const plotWidth = svgRect.width - leftPadding - rightPadding;
-          
-          const barWidth = plotWidth / currentData.values.length;
-          const barCenterX = leftPadding + (clickedIndex * barWidth) + (barWidth / 2);
-          
-          tooltipData.value = {
-            show: true,
-            value: new Intl.NumberFormat('ru-RU').format(value) + ' ₽',
-            date: date,
-            position: { x: barCenterX, y: 20 }
-          };
+          // Получаем точную позицию бара через DOM элементы
+          setTimeout(() => {
+            const chartElement = chartContext.el;
+            const svgElement = chartElement.querySelector('svg');
+            const barElements = svgElement.querySelectorAll('.apexcharts-bar-area');
+            
+            if (barElements[clickedIndex]) {
+              const barElement = barElements[clickedIndex];
+              const barRect = barElement.getBoundingClientRect();
+              const chartRect = chartElement.getBoundingClientRect();
+              
+              const barCenterX = barRect.left + (barRect.width / 2) - chartRect.left;
+              
+              tooltipData.value = {
+                show: true,
+                value: new Intl.NumberFormat('ru-RU').format(value) + ' ₽',
+                date: date,
+                position: { x: barCenterX, y: 20 }
+              };
+            }
+          }, 50);
         }
       }
     }
