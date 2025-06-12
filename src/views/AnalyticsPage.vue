@@ -36,11 +36,13 @@
 
         <section class="page__body">
             <div class="page__body-tabs">
+                <span class="page__body-tabs-left-margin"></span>
                 <AppPillButton v-for="(tab, index) in tabs" :key="tab.name"
                     :class="['page__body-tab', { 'page__body-tab--active': activeTab === index }]"
                     @click="activeTab = index">
                     {{ tab.name }}
                 </AppPillButton>
+                <span class="page__body-tabs-right-margin"></span>
             </div>
             <div class="page__body-header">
                 <h1 class="page__body-header-title">Виджеты</h1>
@@ -272,25 +274,24 @@ function cancelGoalEdit() {
             justify-content: space-between;            
         }
     }
-    &__body{
-        overflow: hidden;
+    &__body{       
         
         &-tabs{
+            width: 120% !important;
             display: flex;
             flex-direction: row;
             gap: $space-m;
             padding: 0 $space-m;
             margin-bottom: $space-l;
-            margin-top: 16px;
-            padding-left: 42px;
-            padding-right: 60px;
+            margin-top: 16px;           
             overflow-x: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
             
+            
             &::-webkit-scrollbar {
                 display: none;
-            }
+            }         
         }
         &-tab {            
             display: flex;
