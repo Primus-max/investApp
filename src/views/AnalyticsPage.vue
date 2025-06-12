@@ -11,8 +11,9 @@
                         <div class="page__header-stats-info">
                             <div class="page__header-stats-title">{{ portfolio?.name || 'Консервативный' }}</div>
                             <div class="page__header-goal-title">
-                                <input v-if="isEditingGoal" v-model="editedGoal" @blur="saveGoalEdit" @keyup.enter="saveGoalEdit"
-                                    @keyup.escape="cancelGoalEdit" class="page__header-edit-input" ref="goalInput" />
+                                <input v-if="isEditingGoal" v-model="editedGoal" @blur="saveGoalEdit"
+                                    @keyup.enter="saveGoalEdit" @keyup.escape="cancelGoalEdit"
+                                    class="page__header-edit-input" ref="goalInput" />
                                 <span v-else>{{ investmentGoal }}</span>
                                 <Edit01 :color="'#fff'" class="page__header-edit" @click="startGoalEdit" />
                             </div>
@@ -44,42 +45,21 @@
                 </AppPillButton>
                 <span class="page__body-tabs-right-margin"></span>
             </div>
-            <div class="page__body-header">
-                <h1 class="page__body-header-title">Виджеты</h1>
-                <div class="page__body-header-edit-mode">
-                    <template v-if="!editMode">
-                        <button class="page__body-header-button" @click="editMode = true">
-                            <Edit01 class="page__body-header-button-icon" />
-                        </button>
-                    </template>
-                    <template v-else>
-                        <PlusButtonAtom />
-                        <button class="page__body-header-done" @click="editMode = false">
-                            Готов
-                        </button>
-                    </template>
-                </div>
-            </div>
-
-      
-            <section v-if="!isNotData" class="page__body-analytics">             
-                <div class="page__body-analytics-content">
-                    <!-- Здесь будет контент аналитики согласно макету -->
-                    <div class="analytics-placeholder">
-                        Контент аналитики будет добавлен согласно макету
-                    </div>
-                </div>
-            </section>
-            <div v-else class="page__body-analytics-empty">
-                <AppPillButton>
-                    <template #default>
-                        <div class="page__body-analytics-empty-button">
-                            <IconChartRing class="page__body-analytics-empty-button-icon" />
-                            <span class="page__body-analytics-empty-button-label">Построить аналитику</span>
-                        </div>
-                    </template>
-                </AppPillButton>
-            </div>
+                          <!-- Контент вкладок -->
+              <div class="page__body-content">
+                  <HistoryMetricsTab 
+                      v-if="activeTab === 0"
+                      :portfolio-data="portfolio"
+                  />
+                  <div v-else-if="activeTab === 1" class="tab-placeholder">
+                      <h3>Структура портфеля</h3>
+                      <p>Содержимое вкладки "Структура" будет добавлено позже</p>
+                  </div>
+                  <div v-else-if="activeTab === 2" class="tab-placeholder">
+                      <h3>Ближайшие выплаты</h3>
+                      <p>Содержимое вкладки "Ближайшие выплаты" будет добавлено позже</p>
+                  </div>
+              </div>
         </section>
     </MainLayout>
 </template>
@@ -108,6 +88,7 @@ import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
 import ProgressBar from '@/components/atoms/ProgressBar.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
+import HistoryMetricsTab from '@/components/organisms/HistoryMetricsTab.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 import { usePortfoliosStore } from '@/stores/portfolios.js';
 
@@ -243,69 +224,80 @@ function cancelGoalEdit() {
             line-height: 22px;
             opacity: 0.6;
         }
-        &-stats-info{
+
+        &-stats-info {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             gap: 5px;
-        }        
-        &-goal-title{           
+        }
+
+        &-goal-title {
             font-size: 20px;
             font-weight: $font-weight-medium;
             display: flex;
             align-items: center;
             gap: 8px;
         }
+
         &-edit {
             color: rgba(255, 255, 255, 0.6);
             cursor: pointer;
             width: 16px;
             height: 16px;
         }
-        &-badge-current-amount{
+
+        &-badge-current-amount {
             font-size: 16px;
             font-weight: $font-weight-medium;
             color: $gray-0;
             line-height: 22px;
         }
-        &-badge-row{
+
+        &-badge-row {
             display: flex;
             flex-direction: row;
-            justify-content: space-between;            
+            justify-content: space-between;
         }
     }
-    &__body{       
-        
-        &-tabs{
+
+    &__body {
+        &-header{
+            margin-top: 0;
+        }
+
+        &-tabs {
             width: 120% !important;
+            
             display: flex;
             flex-direction: row;
             gap: $space-m;
             padding: 0 $space-m;
             margin-bottom: $space-l;
-            margin-top: 16px;           
+            margin-top: 16px;
             overflow-x: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
-            
-            
+
+
             &::-webkit-scrollbar {
                 display: none;
-            }         
+            }
         }
-        &-tab {            
+
+        &-tab {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
             padding: 12px 16px;
             gap: 6px;
-            width: auto;            
+            width: auto;
             background: $gray-100 !important;
             border-radius: $radius-lg !important;
             flex: none;
             flex-grow: 0;
-            
+
             font-family: $font-main !important;
             font-style: normal;
             font-weight: $font-weight-semibold !important;
@@ -329,7 +321,7 @@ function cancelGoalEdit() {
             &--active:hover {
                 background: $gray-0 !important;
             }
-            
+
             // Сброс стилей для deep селекторов
             :deep(*) {
                 color: inherit !important;
@@ -337,8 +329,35 @@ function cancelGoalEdit() {
                 font-size: inherit !important;
                 font-weight: inherit !important;
             }
-        }
-    }
+                         &-header-title{
+                 font-size: 22px;                
+             }
+         }
+
+         &-content {
+             margin-top: $space-l;
+         }
+     }
+ }
+
+ .tab-placeholder {
+     text-align: center;
+     padding: $space-xl;
+     background: $gray-50;
+     border-radius: $radius-lg;
+     
+     h3 {
+         font-size: $font-size-h3;
+         font-weight: $font-weight-semibold;
+         color: $gray-700;
+         margin-bottom: $space-s;
+     }
+     
+     p {
+         font-size: $font-size-body;
+         color: $gray-500;
+         margin: 0;
+     }
 }
 
 .page__header-edit-input {
