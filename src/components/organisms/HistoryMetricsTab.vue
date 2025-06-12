@@ -11,25 +11,43 @@
         </div>
       </div>
        -->
-      <div class="history-metrics__chart-container">
-        <ApexChart
-          type="bar"
-          :options="chartOptions"
-          :series="chartSeries"
-          width="100%"
-          height="234"
-        />
+
+
+              <!-- Подписи годов сверху -->
+        <div class="history-metrics__year-labels">
+          <!-- Год заголовки -->
+          <div 
+            v-for="(group, index) in getXAxisGroups" 
+            :key="group.year"
+            class="history-metrics__year-label"
+            :style="{
+              left: `${40 + (group.startIndex / chartData[activePeriod].values.length) * 280 + (group.cols / chartData[activePeriod].values.length) * 140}px`
+            }"
+          >
+            {{ group.title }}
+          </div>
+          
+          <!-- Вертикальные разделители между годами -->
+          <div 
+            v-for="(group, index) in getXAxisGroups" 
+            v-if="index > 0"
+            :key="`divider-${group.year}`"
+            class="history-metrics__year-divider"
+            :style="{
+              left: `${40 + (group.startIndex / chartData[activePeriod].values.length) * 280}px`
+            }"
+          ></div>
+        </div>
         
-        <!-- Кастомный тултип -->
-        <div 
-          v-if="tooltipData.show"
-          class="history-metrics__tooltip"
-          :style="{
-            left: `${tooltipData.position.x}px`,
-            top: `${tooltipData.position.y}px`,
-            transform: 'translateX(-50%)'
-          }"
-        >
+        <div class="history-metrics__chart-container">
+          <ApexChart type="bar" :options="chartOptions" :series="chartSeries" width="100%" height="234" />
+          
+          <!-- Кастомный тултип -->
+        <div v-if="tooltipData.show" class="history-metrics__tooltip" :style="{
+          left: `${tooltipData.position.x}px`,
+          top: `${tooltipData.position.y}px`,
+          transform: 'translateX(-50%)'
+        }">
           <div class="history-metrics__tooltip-value">
             {{ tooltipData.value }}
           </div>
@@ -39,16 +57,15 @@
           <!-- Стрелка указатель -->
           <div class="history-metrics__tooltip-arrow"></div>
         </div>
+
+
       </div>
-      
+
       <!-- Периоды фильтрации -->
       <div class="history-metrics__periods">
-        <button
-          v-for="period in periods"
-          :key="period.value"
+        <button v-for="period in periods" :key="period.value"
           :class="['history-metrics__period', { 'history-metrics__period--active': activePeriod === period.value }]"
-          @click="activePeriod = period.value"
-        >
+          @click="activePeriod = period.value">
           {{ period.label }}
         </button>
       </div>
@@ -59,11 +76,7 @@
       <div class="history-metrics__stat" v-for="metric in metrics" :key="metric.label">
         <div class="history-metrics__stat-label">
           {{ metric.label }}
-          <component
-            v-if="metric.icon"
-            :is="metric.icon"
-            class="history-metrics__stat-icon"
-          />
+          <component v-if="metric.icon" :is="metric.icon" class="history-metrics__stat-icon" />
         </div>
         <div class="history-metrics__stat-value" :class="metric.colorClass">
           {{ metric.value }}
@@ -89,7 +102,7 @@ import {
 
 import ApexChart from 'vue3-apexcharts';
 
-import IconInfo from '@/components/atoms/icons/IconInfo.vue';
+import IconHelpCircle from '@/components/atoms/icons/IconHelpCircle.vue';
 
 const props = defineProps({
   portfolioData: {
@@ -129,24 +142,24 @@ const periods = [
 
 // Моковые данные для графика (как в макете)
 const chartData = {
-  '1M': { 
-    values: [1200000, 1400000, 1300000, 1600000, 1500000, 1700000, 1837471], 
+  '1M': {
+    values: [1200000, 1400000, 1300000, 1600000, 1500000, 1700000, 1837471],
     dates: ['01.04.2024', '05.04.2024', '10.04.2024', '15.04.2024', '20.04.2024', '25.04.2024', '30.04.2024']
   },
-  '6M': { 
-    values: [1000000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], 
+  '6M': {
+    values: [1000000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471],
     dates: ['01.01.2024', '15.01.2024', '01.02.2024', '15.02.2024', '01.03.2024', '15.03.2024', '01.04.2024', '10.04.2024', '20.04.2024', '30.04.2024']
   },
-  '1Y': { 
-    values: [800000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], 
+  '1Y': {
+    values: [800000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471],
     dates: ['01.05.2023', '01.07.2023', '01.09.2023', '01.11.2023', '01.01.2024', '01.02.2024', '01.03.2024', '01.04.2024', '10.04.2024', '15.04.2024', '25.04.2024', '30.04.2024']
   },
-  '3Y': { 
-    values: [600000, 800000, 700000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], 
-    dates: ['01.05.2021', '01.01.2022', '01.07.2022', '01.01.2023', '01.04.2023', '01.07.2023', '01.10.2023', '01.01.2024', '01.02.2024', '01.03.2024', '10.04.2024', '15.04.2024', '25.04.2024', '30.04.2024']
+  '3Y': {
+    values: [600000, 800000, 700000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471],
+    dates: ['01.05.2021', '01.01.2022', '01.07.2022', '01.01.2023', '01.04.2023', '01.07.2023', '01.10.2023', '01.01.2024', '01.02.2024', '01.03.2024', '01.04.2024', '15.04.2024', '25.04.2024', '30.04.2024']
   },
-  'ALL': { 
-    values: [400000, 600000, 500000, 800000, 700000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471], 
+  'ALL': {
+    values: [400000, 600000, 500000, 800000, 700000, 1000000, 900000, 1200000, 1100000, 1400000, 1300000, 1600000, 1500000, 1800000, 1700000, 1837471],
     dates: ['01.01.2020', '01.07.2020', '01.01.2021', '01.07.2021', '01.01.2022', '01.07.2022', '01.01.2023', '01.04.2023', '01.07.2023', '01.10.2023', '01.01.2024', '01.02.2024', '01.03.2024', '10.04.2024', '20.04.2024', '30.04.2024']
   }
 };
@@ -160,6 +173,51 @@ const formattedCurrentValue = computed(() => {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
   }).format(currentValue.value) + ' ₽';
+});
+
+// Группировка по годам для xaxis
+const getXAxisGroups = computed(() => {
+  const period = activePeriod.value;
+  const currentData = chartData[period];
+  
+  if (!currentData.dates.length) return [];
+  
+  // Создаем группы по годам
+  const groups = [];
+  let currentYear = null;
+  let currentStartIndex = 0;
+  
+  currentData.dates.forEach((date, index) => {
+    const year = date.split('.')[2];
+    
+    if (currentYear !== year) {
+      // Если это не первый год, завершаем предыдущую группу
+      if (currentYear !== null) {
+        groups.push({
+          title: currentYear,
+          year: currentYear,
+          startIndex: currentStartIndex,
+          cols: index - currentStartIndex
+        });
+      }
+      
+      // Начинаем новую группу
+      currentYear = year;
+      currentStartIndex = index;
+    }
+  });
+  
+  // Завершаем последнюю группу
+  if (currentYear !== null) {
+    groups.push({
+      title: currentYear,
+      year: currentYear,
+      startIndex: currentStartIndex,
+      cols: currentData.dates.length - currentStartIndex
+    });
+  }
+  
+  return groups;
 });
 
 // Серии данных для графика
@@ -182,7 +240,7 @@ const chartOptions = computed(() => ({
     events: {
       dataPointSelection: (event, chartContext, config) => {
         const clickedIndex = config.dataPointIndex;
-        
+
         if (selectedBarIndex.value === clickedIndex) {
           // Если кликнули на уже выбранный бар - скрываем тултип
           selectedBarIndex.value = -1;
@@ -190,24 +248,24 @@ const chartOptions = computed(() => ({
         } else {
           // Показываем тултип для нового бара
           selectedBarIndex.value = clickedIndex;
-          
+
           const currentData = chartData[activePeriod.value];
           const value = currentData.values[clickedIndex];
           const date = currentData.dates[clickedIndex];
-          
+
           // Получаем точную позицию бара через DOM элементы
           setTimeout(() => {
             const chartElement = chartContext.el;
             const svgElement = chartElement.querySelector('svg');
             const barElements = svgElement.querySelectorAll('.apexcharts-bar-area');
-            
+
             if (barElements[clickedIndex]) {
               const barElement = barElements[clickedIndex];
               const barRect = barElement.getBoundingClientRect();
               const chartRect = chartElement.getBoundingClientRect();
-              
+
               const barCenterX = barRect.left + (barRect.width / 2) - chartRect.left;
-              
+
               tooltipData.value = {
                 show: true,
                 value: new Intl.NumberFormat('ru-RU').format(value) + ' ₽',
@@ -220,44 +278,9 @@ const chartOptions = computed(() => ({
       }
     }
   },
-  annotations: {
-    xaxis: [
-      {
-        x: 0,
-        strokeDashArray: 0,
-        borderColor: 'transparent',
-        label: {
-          borderColor: 'transparent',
-          style: {
-            color: '#9CA3AF',
-            background: 'transparent',
-            fontSize: '12px'
-          },
-          // text: '2024',
-          position: 'top',
-          offsetY: 0,
-          offsetX: 0
-        }
-      },
-      {
-        x: chartData[activePeriod.value].values.length - 1,
-        strokeDashArray: 0,
-        borderColor: 'transparent',
-        label: {
-          borderColor: 'transparent',
-          style: {
-            color: '#9CA3AF',
-            background: 'transparent',
-            fontSize: '12px'
-          },
-          // text: '2025',
-          position: 'top',
-          offsetY: 0,
-          offsetX: 0
-        }
-      }
-    ]
-  },
+      annotations: {
+      xaxis: []
+    },
   plotOptions: {
     bar: {
       columnWidth: '60%',
@@ -274,12 +297,12 @@ const chartOptions = computed(() => ({
   colors: computed(() => {
     const data = chartData[activePeriod.value].values;
     const colors = new Array(data.length).fill('#D1D5DB');
-    
+
     // Если есть выбранный столбец, выделяем его primary цветом
     if (selectedBarIndex.value >= 0) {
       colors[selectedBarIndex.value] = '#6366F1'; // $primary-500
     }
-    
+
     return colors;
   }).value,
   stroke: {
@@ -291,7 +314,7 @@ const chartOptions = computed(() => ({
   legend: {
     show: false
   },
-  xaxis: {
+    xaxis: {
     categories: computed(() => {
       const data = chartData[activePeriod.value].values;
       return new Array(data.length).fill('');
@@ -345,7 +368,7 @@ const metrics = computed(() => [
     label: 'Доходность',
     value: '+ 2 345 461 ₽',
     colorClass: 'history-metrics__stat-value--positive',
-    icon: IconInfo
+    icon: IconHelpCircle
   },
   {
     label: 'Прибыль',
@@ -371,19 +394,19 @@ const metrics = computed(() => [
     label: 'Издержки',
     value: '- 5 461 ₽',
     colorClass: 'history-metrics__stat-value--negative',
-    icon: IconInfo
+    icon: IconHelpCircle
   },
   {
     label: 'Среднегодовая доходность',
     value: '+ 34%',
     colorClass: 'history-metrics__stat-value--positive',
-    icon: IconInfo
+    icon: IconHelpCircle
   },
   {
     label: 'Риск',
     value: 'Средний',
     colorClass: 'history-metrics__stat-value--warning',
-    icon: IconInfo
+    icon: IconHelpCircle
   }
 ]);
 </script>
@@ -401,7 +424,7 @@ const metrics = computed(() => [
   padding: 0 4px;
   margin: 0;
 
-  &__chart {    
+  &__chart {
     &-header {
       margin-bottom: $space-l;
     }
@@ -419,11 +442,11 @@ const metrics = computed(() => [
       margin-top: $space-xs;
     }
 
-          &-container {
-        margin: 0;
-        height: 234px;
-        position: relative;
-      }
+    &-container {
+      margin: 0;
+      height: 234px;
+      position: relative;
+    }
   }
 
   &__tooltip {
@@ -462,6 +485,41 @@ const metrics = computed(() => [
       border-right: 6px solid transparent;
       border-top: 6px solid $gray-950;
     }
+  }
+
+  &__year-labels {
+    position: relative;
+    height: 25px;
+    margin-bottom: $space-xs;
+  }
+
+  &__year-label {
+    position: absolute;
+    top: 0;
+    font-size: $font-size-small;
+    color: $gray-600;
+    font-weight: $font-weight-medium;
+    text-align: center;
+    line-height: 20px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  &__year-divider {
+    position: absolute;
+    top: 25px;
+    height: 240px;
+    width: 2px;
+    background: $gray-300;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      $gray-300 0px,
+      $gray-300 3px,
+      transparent 3px,
+      transparent 6px
+    );
+    pointer-events: none;
+    z-index: 1;
   }
 
   &__periods {
@@ -503,7 +561,7 @@ const metrics = computed(() => [
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: $space-s 0;
+    padding: 0 12px;
 
     &-label {
       display: flex;
@@ -543,6 +601,7 @@ const metrics = computed(() => [
 
     &-button {
       width: 100%;
+      margin-bottom: 12px;
       background: $gray-100;
       border: none;
       border-radius: $radius-lg;
