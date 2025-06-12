@@ -195,10 +195,22 @@ const chartOptions = computed(() => ({
           const value = currentData.values[clickedIndex];
           const date = currentData.dates[clickedIndex];
           
-          // Вычисляем позицию тултипа над баром
-          const chartWidth = chartContext.el.clientWidth;
-          const barWidth = chartWidth / currentData.values.length;
-          const barCenterX = (clickedIndex + 0.5) * barWidth;
+          // Вычисляем позицию тултипа над баром с учетом отступов
+          const chartElement = chartContext.el;
+          const svgElement = chartElement.querySelector('svg');
+          const plotGroup = svgElement.querySelector('.apexcharts-inner');
+          
+          // Получаем реальные размеры области графика
+          const svgRect = svgElement.getBoundingClientRect();
+          const chartRect = chartElement.getBoundingClientRect();
+          
+          // Приблизительные отступы (обычно ApexCharts оставляет ~50-60px слева для Y-axis)
+          const leftPadding = 50;
+          const rightPadding = 20;
+          const plotWidth = svgRect.width - leftPadding - rightPadding;
+          
+          const barWidth = plotWidth / currentData.values.length;
+          const barCenterX = leftPadding + (clickedIndex * barWidth) + (barWidth / 2);
           
           tooltipData.value = {
             show: true,
@@ -267,7 +279,7 @@ const chartOptions = computed(() => ({
     
     // Если есть выбранный столбец, выделяем его primary цветом
     if (selectedBarIndex.value >= 0) {
-      colors[selectedBarIndex.value] = '#1B43E5'; // $primary-500
+      colors[selectedBarIndex.value] = '#6366F1'; // $primary-500
     }
     
     return colors;
