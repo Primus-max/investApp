@@ -11,8 +11,10 @@
                         <div class="page__header-stats-info">
                             <div class="page__header-stats-title">{{ portfolio?.name || 'Консервативный' }}</div>
                             <div class="page__header-goal-title">
-                                <span>Цель инвестирования</span>
-                                <Edit01 :color="'#fff'" class="page__header-edit" />
+                                <input v-if="isEditingGoal" v-model="editedGoal" @blur="saveGoalEdit" @keyup.enter="saveGoalEdit"
+                                    @keyup.escape="cancelGoalEdit" class="page__header-edit-input" ref="goalInput" />
+                                <span v-else>{{ investmentGoal }}</span>
+                                <Edit01 :color="'#fff'" class="page__header-edit" @click="startGoalEdit" />
                             </div>
                             <div class="page__header-stats-value-row">
                                 <span class="page__header-stats-value">5 000 000</span>
@@ -25,7 +27,7 @@
                         <ProgressBar :progress="goalProgress" size="medium" color="primary" />
                     </div>
                     <div class="page__header-badge-row">
-                        <span class="page__header-badge">{{ currentAmount }} / {{ targetAmount }}</span>
+                        <span class="page__header-badge-current-amount">{{ currentAmount }} / {{ targetAmount }}</span>
                         <span class="page__header-badge-period">до {{ goalDeadline }}</span>
                     </div>
                 </div>
@@ -34,11 +36,11 @@
 
         <section class="page__body">
             <div class="page__body-tabs">
-                <button v-for="(tab, index) in tabs" :key="tab.name"
+                <AppPillButton v-for="(tab, index) in tabs" :key="tab.name"
                     :class="['page__body-tab', { 'page__body-tab--active': activeTab === index }]"
                     @click="activeTab = index">
                     {{ tab.name }}
-                </button>
+                </AppPillButton>
             </div>
             <div class="page__body-header">
                 <h1 class="page__body-header-title">Виджеты</h1>
@@ -57,13 +59,8 @@
                 </div>
             </div>
 
-            <AppBanner class="page__app-banner">
-                Умные советы и инструменты для роста
-            </AppBanner>
-            <section v-if="!isNotData" class="page__body-analytics">
-                <h2 class="page__body-analytics-title">
-                    Аналитические данные
-                </h2>
+      
+            <section v-if="!isNotData" class="page__body-analytics">             
                 <div class="page__body-analytics-content">
                     <!-- Здесь будет контент аналитики согласно макету -->
                     <div class="analytics-placeholder">
@@ -88,6 +85,7 @@
 <script setup>
 import {
   computed,
+  nextTick,
   onMounted,
   ref,
 } from 'vue';
@@ -119,6 +117,10 @@ const portfolio = ref(null);
 const isLoading = ref(true);
 const isNotData = ref(false);
 const editMode = ref(false);
+const isEditingGoal = ref(false);
+const editedGoal = ref('');
+const goalInput = ref(null);
+const investmentGoal = ref('Цель инвестирования');
 
 onMounted(async () => {
     const portfolioId = route.params.portfolioId;
@@ -186,11 +188,37 @@ const activeTab = ref(0);
 const tabs = ref([
     { name: 'История и метрики' },
     { name: 'Структура' },
-    { name: 'Ближайшие' }
+    { name: 'Ближайшие выплаты' }
 ]);
 
 function goBack() {
     router.back();
+}
+
+function startGoalEdit() {
+    editedGoal.value = investmentGoal.value;
+    isEditingGoal.value = true;
+    // Фокус на input после следующего тика
+    nextTick(() => {
+        if (goalInput.value) {
+            goalInput.value.focus();
+            goalInput.value.select();
+        }
+    });
+}
+
+function saveGoalEdit() {
+    if (!editedGoal.value.trim()) {
+        cancelGoalEdit();
+        return;
+    }
+    investmentGoal.value = editedGoal.value.trim();
+    isEditingGoal.value = false;
+}
+
+function cancelGoalEdit() {
+    isEditingGoal.value = false;
+    editedGoal.value = '';
 }
 
 
@@ -214,11 +242,108 @@ function goBack() {
             flex-direction: column;
             align-items: flex-start;
             gap: 5px;
-        }
+        }        
         &-goal-title{           
             font-size: 20px;
             font-weight: $font-weight-medium;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+        &-edit {
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+        &-badge-current-amount{
+            font-size: 16px;
+            font-weight: $font-weight-medium;
+            color: $gray-0;
+            line-height: 22px;
+        }
+        &-badge-row{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;            
+        }
+    }
+    &__body{
+        &-tabs{
+            display: flex;
+            flex-direction: row;
+            gap: $space-m;
+            padding: 0 $space-m;
+            margin-bottom: $space-l;
+            margin-top: 16px;
+            padding-left: 42px;
+        }
+        &-tab {            
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 16px;
+            gap: 6px;
+            width: auto;            
+            background: $gray-100 !important;
+            border-radius: $radius-lg !important;
+            flex: none;
+            flex-grow: 0;
+            
+            font-family: $font-main !important;
+            font-style: normal;
+            font-weight: $font-weight-semibold !important;
+            font-size: $font-size-body !important;
+            line-height: 22px !important;
+            color: $gray-700 !important;
+            border: none !important;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: none !important;
+
+            &--active {
+                background: $gray-0 !important;
+                box-shadow: $shadow-main !important;
+            }
+
+            &:hover {
+                background: lighten($gray-100, 2%) !important;
+            }
+
+            &--active:hover {
+                background: $gray-0 !important;
+            }
+            
+            // Сброс стилей для deep селекторов
+            :deep(*) {
+                color: inherit !important;
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+            }
+        }
+    }
+}
+
+.page__header-edit-input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: #fff;
+    font-family: $font-main;
+    font-size: 20px;
+    font-weight: $font-weight-medium;
+    padding: 4px 8px;
+    outline: none;
+
+    &:focus {
+        border-color: rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    &::placeholder {
+        color: rgba(255, 255, 255, 0.6);
     }
 }
 
