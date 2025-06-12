@@ -228,6 +228,10 @@ function cancelGoalEdit() {
 @import '@/styles/_sections.scss';
 @import '@/styles/_variables.scss';
 
+:deep(.main-layout__body) {
+    overflow: hidden;
+}
+
 .page {
     &__header {
         &-stats-title {
@@ -269,6 +273,8 @@ function cancelGoalEdit() {
         }
     }
     &__body{
+        overflow: hidden;
+        
         &-tabs{
             display: flex;
             flex-direction: row;
@@ -277,6 +283,14 @@ function cancelGoalEdit() {
             margin-bottom: $space-l;
             margin-top: 16px;
             padding-left: 42px;
+            padding-right: 60px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            
+            &::-webkit-scrollbar {
+                display: none;
+            }
         }
         &-tab {            
             display: flex;
