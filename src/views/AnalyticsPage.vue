@@ -8,28 +8,38 @@
                 </button>
                 <div class="page__header-stats-row">
                     <div class="page__header-stats-main">
-                        <div class="page__header-stats-info">
+                        <div class="page__header-stats-info"
+                            :class="{ 'page__header-stats-info--not-investment-goal': isNotInvestmentGoal }">
                             <div class="page__header-stats-title">{{ portfolio?.name || 'Консервативный' }}</div>
-                            <div class="page__header-goal-title">
-                                <input v-if="isEditingGoal" v-model="editedGoal" @blur="saveGoalEdit"
-                                    @keyup.enter="saveGoalEdit" @keyup.escape="cancelGoalEdit"
-                                    class="page__header-edit-input" ref="goalInput" />
-                                <span v-else>{{ investmentGoal }}</span>
-                                <Edit01 :color="'#fff'" class="page__header-edit" @click="startGoalEdit" />
+                            <div v-if="!isNotInvestmentGoal">
+                                <div class="page__header-goal-title">
+                                    <input v-if="isEditingGoal" v-model="editedGoal" @blur="saveGoalEdit"
+                                        @keyup.enter="saveGoalEdit" @keyup.escape="cancelGoalEdit"
+                                        class="page__header-edit-input" ref="goalInput" />
+                                    <span v-else>{{ investmentGoal }}</span>
+                                    <Edit01 :color="'#fff'" class="page__header-edit" @click="startGoalEdit" />
+                                </div>
+                                <div class="page__header-stats-value-row">
+                                    <span class="page__header-stats-value">5 000 000</span>
+                                    <span class="page__header-stats-currency">₽</span>
+                                    <span class="page__header-stats-currency">за 5 лет</span>
+                                </div>
                             </div>
-                            <div class="page__header-stats-value-row">
-                                <span class="page__header-stats-value">5 000 000</span>
-                                <span class="page__header-stats-currency">₽</span>
-                                <span class="page__header-stats-currency">за 5 лет</span>
-                            </div>
+                            <button v-else class="investment-goal-button" @click="handleCreateGoal">
+                                <IconTarget class="investment-goal-button__icon" />
+                                <span class="investment-goal-button__text">Создать цель инвестирования</span>
+                            </button>
                         </div>
                     </div>
-                    <div class="page__header-progress">
-                        <ProgressBar :progress="goalProgress" size="medium" color="primary" />
-                    </div>
-                    <div class="page__header-badge-row">
-                        <span class="page__header-badge-current-amount">{{ currentAmount }} / {{ targetAmount }}</span>
-                        <span class="page__header-badge-period">до {{ goalDeadline }}</span>
+                    <div v-if="!isNotInvestmentGoal">
+                        <div class="page__header-progress">
+                            <ProgressBar :progress="goalProgress" size="medium" color="primary" />
+                        </div>
+                        <div class="page__header-badge-row">
+                            <span class="page__header-badge-current-amount">{{ currentAmount }} / {{ targetAmount
+                            }}</span>
+                            <span class="page__header-badge-period">до {{ goalDeadline }}</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -45,21 +55,18 @@
                 </AppPillButton>
                 <span class="page__body-tabs-right-margin"></span>
             </div>
-                          <!-- Контент вкладок -->
-              <div class="page__body-content">
-                  <HistoryMetricsTab 
-                      v-if="activeTab === 0"
-                      :portfolio-data="portfolio"
-                  />
-                  <div v-else-if="activeTab === 1" class="tab-placeholder">
-                      <h3>Структура портфеля</h3>
-                      <p>Содержимое вкладки "Структура" будет добавлено позже</p>
-                  </div>
-                  <div v-else-if="activeTab === 2" class="tab-placeholder">
-                      <h3>Ближайшие выплаты</h3>
-                      <p>Содержимое вкладки "Ближайшие выплаты" будет добавлено позже</p>
-                  </div>
-              </div>
+            <!-- Контент вкладок -->
+            <div class="page__body-content">
+                <HistoryMetricsTab v-if="activeTab === 0" :portfolio-data="portfolio" />
+                <div v-else-if="activeTab === 1" class="tab-placeholder">
+                    <h3>Структура портфеля</h3>
+                    <p>Содержимое вкладки "Структура" будет добавлено позже</p>
+                </div>
+                <div v-else-if="activeTab === 2" class="tab-placeholder">
+                    <h3>Ближайшие выплаты</h3>
+                    <p>Содержимое вкладки "Ближайшие выплаты" будет добавлено позже</p>
+                </div>
+            </div>
         </section>
     </MainLayout>
 </template>
@@ -84,6 +91,7 @@ import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
 import IconChartRing from '@/components/atoms/icons/IconChartRing.vue';
 import IconClock01 from '@/components/atoms/icons/IconClock01.vue';
 import IconSettings from '@/components/atoms/icons/IconSettings.vue';
+import IconTarget from '@/components/atoms/icons/IconTarget.vue';
 import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
 import ProgressBar from '@/components/atoms/ProgressBar.vue';
 import StatWidgetCard
@@ -104,6 +112,7 @@ const isEditingGoal = ref(false);
 const editedGoal = ref('');
 const goalInput = ref(null);
 const investmentGoal = ref('Цель инвестирования');
+const isNotInvestmentGoal = ref(false);
 
 onMounted(async () => {
     const portfolioId = route.params.portfolioId;
@@ -204,12 +213,63 @@ function cancelGoalEdit() {
     editedGoal.value = '';
 }
 
+function handleCreateGoal() {
+    console.log('Создание цели инвестирования...');
+}
+
 
 </script>
 
 <style scoped lang="scss">
 @import '@/styles/_sections.scss';
 @import '@/styles/_variables.scss';
+
+/* Кнопка создания цели инвестирования */
+.investment-goal-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    z-index: 1;
+
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &__icon {
+        width: 20px;
+        height: 20px;
+
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+    }
+
+    &__text {
+        font-family: 'SF Pro Rounded', $font-main;
+        font-style: normal;
+        font-weight: $font-weight-medium;
+        font-size: $font-size-small;
+        line-height: $line-height-body;
+        color: $gray-0;
+    }
+}
 
 :deep(.main-layout__body) {
     overflow: hidden;
@@ -223,6 +283,10 @@ function cancelGoalEdit() {
             color: $gray-0;
             line-height: 22px;
             opacity: 0.6;
+        }
+
+        &-stats-row {          
+            gap: 20px;            
         }
 
         &-stats-info {
@@ -259,16 +323,23 @@ function cancelGoalEdit() {
             flex-direction: row;
             justify-content: space-between;
         }
+
+        &-stats-info--not-investment-goal {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
     }
 
     &__body {
-        &-header{
+        &-header {
             margin-top: 0;
         }
 
         &-tabs {
             width: 120% !important;
-            
+
             display: flex;
             flex-direction: row;
             gap: $space-m;
@@ -329,36 +400,37 @@ function cancelGoalEdit() {
                 font-size: inherit !important;
                 font-weight: inherit !important;
             }
-                         &-header-title{
-                 font-size: 22px;                
-             }
-         }
 
-         &-content {
-             margin-top: $space-l;
-             width: 100%;
-         }
-     }
- }
+            &-header-title {
+                font-size: 22px;
+            }
+        }
 
- .tab-placeholder {
-     text-align: center;
-     padding: $space-xl;
-     background: $gray-50;
-     border-radius: $radius-lg;
-     
-     h3 {
-         font-size: $font-size-h3;
-         font-weight: $font-weight-semibold;
-         color: $gray-700;
-         margin-bottom: $space-s;
-     }
-     
-     p {
-         font-size: $font-size-body;
-         color: $gray-500;
-         margin: 0;
-     }
+        &-content {
+            margin-top: $space-l;
+            width: 100%;
+        }
+    }
+}
+
+.tab-placeholder {
+    text-align: center;
+    padding: $space-xl;
+    background: $gray-50;
+    border-radius: $radius-lg;
+
+    h3 {
+        font-size: $font-size-h3;
+        font-weight: $font-weight-semibold;
+        color: $gray-700;
+        margin-bottom: $space-s;
+    }
+
+    p {
+        font-size: $font-size-body;
+        color: $gray-500;
+        margin: 0;
+    }
 }
 
 .page__header-edit-input {
