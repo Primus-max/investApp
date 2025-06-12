@@ -84,7 +84,12 @@
             <component v-if="metric.icon" :is="metric.icon" class="history-metrics__stat-icon" />
           </div>
           <div class="history-metrics__stat-value" :class="metric.colorClass">
-            {{ metric.value }}
+            <span v-if="metric.sign" class="history-metrics__stat-sign" :class="metric.signClass">
+              {{ metric.sign }} 
+            </span>
+            <span class="history-metrics__stat-number" :class="{ 'history-metrics__stat-number--inherit': metric.colorClass }">
+              {{ metric.value }}
+            </span>
           </div>
         </div>
         <div 
@@ -376,40 +381,47 @@ const chartOptions = computed(() => ({
 const metrics = computed(() => [
   {
     label: 'Доходность',
-    value: '+ 2 345 461 ₽',
-    colorClass: 'history-metrics__stat-value--positive',
+    sign: '+',
+    value: '2 345 461 ₽',
+    signClass: 'history-metrics__stat-sign--positive',
     icon: IconHelpCircle
   },
   {
     label: 'Прибыль',
-    value: '+ 1 345 461 ₽',
-    colorClass: 'history-metrics__stat-value--positive'
+    sign: '+',
+    value: '1 345 461 ₽',
+    signClass: 'history-metrics__stat-sign--positive'
   },
   {
     label: 'Вложено',
+    sign: '',
     value: '1 000 000 ₽',
-    colorClass: ''
+    signClass: ''
   },
   {
     label: 'Дивидендная доходность',
-    value: '+ 4%',
-    colorClass: 'history-metrics__stat-value--positive'
+    sign: '+',
+    value: '4%',
+    signClass: 'history-metrics__stat-sign--positive'
   },
   {
     label: 'Пассивный доход',
-    value: '+ 12 461 ₽',
-    colorClass: 'history-metrics__stat-value--positive'
+    sign: '+',
+    value: '12 461 ₽',
+    signClass: 'history-metrics__stat-sign--positive'
   },
   {
     label: 'Издержки',
-    value: '- 5 461 ₽',
-    colorClass: 'history-metrics__stat-value--negative',
+    sign: '-',
+    value: '5 461 ₽',
+    signClass: 'history-metrics__stat-sign--negative',
     icon: IconHelpCircle
   },
   {
     label: 'Среднегодовая доходность',
-    value: '+ 34%',
-    colorClass: 'history-metrics__stat-value--positive',
+    sign: '+',
+    value: '34%',
+    signClass: 'history-metrics__stat-sign--positive',
     icon: IconHelpCircle
   },
   {
@@ -600,7 +612,9 @@ const metrics = computed(() => [
     &-value {
       font-size: $font-size-body;
       font-weight: $font-weight-medium;
-      color: $gray-950;
+      display: flex;
+      align-items: center;
+      gap: 2px;
 
       &--positive {
         color: $color-success;
@@ -612,6 +626,28 @@ const metrics = computed(() => [
 
       &--warning {
         color: $color-warning;
+      }
+    }
+
+    &-sign {
+      &--positive {
+        color: $color-success;
+      }
+
+      &--negative {
+        color: $color-error;
+      }
+
+      &--warning {
+        color: $color-warning;
+      }
+    }
+
+    &-number {
+      color: $gray-950;
+
+      &--inherit {
+        color: inherit;
       }
     }
   }
