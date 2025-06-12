@@ -73,14 +73,24 @@
 
     <!-- Метрики -->
     <div class="history-metrics__stats">
-      <div class="history-metrics__stat" v-for="metric in metrics" :key="metric.label">
-        <div class="history-metrics__stat-label">
-          {{ metric.label }}
-          <component v-if="metric.icon" :is="metric.icon" class="history-metrics__stat-icon" />
+      <div 
+        v-for="(metric, index) in metrics" 
+        :key="metric.label"
+        class="history-metrics__stat-wrapper"
+      >
+        <div class="history-metrics__stat">
+          <div class="history-metrics__stat-label">
+            {{ metric.label }}
+            <component v-if="metric.icon" :is="metric.icon" class="history-metrics__stat-icon" />
+          </div>
+          <div class="history-metrics__stat-value" :class="metric.colorClass">
+            {{ metric.value }}
+          </div>
         </div>
-        <div class="history-metrics__stat-value" :class="metric.colorClass">
-          {{ metric.value }}
-        </div>
+        <div 
+          v-if="index < metrics.length - 1" 
+          class="history-metrics__stat-divider"
+        ></div>
       </div>
     </div>
 
@@ -554,14 +564,24 @@ const metrics = computed(() => [
   &__stats {
     display: flex;
     flex-direction: column;
-    gap: $space-m;
+  }
+
+  &__stat-wrapper {
+    display: flex;
+    flex-direction: column;
   }
 
   &__stat {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 12px;
+    padding: $space-m 12px;
+
+    &-divider {
+      height: 1px;
+      background: $gray-50;
+      margin: 0 12px;
+    }
 
     &-label {
       display: flex;
