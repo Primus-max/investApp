@@ -50,7 +50,7 @@
             </div>
           </template>
         </AppPillButton>
-        <AppPillButton class="page__body-header-stats-button">
+        <AppPillButton class="page__body-header-stats-button" @click="goToAnalytics">
           <template #default>
             <div class="page__body-header-stats-button-content">
               <IconChartRing class="page__body-header-stats-button-icon" />
@@ -211,6 +211,11 @@ function goBack() {
   router.back();
 }
 
+function goToAnalytics() {
+  const portfolioId = route.params.id;
+  router.push(`/analytics/${portfolioId}`);
+}
+
 function startNameEdit() {
   if (!portfolio.value) return;
   editedName.value = portfolio.value.name;
@@ -284,48 +289,43 @@ const widgets = [
 }
 
 
-.page__back {
-  display: flex;
-  align-items: center;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 17px;
-  font-family: 'SF Pro', Arial, sans-serif;
-  font-weight: 400;
-  padding: 0 16px;
-  height: 56px;
-  cursor: pointer;
-  outline: none;
-  box-shadow: none;
-  transition: background 0.15s;
+// .page__back {
+//   display: flex;
+//   align-items: center;
+//   background: none;
+//   border: none;
+//   color: #fff;
+//   font-size: 17px;
+//   font-family: 'SF Pro', Arial, sans-serif;
+//   font-weight: 400;
+//   padding: 0 16px;
+//   height: 56px;
+//   cursor: pointer;
+//   outline: none;
+//   box-shadow: none;
+//   transition: background 0.15s;
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.04);
-  }
-}
+//   // &:hover {
+//   //   background: rgba(255, 255, 255, 0.04);
+//   // }
+// }
 
-.page__back-icon {
-  font-size: 22px;
-  margin-right: 3px;
-  display: flex;
-  align-items: center;
-  font-weight: 590;
-}
+// .page__back-icon {
+//   font-size: 22px;
+//   margin-right: 3px;
+//   display: flex;
+//   align-items: center;
+//   font-weight: 590;
+// }
 
-.page__back-text {
-  font-size: 17px;
-  font-family: 'SF Pro', Arial, sans-serif;
-  font-weight: 400;
-  letter-spacing: -0.4px;
-}
+// .page__back-text {
+//   font-size: 17px;
+//   font-family: 'SF Pro', Arial, sans-serif;
+//   font-weight: 400;
+//   letter-spacing: -0.4px;
+// }
 
-.page__header-edit {
-  margin-left: 6px;
-  cursor: pointer;
-  vertical-align: middle;
-  color: #fff;
-}
+
 
 .page__header-edit-input {
   background: rgba(255, 255, 255, 0.1);
