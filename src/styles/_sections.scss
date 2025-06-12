@@ -24,7 +24,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    min-height: 64px;
+    min-height: 40px;
   }
 
   &__header-cancel {
@@ -443,4 +443,37 @@
   }
 }
 
+.page__back {
+  display: flex;
+  align-items: center;
+  color: $gray-0;
+  font-size: 17px;
+  font-family: 'SF Pro', Arial, sans-serif;
+  font-weight: 400;
+  padding: 0 16px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.page__back-icon {
+  font-size: 22px;
+  margin-right: 3px;
+  display: flex;
+  align-items: center;
+  font-weight: 590;
+}
+
+.page__back-text {
+  font-size: 17px;
+  font-family: 'SF Pro', Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.4px;
+}
+
+.page__header-edit {
+  margin-left: 6px;
+  cursor: pointer;
+  vertical-align: middle;
+  color: $gray-0;  
+}
 
