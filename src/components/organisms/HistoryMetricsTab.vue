@@ -64,6 +64,7 @@
 import {
   computed,
   ref,
+  watch,
 } from 'vue';
 
 import ApexChart from 'vue3-apexcharts';
@@ -79,6 +80,14 @@ const props = defineProps({
 
 // Активный период
 const activePeriod = ref('6M');
+
+// Выбранный столбец (индекс)
+const selectedBarIndex = ref(-1);
+
+// Сбрасываем выбор при смене периода
+watch(activePeriod, () => {
+  selectedBarIndex.value = -1;
+});
 
 // Периоды для фильтрации
 const periods = [
@@ -125,7 +134,12 @@ const chartOptions = computed(() => ({
     toolbar: { show: false },
     background: 'transparent',
     parentHeightOffset: 0,
-    zoom: { enabled: false }
+    zoom: { enabled: false },
+    events: {
+      dataPointSelection: (event, chartContext, config) => {
+        selectedBarIndex.value = selectedBarIndex.value === config.dataPointIndex ? -1 : config.dataPointIndex;
+      }
+    }
   },
   annotations: {
     xaxis: [
@@ -181,8 +195,15 @@ const chartOptions = computed(() => ({
   colors: computed(() => {
     const data = chartData[activePeriod.value].values;
     const colors = new Array(data.length).fill('#D1D5DB');
-    // Выделяем предпоследний столбец синим (как в макете)
-    colors[data.length - 2] = '#3B82F6';
+    
+    // Если есть выбранный столбец, выделяем его primary цветом
+    if (selectedBarIndex.value >= 0) {
+      colors[selectedBarIndex.value] = '#6366F1'; // $primary-500
+    } else {
+      // Иначе выделяем предпоследний столбец синим (как в макете)
+      colors[data.length - 2] = '#3B82F6';
+    }
+    
     return colors;
   }).value,
   stroke: {
