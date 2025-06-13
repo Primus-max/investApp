@@ -1,8 +1,17 @@
+<script setup>
+defineProps({
+  color: {
+    type: String,
+    default: '#FFFFFF'
+  }
+})
+</script>
+
 <template>
     <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd"
             d="M16.0303 3.54969C16.3232 3.84258 16.3232 4.31745 16.0303 4.61035L9.5103 11.1303C9.03319 11.6075 9.03319 12.3926 9.5103 12.8697L16.0303 19.3897C16.3232 19.6826 16.3232 20.1575 16.0303 20.4503C15.7374 20.7432 15.2625 20.7432 14.9696 20.4503L8.44964 13.9303C7.38674 12.8675 7.38674 11.1326 8.44964 10.0697L14.9696 3.54969C15.2625 3.25679 15.7374 3.25679 16.0303 3.54969Z"
-            fill="#FFFFFF" />
+            :fill="color" />
     </svg>
 
 </template>

@@ -3,7 +3,7 @@
         <template #header>
             <section class="page__header">
                 <button class="page__back" @click="goBack">
-                    <IconArrowLeft class="page__back-icon" />
+                    <IconArrowLeft class="page__back-icon" :color="showStickyHeader ? '#4868EA' : '#fff'" />
                     <span class="page__back-text">Back</span>
                 </button>
                 <div class="page__header-stats-row">
@@ -45,8 +45,8 @@
             </section>
         </template>
 
-        <section class="page__body">
-            <div class="page__body-tabs">
+        <section class="page__body" :class="{ 'page__body--sticky': showStickyHeader }">
+            <div class="page__body-tabs" ref="tabsRef">
                 <span class="page__body-tabs-left-margin"></span>
                 <AppPillButton v-for="(tab, index) in tabs" :key="tab.name"
                     :class="['page__body-tab', { 'page__body-tab--active': activeTab === index }]"
@@ -67,6 +67,21 @@
                     <p>Содержимое вкладки "Ближайшие выплаты" будет добавлено позже</p>
                 </div>
             </div>
+            <div v-if="showStickyHeader" class="page__sticky-header-fake">
+                <button class="page__back" @click="goBack">
+                    <IconArrowLeft class="page__back-icon" :color="'#4868EA'" />
+                    <span class="page__back-text">Back</span>
+                </button>
+                <div class="page__body-tabs">
+                    <span class="page__body-tabs-left-margin"></span>
+                    <AppPillButton v-for="(tab, index) in tabs" :key="tab.name"
+                        :class="['page__body-tab', { 'page__body-tab--active': activeTab === index }]"
+                        @click="activeTab = index">
+                        {{ tab.name }}
+                    </AppPillButton>
+                    <span class="page__body-tabs-right-margin"></span>
+                </div>
+            </div>
         </section>
     </MainLayout>
 </template>
@@ -76,6 +91,7 @@ import {
   computed,
   nextTick,
   onMounted,
+  onUnmounted,
   ref,
 } from 'vue';
 
@@ -114,6 +130,10 @@ const goalInput = ref(null);
 const investmentGoal = ref('Цель инвестирования');
 const isNotInvestmentGoal = ref(false);
 
+const showStickyHeader = ref(false);
+const tabsRef = ref(null);
+const stickyHeaderRef = ref(null);
+
 onMounted(async () => {
     const portfolioId = route.params.portfolioId;
     const p = await store.fetchPortfolioById(portfolioId);
@@ -129,6 +149,23 @@ onMounted(async () => {
         percent: p.totalPercent,
     };
     isLoading.value = false;
+
+    const observer = new window.IntersectionObserver(
+        ([entry]) => {
+            showStickyHeader.value = entry.intersectionRatio === 0;
+        },
+        { root: null, threshold: 0, rootMargin: '0px 0px 0px 0px' }
+    );
+    if (tabsRef.value) {
+        observer.observe(tabsRef.value);
+    }
+    stickyHeaderRef.value = observer;
+});
+
+onUnmounted(() => {
+    if (stickyHeaderRef.value && tabsRef.value) {
+        stickyHeaderRef.value.disconnect();
+    }
 });
 
 const formattedAmount = computed(() => {
@@ -216,7 +253,6 @@ function cancelGoalEdit() {
 function handleCreateGoal() {
     console.log('Создание цели инвестирования...');
 }
-
 
 </script>
 
@@ -410,6 +446,13 @@ function handleCreateGoal() {
             margin-top: $space-l;
             width: 100%;
         }
+
+        &--sticky {
+            .page__body-tabs {
+                margin-top: 12 !important;
+                padding-bottom: 12 !important;
+            }
+        }
     }
 }
 
@@ -452,6 +495,49 @@ function handleCreateGoal() {
     &::placeholder {
         color: rgba(255, 255, 255, 0.6);
     }
+}
+
+/* Добавляю sticky для header табов и back */
+.page__body-sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: $color-bg-main;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-top: $space-m;
+    padding-bottom: 0;   
+}
+
+.page__sticky-header-fake {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: $color-bg-main;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding-top: $space-m;
+    padding-bottom: 0;
+    padding-top: 4px !important;
+}
+
+.page__body--sticky {
+  .page__back,
+  .page__back-icon {
+    color: $primary-400 !important;
+    fill: $primary-400 !important;
+  }
+  .page__back-icon {
+    :deep(svg) {
+      color: $primary-400 !important;
+      fill: $primary-400 !important;
+      stroke: $primary-400 !important;
+    }
+  }
 }
 
 // .page__back {
@@ -576,4 +662,5 @@ function handleCreateGoal() {
 // .page__body-analytics-empty-button-label {
 //   font-size: 16px;
 //   font-weight: 500;
-// }</style>
+// }
+</style>
