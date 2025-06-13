@@ -3,7 +3,7 @@
         <template #header>
             <section class="page__header">
                 <button class="page__back" @click="goBack">
-                    <IconArrowLeft class="page__back-icon" />
+                    <IconArrowLeft class="page__back-icon" :color="showStickyHeader ? '#4868EA' : '#fff'" />
                     <span class="page__back-text">Back</span>
                 </button>
                 <div class="page__header-stats-row">
@@ -69,7 +69,7 @@
             </div>
             <div v-if="showStickyHeader" class="page__sticky-header-fake">
                 <button class="page__back" @click="goBack">
-                    <IconArrowLeft class="page__back-icon" />
+                    <IconArrowLeft class="page__back-icon" :color="'#4868EA'" />
                     <span class="page__back-text">Back</span>
                 </button>
                 <div class="page__body-tabs">
@@ -523,6 +523,21 @@ function handleCreateGoal() {
     padding-top: $space-m;
     padding-bottom: 0;
     padding-top: 4px !important;
+}
+
+.page__body--sticky {
+  .page__back,
+  .page__back-icon {
+    color: $primary-400 !important;
+    fill: $primary-400 !important;
+  }
+  .page__back-icon {
+    :deep(svg) {
+      color: $primary-400 !important;
+      fill: $primary-400 !important;
+      stroke: $primary-400 !important;
+    }
+  }
 }
 
 // .page__back {
