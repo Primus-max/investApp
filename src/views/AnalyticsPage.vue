@@ -59,22 +59,45 @@
             <div class="page__body-content">
                 <HistoryMetricsTab v-if="activeTab === 0" :portfolio-data="portfolio" />
                 <div v-else-if="activeTab === 1" class="tab-structure">
-                    <div class="tab-structure__chart-block">
-                        <PieChartAtom :sectors="portfolioStructure" :size="160" :stroke-width="22" />
-                        <div class="tab-structure__legend">
-                            <div v-for="item in portfolioStructure" :key="item.label" class="tab-structure__legend-item">
-                                <span class="tab-structure__legend-color" :style="{ background: item.color }"></span>
-                                <span class="tab-structure__legend-label">{{ item.label }}</span>
-                                <span class="tab-structure__legend-percent">{{ item.percent }}%</span>
+                    <h2 class="tab-structure__title">Структура</h2>
+                    <div class="tab-structure__card tab-structure__card--structure">
+                        <div class="tab-structure__chart-block">
+                            <div class="tab-structure__chart-center">
+                                <PieChartAtom :sectors="portfolioStructure" :size="180" :stroke-width="32" />
+                                <div class="tab-structure__chart-center-content">
+                                    <div class="tab-structure__chart-sum">2 345 461 ₽</div>
+                                    <div class="tab-structure__chart-assets">8 активов</div>
+                                </div>
+                            </div>
+                            <!-- Здесь будут табы -->
+                            <div class="tab-structure__tabs-row">
+                                <AppPillButton class="tab-structure__tab tab-structure__tab--active">Активы</AppPillButton>
+                                <AppPillButton class="tab-structure__tab">Компании</AppPillButton>
+                                <AppPillButton class="tab-structure__tab">Отрасли</AppPillButton>
+                                <AppPillButton class="tab-structure__tab">Валюта</AppPillButton>
+                            </div>
+                            <div class="tab-structure__legend">
+                                <div v-for="item in portfolioStructure" :key="item.label" class="tab-structure__legend-item">
+                                    <span class="tab-structure__legend-color" :style="{ background: item.color }"></span>
+                                    <span class="tab-structure__legend-label">{{ item.label }}</span>
+                                    <span class="tab-structure__legend-percent">{{ item.percent }}%</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-structure__assets-list">
-                        <PortfolioAssetCard
-                            v-for="item in portfolioStructure"
-                            :key="item.label"
-                            :asset="{ name: item.label, amount: item.value, percent: item.percent, color: item.color }"
-                        />
+                    <div class="tab-structure__card tab-structure__card--assets">
+                        <div class="tab-structure__assets-header-row">
+                            <span class="tab-structure__assets-title">Активы</span>
+                            <AppPillButton class="tab-structure__assets-sort">Рост ↓</AppPillButton>
+                        </div>
+                        <div class="tab-structure__assets-list">
+                            <PortfolioAssetCard
+                                v-for="item in portfolioStructure"
+                                :key="item.label"
+                                :asset="{ name: item.label, amount: item.value, percent: item.percent, color: item.color }"
+                            />
+                        </div>
+                        <button class="tab-structure__assets-more">Подробнее</button>
                     </div>
                 </div>
                 <div v-else-if="activeTab === 2" class="tab-placeholder">
@@ -571,11 +594,87 @@ function handleCreateGoal() {
   flex-direction: column;
   align-items: center;
   gap: $space-l;
+  &__title {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-semibold;
+    color: $gray-900;
+    margin-bottom: $space-m;
+    align-self: flex-start;
+    margin-left: 8px;
+  }
+  &__card {
+    background: $gray-0;
+    border-radius: $radius-xl;
+    box-shadow: 0 2px 16px rgba(44, 62, 80, 0.06);
+    padding: $space-l $space-m;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $space-l;
+    &--structure {
+      margin-bottom: $space-l;
+    }
+    &--assets {
+      margin-top: 0;
+    }
+  }
   &__chart-block {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: $space-m;
+    width: 100%;
+  }
+  &__chart-center {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 180px;
+  }
+  &__chart-center-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+  }
+  &__chart-sum {
+    font-size: 22px;
+    font-weight: $font-weight-semibold;
+    color: $gray-900;
+    line-height: 1.1;
+  }
+  &__chart-assets {
+    font-size: $font-size-small;
+    color: $gray-500;
+    margin-top: 2px;
+  }
+  &__tabs-row {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin: 16px 0 8px 0;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  &__tab {
+    font-size: $font-size-body;
+    font-weight: $font-weight-medium;
+    border-radius: 16px;
+    padding: 6px 16px;
+    background: $gray-50;
+    color: $gray-500;
+    &--active {
+      background: $primary-50;
+      color: $primary-400;
+    }
   }
   &__legend {
     display: flex;
@@ -606,12 +705,49 @@ function handleCreateGoal() {
     font-weight: $font-weight-semibold;
     color: $gray-900;
   }
+  &__assets-header-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  &__assets-title {
+    font-size: $font-size-h3;
+    font-weight: $font-weight-semibold;
+    color: $gray-900;
+  }
+  &__assets-sort {
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+    background: $gray-50;
+    color: $gray-500;
+    border-radius: 16px;
+    padding: 4px 12px;
+  }
   &__assets-list {
     width: 100%;
     max-width: 340px;
     display: flex;
     flex-direction: column;
     gap: $space-s;
+  }
+  &__assets-more {
+    margin: 16px auto 0 auto;
+    display: block;
+    background: $primary-50;
+    color: $primary-400;
+    border: none;
+    border-radius: 16px;
+    padding: 8px 24px;
+    font-size: $font-size-body;
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    transition: background 0.2s;
+    &:hover {
+      background: $primary-100;
+    }
   }
 }
 </style>
