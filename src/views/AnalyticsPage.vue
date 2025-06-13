@@ -60,30 +60,11 @@
                 <HistoryMetricsTab v-if="activeTab === 0" :portfolio-data="portfolio" />
                 <div v-else-if="activeTab === 1" class="tab-structure">
                     <h2 class="tab-structure__title">Структура</h2>
-                    <div class="tab-structure__card tab-structure__card--structure">
-                        <div class="tab-structure__chart-block">
-                            <div class="tab-structure__chart-center">
-                                <apexchart type="donut" :options="chartOptions" :series="apexSeries" width="180" height="180" />
-                                <div class="tab-structure__chart-center-content">
-                                    <div class="tab-structure__chart-sum">2 345 461 ₽</div>
-                                    <div class="tab-structure__chart-assets">8 активов</div>
-                                </div>
-                            </div>
-                            <div class="tab-structure__tabs-row">
-                                <AppPillButton class="tab-structure__tab tab-structure__tab--active">Активы</AppPillButton>
-                                <AppPillButton class="tab-structure__tab">Компании</AppPillButton>
-                                <AppPillButton class="tab-structure__tab">Отрасли</AppPillButton>
-                                <AppPillButton class="tab-structure__tab">Валюта</AppPillButton>
-                            </div>
-                            <div class="tab-structure__legend">
-                                <div v-for="item in portfolioStructure" :key="item.label" class="tab-structure__legend-item">
-                                    <span class="tab-structure__legend-color" :style="{ background: item.color }"></span>
-                                    <span class="tab-structure__legend-label">{{ item.label }}</span>
-                                    <span class="tab-structure__legend-percent">{{ item.percent }}%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <PortfolioStructureCard
+                        :categories="portfolioStructure"
+                        total="2 345 461 ₽"
+                        :assets-count="8"
+                    />
                     <div class="tab-structure__card tab-structure__card--assets">
                         <div class="tab-structure__assets-header-row">
                             <span class="tab-structure__assets-title">Активы</span>
@@ -153,6 +134,8 @@ import PortfolioAssetCard from '@/components/molecules/PortfolioAssetCard.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import HistoryMetricsTab from '@/components/organisms/HistoryMetricsTab.vue';
+import PortfolioStructureCard
+  from '@/components/organisms/PortfolioStructureCard.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 import { usePortfoliosStore } from '@/stores/portfolios.js';
 
