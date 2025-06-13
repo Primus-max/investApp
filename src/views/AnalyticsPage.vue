@@ -45,7 +45,7 @@
             </section>
         </template>
 
-        <section class="page__body">
+        <section class="page__body" :class="{ 'page__body--sticky': showStickyHeader }">
             <div class="page__body-tabs" ref="tabsRef">
                 <span class="page__body-tabs-left-margin"></span>
                 <AppPillButton v-for="(tab, index) in tabs" :key="tab.name"
@@ -446,6 +446,13 @@ function handleCreateGoal() {
             margin-top: $space-l;
             width: 100%;
         }
+
+        &--sticky {
+            .page__body-tabs {
+                margin-top: 12 !important;
+                padding-bottom: 12 !important;
+            }
+        }
     }
 }
 
@@ -500,11 +507,7 @@ function handleCreateGoal() {
     flex-direction: column;
     gap: 0;
     padding-top: $space-m;
-    padding-bottom: 0;
-
-    &__body-tabs {
-       margin-top: 0;
-    }
+    padding-bottom: 0;   
 }
 
 .page__sticky-header-fake {
@@ -519,6 +522,7 @@ function handleCreateGoal() {
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     padding-top: $space-m;
     padding-bottom: 0;
+    padding-top: 4px !important;
 }
 
 // .page__back {
