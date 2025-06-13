@@ -58,9 +58,24 @@
             <!-- Контент вкладок -->
             <div class="page__body-content">
                 <HistoryMetricsTab v-if="activeTab === 0" :portfolio-data="portfolio" />
-                <div v-else-if="activeTab === 1" class="tab-placeholder">
-                    <h3>Структура портфеля</h3>
-                    <p>Содержимое вкладки "Структура" будет добавлено позже</p>
+                <div v-else-if="activeTab === 1" class="tab-structure">
+                    <div class="tab-structure__chart-block">
+                        <PieChartAtom :sectors="portfolioStructure" :size="160" :stroke-width="22" />
+                        <div class="tab-structure__legend">
+                            <div v-for="item in portfolioStructure" :key="item.label" class="tab-structure__legend-item">
+                                <span class="tab-structure__legend-color" :style="{ background: item.color }"></span>
+                                <span class="tab-structure__legend-label">{{ item.label }}</span>
+                                <span class="tab-structure__legend-percent">{{ item.percent }}%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-structure__assets-list">
+                        <PortfolioAssetCard
+                            v-for="item in portfolioStructure"
+                            :key="item.label"
+                            :asset="{ name: item.label, amount: item.value, percent: item.percent, color: item.color }"
+                        />
+                    </div>
                 </div>
                 <div v-else-if="activeTab === 2" class="tab-placeholder">
                     <h3>Ближайшие выплаты</h3>
@@ -108,8 +123,10 @@ import IconChartRing from '@/components/atoms/icons/IconChartRing.vue';
 import IconClock01 from '@/components/atoms/icons/IconClock01.vue';
 import IconSettings from '@/components/atoms/icons/IconSettings.vue';
 import IconTarget from '@/components/atoms/icons/IconTarget.vue';
+import PieChartAtom from '@/components/atoms/PieChartAtom.vue';
 import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
 import ProgressBar from '@/components/atoms/ProgressBar.vue';
+import PortfolioAssetCard from '@/components/molecules/PortfolioAssetCard.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import HistoryMetricsTab from '@/components/organisms/HistoryMetricsTab.vue';
@@ -218,6 +235,15 @@ const tabs = ref([
     { name: 'История и метрики' },
     { name: 'Структура' },
     { name: 'Ближайшие выплаты' }
+]);
+
+// Моковые данные для структуры портфеля
+const portfolioStructure = ref([
+  { label: 'Акции', value: 2500000, percent: 50, color: '#2A7CFF' },
+  { label: 'Облигации', value: 1500000, percent: 30, color: '#00C48C' },
+  { label: 'Валюта', value: 700000, percent: 14, color: '#FFD600' },
+  { label: 'Фонды', value: 200000, percent: 4, color: '#FF4D4F' },
+  { label: 'Другое', value: 100000, percent: 2, color: '#8D94A5' },
 ]);
 
 function goBack() {
@@ -540,127 +566,52 @@ function handleCreateGoal() {
   }
 }
 
-// .page__back {
-//     display: flex;
-//     align-items: center;
-//     color: $gray-0;
-//     font-size: 17px;
-//     font-family: 'SF Pro', Arial, sans-serif;
-//     font-weight: 400;
-//     padding: 0 16px;
-//     height: 40px;
-//     cursor: pointer;
-// }
-
-// .page__back-icon {
-//     font-size: 22px;
-//     margin-right: 3px;
-//     display: flex;
-//     align-items: center;
-//     font-weight: 590;
-// }
-
-// .page__back-text {
-//     font-size: 17px;
-//     font-family: 'SF Pro', Arial, sans-serif;
-//     font-weight: 400;
-//     letter-spacing: -0.4px;
-// }
-
-// .page__header-goal-title {
-//   display: flex;
-//   align-items: center;
-//   gap: 8px;
-//   font-size: 14px;
-//   font-weight: 400;
-//   color: rgba(255, 255, 255, 0.7);
-//   margin-bottom: 4px;
-// }
-
-// .page__header-goal-edit {
-//   color: rgba(255, 255, 255, 0.6);
-//   cursor: pointer;
-//   width: 16px;
-//   height: 16px;
-// }
-
-// .page__body-tabs {
-//   display: flex;
-//   gap: 0;
-//   padding: 0 16px;
-//   margin-bottom: 24px;
-//   border-bottom: 1px solid $gray-100;
-// }
-
-// .page__body-tab {
-//   background: none;
-//   border: none;
-//   font-family: 'SF Pro', Arial, sans-serif;
-//   font-size: 16px;
-//   font-weight: 500;
-//   color: $gray-400;
-//   padding: 12px 16px;
-//   border-bottom: 2px solid transparent;
-//   cursor: pointer;
-//   transition: all 0.2s;
-
-//   &:hover {
-//     color: $gray-600;
-//   }
-
-//   &--active {
-//     color: $gray-900;
-//     border-bottom-color: $color-primary;
-//   }
-// }
-
-// .page__body-analytics {
-//   margin-top: 32px;
-// }
-
-// .page__body-analytics-title {
-//   font-family: 'SF Pro Rounded', Arial, sans-serif;
-//   font-size: 24px;
-//   font-weight: 600;
-//   color: #181818;
-//   margin-bottom: 16px;
-//   padding: 0 16px;
-// }
-
-// .page__body-analytics-content {
-//   padding: 0 16px;
-// }
-
-// .analytics-placeholder {
-//   background: $gray-50;
-//   border-radius: 16px;
-//   padding: 32px;
-//   text-align: center;
-//   color: $gray-600;
-//   font-size: 16px;
-// }
-
-// .page__body-analytics-empty {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   padding: 32px 16px;
-//   margin-top: 32px;
-// }
-
-// .page__body-analytics-empty-button {
-//   display: flex;
-//   align-items: center;
-//   gap: 8px;
-// }
-
-// .page__body-analytics-empty-button-icon {
-//   width: 20px;
-//   height: 20px;
-// }
-
-// .page__body-analytics-empty-button-label {
-//   font-size: 16px;
-//   font-weight: 500;
-// }
+.tab-structure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-l;
+  &__chart-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $space-m;
+  }
+  &__legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+    width: 100%;
+    max-width: 220px;
+  }
+  &__legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: $font-size-body;
+    font-weight: $font-weight-medium;
+    color: $gray-700;
+  }
+  &__legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  &__legend-label {
+    flex: 1;
+  }
+  &__legend-percent {
+    font-weight: $font-weight-semibold;
+    color: $gray-900;
+  }
+  &__assets-list {
+    width: 100%;
+    max-width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: $space-s;
+  }
+}
 </style>
