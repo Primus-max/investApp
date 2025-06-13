@@ -57,6 +57,13 @@ const activeTab = ref(0);
           <div class="portfolio-structure-card__chart-assets">{{ assetsCount }} активов</div>
         </div>
       </div>
+      <div class="portfolio-structure-card__legend-row">
+        <div v-for="cat in categories" :key="cat.label" class="portfolio-structure-card__legend-item">
+          <span class="portfolio-structure-card__legend-dot" :style="{ background: cat.color }"></span>
+          <span class="portfolio-structure-card__legend-label">{{ cat.label }}</span>
+          <span class="portfolio-structure-card__legend-percent">{{ cat.percent }}%</span>
+        </div>
+      </div>
       <div class="portfolio-structure-card__tabs-row">
         <AppPillButton
           v-for="(tab, i) in tabs"
@@ -120,6 +127,41 @@ const activeTab = ref(0);
     color: $gray-500;
     margin-top: 2px;
   }
+  &__legend-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: $space-m;
+    margin: 16px 0 0 0;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  &__legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: $font-size-body;
+    font-weight: $font-weight-medium;
+    color: $gray-700;
+    min-width: 90px;
+    justify-content: center;
+  }
+  &__legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  &__legend-label {
+    font-size: $font-size-body;
+    color: $gray-700;
+  }
+  &__legend-percent {
+    font-weight: $font-weight-semibold;
+    color: $gray-900;
+    margin-left: 2px;
+  }
   &__tabs-row {
     display: flex;
     flex-direction: row;
@@ -138,6 +180,7 @@ const activeTab = ref(0);
     padding: 6px 16px;
     background: $gray-50;
     color: $gray-500;
+    white-space: nowrap;
     &--active {
       background: $primary-50;
       color: $primary-400;
