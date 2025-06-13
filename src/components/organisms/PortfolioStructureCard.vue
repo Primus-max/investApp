@@ -38,7 +38,8 @@ const chartOptions = ref({
       donut: {
         size: '75%',
         labels: { show: false }
-      }
+      },
+      expandOnClick: false,
     }
   }
 });
@@ -50,7 +51,7 @@ const activeTab = ref(0);
   <div class="portfolio-structure-card">
     <div class="portfolio-structure-card__chart-block">
       <div class="portfolio-structure-card__chart-center">
-        <apexchart type="donut" :options="chartOptions" :series="apexSeries" width="180" height="180" />
+        <apexchart type="donut" :options="chartOptions" :series="apexSeries" width="240" height="240" />
         <div class="portfolio-structure-card__chart-center-content">
           <div class="portfolio-structure-card__chart-sum">{{ total }}</div>
           <div class="portfolio-structure-card__chart-assets">{{ assetsCount }} активов</div>
@@ -95,8 +96,8 @@ const activeTab = ref(0);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 180px;
-    height: 180px;
+    width: 240px;
+    height: 240px;
   }
   &__chart-center-content {
     position: absolute;
