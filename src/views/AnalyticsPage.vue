@@ -63,13 +63,12 @@
                     <div class="tab-structure__card tab-structure__card--structure">
                         <div class="tab-structure__chart-block">
                             <div class="tab-structure__chart-center">
-                                <PieChartAtom :sectors="portfolioStructure" :size="180" :stroke-width="32" />
+                                <apexchart type="donut" :options="chartOptions" :series="apexSeries" width="180" height="180" />
                                 <div class="tab-structure__chart-center-content">
                                     <div class="tab-structure__chart-sum">2 345 461 ₽</div>
                                     <div class="tab-structure__chart-assets">8 активов</div>
                                 </div>
                             </div>
-                            <!-- Здесь будут табы -->
                             <div class="tab-structure__tabs-row">
                                 <AppPillButton class="tab-structure__tab tab-structure__tab--active">Активы</AppPillButton>
                                 <AppPillButton class="tab-structure__tab">Компании</AppPillButton>
@@ -137,6 +136,7 @@ import {
   useRoute,
   useRouter,
 } from 'vue-router';
+import VueApexCharts from 'vue3-apexcharts';
 
 import AppBanner from '@/components/atoms/AppBanner.vue';
 import AppPillButton from '@/components/atoms/AppPillButton.vue';
@@ -268,6 +268,38 @@ const portfolioStructure = ref([
   { label: 'Фонды', value: 200000, percent: 4, color: '#FF4D4F' },
   { label: 'Другое', value: 100000, percent: 2, color: '#8D94A5' },
 ]);
+
+const apexSeries = ref([2500000, 1500000, 700000, 200000, 100000]);
+const apexLabels = ['Акции', 'Облигации', 'Валюта', 'Фонды', 'Другое'];
+const apexColors = ['#2A7CFF', '#00C48C', '#FFD600', '#FF4D4F', '#8D94A5'];
+const chartOptions = ref({
+  chart: {
+    type: 'donut',
+    background: 'transparent',
+  },
+  labels: apexLabels,
+  colors: apexColors,
+  stroke: {
+    width: 6,
+    colors: ['#fff']
+  },
+  dataLabels: {
+    enabled: false
+  },
+  legend: {
+    show: false
+  },
+  plotOptions: {
+    pie: {
+      donut: {
+        size: '75%',
+        labels: {
+          show: false
+        }
+      }
+    }
+  }
+});
 
 function goBack() {
     router.back();
