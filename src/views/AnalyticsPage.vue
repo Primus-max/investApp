@@ -37,7 +37,7 @@
                         </div>
                         <div class="page__header-badge-row">
                             <span class="page__header-badge-current-amount">{{ currentAmount }} / {{ targetAmount
-                            }}</span>
+                                }}</span>
                             <span class="page__header-badge-period">до {{ goalDeadline }}</span>
                         </div>
                     </div>
@@ -60,22 +60,16 @@
                 <HistoryMetricsTab v-if="activeTab === 0" :portfolio-data="portfolio" />
                 <div v-else-if="activeTab === 1" class="tab-structure">
                     <h2 class="tab-structure__title">Структура</h2>
-                    <PortfolioStructureCard
-                        :categories="portfolioStructure"
-                        total="2 345 461 ₽"
-                        :assets-count="8"
-                    />
+                    <PortfolioStructureCard :categories="portfolioStructure" total="2 345 461 ₽" :assets-count="8" />
+                    <div class="tab-structure__assets-header-row">
+                        <span class="tab-structure__title" style="margin-bottom: 0px;">Активы</span>
+                        <AppPillButton class="tab-structure__assets-sort">Рост ↓</AppPillButton>
+                    </div>
                     <div class="tab-structure__card tab-structure__card--assets">
-                        <div class="tab-structure__assets-header-row">
-                            <span class="tab-structure__assets-title">Активы</span>
-                            <AppPillButton class="tab-structure__assets-sort">Рост ↓</AppPillButton>
-                        </div>
+
                         <div class="tab-structure__assets-list">
-                            <PortfolioAssetCard
-                                v-for="item in portfolioStructure"
-                                :key="item.label"
-                                :asset="{ name: item.label, amount: item.value, percent: item.percent, color: item.color }"
-                            />
+                            <PortfolioAssetCard v-for="item in portfolioStructure" :key="item.label"
+                                :asset="{ name: item.label, amount: item.value, percent: item.percent, color: item.color, logo: item.logo }" />
                         </div>
                         <button class="tab-structure__assets-more">Подробнее</button>
                     </div>
@@ -245,42 +239,42 @@ const tabs = ref([
 
 // Моковые данные для структуры портфеля
 const portfolioStructure = ref([
-  { label: 'Акции', value: 2500000, percent: 50, color: '#0091FF' },
-  { label: 'Облигации', value: 1500000, percent: 30, color: '#11A772' },
-  { label: 'Фонды', value: 700000, percent: 14, color: '#FF801F' },
-  { label: 'Валюта и металы', value: 200000, percent: 4, color: '#BE63FF' },  
+    { label: 'Сбербанк', value: 2500000, percent: 50, color: '#0091FF', logo: 'sber' },
+    { label: 'Точка', value: 1500000, percent: 30, color: '#11A772', logo: 'tochka' },
+    { label: 'Модульбанк', value: 700000, percent: 14, color: '#FF801F', logo: 'modul' },
+    { label: 'Другое', value: 200000, percent: 4, color: '#BE63FF', logo: 'sovkom' },
 ]);
 
 const apexSeries = ref([2500000, 1500000, 700000, 200000, 100000]);
 const apexLabels = ['Акции', 'Облигации', 'Валюта', 'Фонды', 'Другое'];
 const apexColors = ['#2A7CFF', '#00C48C', '#FFD600', '#FF4D4F', '#8D94A5'];
 const chartOptions = ref({
-  chart: {
-    type: 'donut',
-    background: 'transparent',
-  },
-  labels: apexLabels,
-  colors: apexColors,
-  stroke: {
-    width: 6,
-    colors: ['#fff']
-  },
-  dataLabels: {
-    enabled: false
-  },
-  legend: {
-    show: false
-  },
-  plotOptions: {
-    pie: {
-      donut: {
-        size: '75%',
-        labels: {
-          show: false
+    chart: {
+        type: 'donut',
+        background: 'transparent',
+    },
+    labels: apexLabels,
+    colors: apexColors,
+    stroke: {
+        width: 6,
+        colors: ['#fff']
+    },
+    dataLabels: {
+        enabled: false
+    },
+    legend: {
+        show: false
+    },
+    plotOptions: {
+        pie: {
+            donut: {
+                size: '75%',
+                labels: {
+                    show: false
+                }
+            }
         }
-      }
     }
-  }
 });
 
 function goBack() {
@@ -383,8 +377,8 @@ function handleCreateGoal() {
             opacity: 0.6;
         }
 
-        &-stats-row {          
-            gap: 20px;            
+        &-stats-row {
+            gap: 20px;
         }
 
         &-stats-info {
@@ -569,7 +563,7 @@ function handleCreateGoal() {
     flex-direction: column;
     gap: 0;
     padding-top: $space-m;
-    padding-bottom: 0;   
+    padding-bottom: 0;
 }
 
 .page__sticky-header-fake {
@@ -581,186 +575,211 @@ function handleCreateGoal() {
     background: $color-bg-main;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     padding-top: $space-m;
     padding-bottom: 0;
     padding-top: 4px !important;
 }
 
 .page__body--sticky {
-  .page__back,
-  .page__back-icon {
-    color: $primary-400 !important;
-    fill: $primary-400 !important;
-  }
-  .page__back-icon {
-    :deep(svg) {
-      color: $primary-400 !important;
-      fill: $primary-400 !important;
-      stroke: $primary-400 !important;
+
+    .page__back,
+    .page__back-icon {
+        color: $primary-400 !important;
+        fill: $primary-400 !important;
     }
-  }
+
+    .page__back-icon {
+        :deep(svg) {
+            color: $primary-400 !important;
+            fill: $primary-400 !important;
+            stroke: $primary-400 !important;
+        }
+    }
 }
 
 .tab-structure {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: $space-l;
-  &__title {
-    font-size: $font-size-h2;
-    font-weight: $font-weight-semibold;
-    color: $gray-900;
-    margin-bottom: $space-m;
-    align-self: flex-start;
-    margin-left: 8px;
-  }
-  &__card {
-    background: $gray-0;
-    border-radius: $radius-xl;
-    box-shadow: 0 2px 16px rgba(44, 62, 80, 0.06);
-    padding: $space-l $space-m;
-    width: 100%;
-    max-width: 380px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: $space-l;
-    &--structure {
-      margin-bottom: $space-l;
+
+    &__title {
+        font-size: $font-size-h2;
+        font-weight: $font-weight-semibold;
+        color: $gray-900;
+        margin-bottom: $space-m;
+        align-self: flex-start;
+        margin-left: 8px;
     }
-    &--assets {
-      margin-top: 0;
+
+    &__card {
+        background: $gray-0;
+        border-radius: $radius-xl;
+        box-shadow: 0 2px 16px rgba(44, 62, 80, 0.06);
+        padding: $space-l $space-m;
+        width: 100%;
+        max-width: 380px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $space-l;
+
+        &--structure {
+            margin-bottom: $space-l;
+        }
+
+        &--assets {
+            margin-top: 0;
+        }
     }
-  }
-  &__chart-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: $space-m;
-    width: 100%;
-  }
-  &__chart-center {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 180px;
-    height: 180px;
-  }
-  &__chart-center-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    pointer-events: none;
-  }
-  &__chart-sum {
-    font-size: 22px;
-    font-weight: $font-weight-semibold;
-    color: $gray-900;
-    line-height: 1.1;
-  }
-  &__chart-assets {
-    font-size: $font-size-small;
-    color: $gray-500;
-    margin-top: 2px;
-  }
-  &__tabs-row {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    margin: 16px 0 8px 0;
-    width: 100%;
-    justify-content: flex-start;
-  }
-  &__tab {
-    font-size: $font-size-body;
-    font-weight: $font-weight-medium;
-    border-radius: 16px;
-    padding: 6px 16px;
-    background: $gray-50;
-    color: $gray-500;
-    &--active {
-      background: $primary-50;
-      color: $primary-400;
+
+    &__chart-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $space-m;
+        width: 100%;
     }
-  }
-  &__legend {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 8px;
-    width: 100%;
-    max-width: 220px;
-  }
-  &__legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: $font-size-body;
-    font-weight: $font-weight-medium;
-    color: $gray-700;
-  }
-  &__legend-color {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    display: inline-block;
-  }
-  &__legend-label {
-    flex: 1;
-  }
-  &__legend-percent {
-    font-weight: $font-weight-semibold;
-    color: $gray-900;
-  }
-  &__assets-header-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 8px;
-  }
-  &__assets-title {
-    font-size: $font-size-h3;
-    font-weight: $font-weight-semibold;
-    color: $gray-900;
-  }
-  &__assets-sort {
-    font-size: $font-size-small;
-    font-weight: $font-weight-medium;
-    background: $gray-50;
-    color: $gray-500;
-    border-radius: 16px;
-    padding: 4px 12px;
-  }
-  &__assets-list {
-    width: 100%;
-    max-width: 340px;
-    display: flex;
-    flex-direction: column;
-    gap: $space-s;
-  }
-  &__assets-more {
-    margin: 16px auto 0 auto;
-    display: block;
-    background: $primary-50;
-    color: $primary-400;
-    border: none;
-    border-radius: 16px;
-    padding: 8px 24px;
-    font-size: $font-size-body;
-    font-weight: $font-weight-semibold;
-    cursor: pointer;
-    transition: background 0.2s;
-    &:hover {
-      background: $primary-100;
+
+    &__chart-center {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 180px;
+        height: 180px;
     }
-  }
+
+    &__chart-center-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        pointer-events: none;
+    }
+
+    &__chart-sum {
+        font-size: 22px;
+        font-weight: $font-weight-semibold;
+        color: $gray-900;
+        line-height: 1.1;
+    }
+
+    &__chart-assets {
+        font-size: $font-size-small;
+        color: $gray-500;
+        margin-top: 2px;
+    }
+
+    &__tabs-row {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        margin: 16px 0 8px 0;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    &__tab {
+        font-size: $font-size-body;
+        font-weight: $font-weight-medium;
+        border-radius: 16px;
+        padding: 6px 16px;
+        background: $gray-50;
+        color: $gray-500;
+
+        &--active {
+            background: $primary-50;
+            color: $primary-400;
+        }
+    }
+
+    &__legend {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 8px;
+        width: 100%;
+        max-width: 220px;
+    }
+
+    &__legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: $font-size-body;
+        font-weight: $font-weight-medium;
+        color: $gray-700;
+    }
+
+    &__legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    &__legend-label {
+        flex: 1;
+    }
+
+    &__legend-percent {
+        font-weight: $font-weight-semibold;
+        color: $gray-900;
+    }
+
+    &__assets-header-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;        
+    }
+
+    &__assets-title {
+        font-size: $font-size-h3;
+        font-weight: $font-weight-semibold;
+        color: $gray-900;
+    }
+
+    &__assets-sort {
+        font-size: $font-size-small;
+        font-weight: $font-weight-medium;
+        background: $gray-0;
+        color: $gray-500;
+        border-radius: $radius-md;
+        padding: 8px 12px;
+        width: 82px;               
+    }
+
+    &__assets-list {
+        width: 100%;
+        max-width: 340px;
+        display: flex;
+        flex-direction: column;
+        gap: $space-s;
+    }
+
+    &__assets-more {
+        margin: 16px auto 0 auto;
+        display: block;
+        background: $primary-50;
+        color: $primary-400;
+        border: none;
+        border-radius: 16px;
+        padding: 8px 24px;
+        font-size: $font-size-body;
+        font-weight: $font-weight-semibold;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover {
+            background: $primary-100;
+        }
+    }
 }
 </style>

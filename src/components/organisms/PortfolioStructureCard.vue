@@ -46,6 +46,16 @@ const chartOptions = ref({
 
 const tabs = ['Активы', 'Компании', 'Отрасли', 'Валюта'];
 const activeTab = ref(0);
+const showSortMenu = ref(false);
+const sortOptions = [
+  { label: 'Рост ↑', value: 'growth-up' },
+  { label: 'Рост ↓', value: 'growth-down' },
+  { label: 'Доход', value: 'profit-up' },
+  { label: 'Доход ↓', value: 'profit-down' },
+];
+const selectedSort = ref(sortOptions[1]);
+function openSortMenu() { showSortMenu.value = !showSortMenu.value; }
+function selectSort(option) { selectedSort.value = option; showSortMenu.value = false; }
 </script>
 <template>
   <div class="portfolio-structure-card">
@@ -57,13 +67,6 @@ const activeTab = ref(0);
           <div class="portfolio-structure-card__chart-assets">{{ assetsCount }} активов</div>
         </div>
       </div>
-      <!-- <div class="portfolio-structure-card__legend-row">
-        <div v-for="cat in categories" :key="cat.label" class="portfolio-structure-card__legend-item">
-          <span class="portfolio-structure-card__legend-dot" :style="{ background: cat.color }"></span>
-          <span class="portfolio-structure-card__legend-label">{{ cat.label }}</span>
-          <span class="portfolio-structure-card__legend-percent">{{ cat.percent }}%</span>
-        </div>
-      </div> -->
       <div class="portfolio-structure-card__tabs-row">
         <AppPillButton
           v-for="(tab, i) in tabs"
@@ -76,6 +79,15 @@ const activeTab = ref(0);
       </div>
       <CategoryListMolecule :categories="categories" />
     </div>
+    <!-- <div class="portfolio-structure-card__assets-header-row">
+      <h2 class="portfolio-structure-card__assets-title">Активы</h2>
+      <button class="portfolio-structure-card__sort-btn" @click="openSortMenu">{{ selectedSort.label }}</button>
+      <div v-if="showSortMenu" class="portfolio-structure-card__sort-menu">
+        <div v-for="option in sortOptions" :key="option.value" :class="['portfolio-structure-card__sort-menu-item', { 'portfolio-structure-card__sort-menu-item--active': selectedSort.value === option.value }]" @click="selectSort(option)">
+          {{ option.label }}
+        </div>
+      </div>
+    </div> -->
   </div>
 </template>
 <style scoped lang="scss">
@@ -196,6 +208,74 @@ const activeTab = ref(0);
     &--active {
       background: $primary-50;
       color: $primary-500;
+    }
+  }
+  &__assets-header-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  &__assets-title {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-semibold;
+    color: $gray-900;
+    margin: 0;
+  }
+  &__sort-btn {
+    width: 34px;
+    height: 22px;
+    font-family: $font-main;
+    font-style: normal;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-body;
+    line-height: 22px;
+    color: $gray-700;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    transition: color 0.2s;
+  }
+  &__sort-menu {
+    position: absolute;
+    top: 32px;
+    right: 0;
+    min-width: 110px;
+    background: $gray-0;
+    border-radius: $radius-lg;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
+    z-index: 10;
+    padding: 4px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  &__sort-menu-item {
+    font-family: $font-main;
+    font-size: $font-size-body;
+    color: $gray-700;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    &:hover {
+      background: $gray-100;
+      color: $primary-500;
+    }
+    &--active {
+      color: $primary-500;
+      font-weight: $font-weight-semibold;
+      background: $gray-50;
     }
   }
 }
