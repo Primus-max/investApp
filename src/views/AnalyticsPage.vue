@@ -74,9 +74,68 @@
                         <AppPillButton class="tab-structure__assets-more">Подробнее</AppPillButton>
                     </div>
                 </div>
-                <div v-else-if="activeTab === 2" class="tab-placeholder">
-                    <h3>Ближайшие выплаты</h3>
-                    <p>Содержимое вкладки "Ближайшие выплаты" будет добавлено позже</p>
+                <div v-else-if="activeTab === 2" class="payouts-tab">
+                    <div class="payouts-tab__title">Ближайшие выплаты</div>
+                    <div class="payouts-analytics-card">
+                        <h3 class="payouts-analytics-card__title">Краткая аналитика</h3>
+                        <div class="payouts-analytics-card__inner">
+                            <div class="payouts-analytics-card__top-row">
+                                <span class="payouts-analytics-card__label">Получено всего</span>
+                                <span class="payouts-analytics-card__main-value">2 345 461 ₽</span>
+                            </div>
+                            <div class="payouts-analytics-card__mini-cards-row">
+                                <div class="payouts-analytics-card__mini-card">
+                                    <header class="payouts-analytics-card__mini-label">
+                                        <span class="payouts-analytics-card__mini-label-text">Дивиденды</span>
+                                        <span
+                                            class="payouts-analytics-card__mini-arrow payouts-analytics-card__mini-arrow--up">↑</span>
+                                    </header>
+                                    <div class="payouts-analytics-card__mini-value-row">
+                                        <span class="payouts-analytics-card__mini-value">1 345 461 ₽</span>
+                                    </div>
+                                </div>
+                                <div class="payouts-analytics-card__mini-card">
+                                    <header class="payouts-analytics-card__mini-label">
+                                        <span class="payouts-analytics-card__mini-label-text">Средний чек</span>
+                                        <span
+                                            class="payouts-analytics-card__mini-arrow payouts-analytics-card__mini-arrow--up">↑</span>
+                                    </header>
+                                    <div class="payouts-analytics-card__mini-value-row">
+                                        <span class="payouts-analytics-card__mini-value">1 000 000 ₽</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="payouts-analytics-card__footer-row">
+                            <span class="payouts-analytics-card__footer-label">Доходность на вложенный капитал</span>
+                            <span class="payouts-analytics-card__footer-value">
+                                <span class="payouts-analytics-card__footer-sign payouts-analytics-card__footer-sign--positive">+</span>
+                                <span class="payouts-analytics-card__footer-number">4%</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="payouts-list-card">
+                        <div v-for="(item, idx) in payoutsList" :key="item.id" class="payouts-list-card__row" :class="{ 'payouts-list-card__row--last': idx === payoutsList.length - 1 }">
+                            <div class="payouts-list-card__left">
+                                <img :src="item.icon" :alt="item.bank" class="payouts-list-card__icon" />
+                                <div class="payouts-list-card__info">
+                                    <div class="payouts-list-card__bank">{{ item.bank }}</div>
+                                    <div class="payouts-list-card__date">{{ item.date }}</div>
+                                </div>
+                            </div>
+                            <div class="payouts-list-card__right">
+                                <div class="payouts-list-card__meta">
+                                    <span class="payouts-list-card__count">{{ item.count }} шт</span>
+                                    <span class="payouts-list-card__meta-price">{{ item.metaPrice }} ₽</span>
+                                </div>
+                                <div class="payouts-list-card__sum-row">
+                                    <span class="payouts-list-card__sum">{{ item.sum }} ₽</span>
+                                    <IconClock01 class="payouts-list-card__clock payouts-list-card__clock--blue" />
+                                </div>
+                            </div>
+                        </div>
+                        <AppPillButton class="tab-structure__assets-more">Подробнее</AppPillButton>
+                    </div>
                 </div>
             </div>
             <div v-if="showStickyHeader" class="page__sticky-header-fake">
@@ -232,10 +291,10 @@ const goalDeadline = ref('12.12.2030');
 const goalProgress = ref(47); // 2,345,461 / 5,000,000 * 100 ≈ 47%
 
 const sortOptions = [
-  { label: 'Рост ↑', value: 'growth-up' },
-  { label: 'Рост ↓', value: 'growth-down' },
-  { label: 'Доход', value: 'profit-up' },
-  { label: 'Доход ↓', value: 'profit-down' },
+    { label: 'Рост ↑', value: 'growth-up' },
+    { label: 'Рост ↓', value: 'growth-down' },
+    { label: 'Доход', value: 'profit-up' },
+    { label: 'Доход ↓', value: 'profit-down' },
 ];
 const selectedSortValue = ref(sortOptions[1].value);
 
@@ -249,22 +308,22 @@ const tabs = ref([
 
 // Моковые данные для структуры портфеля (для chart и прогрессбаров)
 const portfolioStructure = ref([
-  { label: 'Сбербанк', value: 2500000, percent: 50, color: '#0091FF', logo: 'sber' },
-  { label: 'Точка', value: 1500000, percent: 30, color: '#11A772', logo: 'tochka' },
-  { label: 'Модульбанк', value: 700000, percent: 14, color: '#FF801F', logo: 'modul' },
-  { label: 'Совкомбанк', value: 200000, percent: 4, color: '#BE63FF', logo: 'sovkom' },
+    { label: 'Сбербанк', value: 2500000, percent: 50, color: '#0091FF', logo: 'sber' },
+    { label: 'Точка', value: 1500000, percent: 30, color: '#11A772', logo: 'tochka' },
+    { label: 'Модульбанк', value: 700000, percent: 14, color: '#FF801F', logo: 'modul' },
+    { label: 'Совкомбанк', value: 200000, percent: 4, color: '#BE63FF', logo: 'sovkom' },
 ]);
 
 // Моковые данные для списка активов
 const assetList = ref([
-  { bank: 'Сбербанк', count: 10, price: 302.41, amount: 2500000, percent: 12, profit: 40471, logo: 'sber' },
-  { bank: 'Точка', count: 10, price: 481.33, amount: 1500000, percent: -12, profit: -150471, logo: 'tochka' },
-  { bank: 'Модульбанк', count: 10, price: 802.88, amount: 5800000, percent: 68, profit: 540471, logo: 'modul' },
-  { bank: 'Совкомбанк', count: 10, price: 102.41, amount: 1702066, percent: -10, profit: -150471, logo: 'sovkom' },
-  { bank: 'Сбербанк', count: 10, price: 302.41, amount: 1306000, percent: 24, profit: 1940471, logo: 'sber' },
-  { bank: 'Точка', count: 10, price: 481.33, amount: 2482066, percent: 12, profit: 120471, logo: 'tochka' },
-  { bank: 'Модульбанк', count: 10, price: 802.88, amount: 5800000, percent: 68, profit: 540471, logo: 'modul' },
-  { bank: 'Совкомбанк', count: 10, price: 102.88, amount: 1702066, percent: -10, profit: -150471, logo: 'sovkom' },
+    { bank: 'Сбербанк', count: 10, price: 302.41, amount: 2500000, percent: 12, profit: 40471, logo: 'sber' },
+    { bank: 'Точка', count: 10, price: 481.33, amount: 1500000, percent: -12, profit: -150471, logo: 'tochka' },
+    { bank: 'Модульбанк', count: 10, price: 802.88, amount: 5800000, percent: 68, profit: 540471, logo: 'modul' },
+    { bank: 'Совкомбанк', count: 10, price: 102.41, amount: 1702066, percent: -10, profit: -150471, logo: 'sovkom' },
+    { bank: 'Сбербанк', count: 10, price: 302.41, amount: 1306000, percent: 24, profit: 1940471, logo: 'sber' },
+    { bank: 'Точка', count: 10, price: 481.33, amount: 2482066, percent: 12, profit: 120471, logo: 'tochka' },
+    { bank: 'Модульбанк', count: 10, price: 802.88, amount: 5800000, percent: 68, profit: 540471, logo: 'modul' },
+    { bank: 'Совкомбанк', count: 10, price: 102.88, amount: 1702066, percent: -10, profit: -150471, logo: 'sovkom' },
 ]);
 
 const apexSeries = ref([2500000, 1500000, 700000, 200000, 100000]);
@@ -298,6 +357,59 @@ const chartOptions = ref({
         }
     }
 });
+
+const payoutsList = ref([
+    {
+        id: 1,
+        bank: 'Сбербанк',
+        icon: new URL('@/assets/icons/coins/sber.svg', import.meta.url).href,
+        date: '12.12.2025',
+        count: 10,
+        price: '3 020,66',
+        sum: '3 020,66',
+        metaPrice: '302,41',
+    },
+    {
+        id: 2,
+        bank: 'Точка',
+        icon: new URL('@/assets/icons/coins/tochka.svg', import.meta.url).href,
+        date: '12.12.2025',
+        count: 10,
+        price: '3 020,66',
+        sum: '3 020,66',
+        metaPrice: '302,41',
+    },
+    {
+        id: 3,
+        bank: 'Модульбанк',
+        icon: new URL('@/assets/icons/coins/modul.svg', import.meta.url).href,
+        date: '12.12.2025',
+        count: 10,
+        price: '3 020,66',
+        sum: '3 020,66',
+        metaPrice: '302,41',
+    },
+    {
+        id: 4,
+        bank: 'Совкомбанк',
+        icon: new URL('@/assets/icons/coins/sovkom.svg', import.meta.url).href,
+        date: '12.12.2025',
+        count: 10,
+        price: '3 020,66',
+        sum: '3 020,66',
+        metaPrice: '302,41',
+    },
+    {
+        id: 5,
+        bank: 'Сбербанк',
+        icon: new URL('@/assets/icons/coins/sber.svg', import.meta.url).href,
+        date: '12.12.2025',
+        count: 10,
+        price: '3 020,66',
+        sum: '3 020,66',
+        metaPrice: '302,41',
+    },
+]);
 
 function goBack() {
     router.back();
@@ -759,7 +871,7 @@ function handleCreateGoal() {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        width: 100%;        
+        width: 100%;
     }
 
     &__assets-title {
@@ -775,7 +887,7 @@ function handleCreateGoal() {
         color: $gray-500;
         border-radius: $radius-md;
         padding: 8px 12px;
-        width: 82px;               
+        width: 82px;
     }
 
     &__assets-list {
@@ -784,24 +896,557 @@ function handleCreateGoal() {
         display: flex;
         flex-direction: column;
         gap: $space-s;
-    }  
+    }
 
     &__assets-more {
         width: 100%;
-      margin-bottom: 12px;
-      background: $gray-100;
-      border: none;
-      border-radius: $radius-lg;
-      padding: $space-m;
-      font-size: $font-size-body;
-      font-weight: $font-weight-medium;
-      color: $gray-700;
-      cursor: pointer;
-      transition: all 0.2s;
+        margin-bottom: 12px;
+        background: $gray-100;
+        border: none;
+        border-radius: $radius-lg;
+        padding: $space-m;
+        font-size: $font-size-body;
+        font-weight: $font-weight-medium;
+        color: $gray-700;
+        cursor: pointer;
+        transition: all 0.2s;
 
-      &:hover {
-        background: darken($gray-100, 5%);
-      }
+        &:hover {
+            background: darken($gray-100, 5%);
+        }
     }
+}
+
+.payouts-analytics-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    width: 100%;
+    background: $gray-0;
+    border-radius: 20px;
+    box-sizing: border-box;
+
+    &__title {
+        font-size: $font-size-h3;
+        font-weight: $font-weight-semibold;
+        color: $gray-950;
+        margin-bottom: 12px;
+        align-self: flex-start;
+    }
+
+    &__inner {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 4px 8px 8px 8px;
+        gap: 12px;
+        background: $gray-50;
+        border-radius: 12px;
+        box-sizing: border-box;
+    }
+
+    &__top-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding: 0;
+        gap: $space-m;
+        box-sizing: border-box;
+    }
+
+    &__label {
+        font-size: 16px;
+        font-weight: 400;
+        color: $gray-500;
+        font-family: $font-main;
+        line-height: 22px;
+    }
+
+    &__main-value {
+        font-size: 20px;
+        font-weight: 600;
+        color: $gray-950;
+        font-family: $font-main;
+        line-height: 26px;
+        white-space: nowrap;
+    }
+
+    &__mini-cards-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    &__mini-card {
+        height: 70px;
+        width: 100%;
+        max-width: 155px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;       
+        padding: 8px 12px;
+        gap: 4px;
+        background: $gray-0;
+        border-radius: 8px;
+        box-sizing: border-box;
+        flex: 1 1 0%;
+        min-width: 0;
+    }
+
+    &__mini-label {        
+        width: 100%;
+        height: 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        font-size: 14px;
+        font-weight: 400;
+        color: $gray-500;
+        font-family: $font-main;
+    }
+
+    &__mini-value-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+    }
+
+    &__mini-value {
+        font-size: 16px;
+        font-weight: 500;
+        color: $gray-950;
+        font-family: $font-main;
+        line-height: 22px;
+        white-space: nowrap;
+    }
+
+    &__mini-arrow {
+        font-size: 16px;
+        color: #03B65C;
+
+        &--up {
+            color: #03B65C;
+        }
+
+        &--down {
+            color: $color-error;
+        }
+    }
+
+    &__footer-row {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        justify-self: space-between;
+        margin-top: 16px;
+    }
+
+    &__footer-label {
+        font-size: 16px;
+        font-weight: 400;
+        color: $gray-500;
+        font-family: $font-main;
+        line-height: 22px;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+    }
+
+    &__footer-value {
+        font-size: 16px;
+        font-weight: 500;
+        font-family: $font-main;
+        line-height: 22px;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        &--positive {
+            color: #03B65C;
+        }
+        &--negative {
+            color: $color-error;
+        }
+    }
+
+    &__footer-sign {
+        font-size: 16px;
+        font-weight: 500;
+        margin-right: 2px;
+        &--positive {
+            color: #03B65C;
+        }
+        &--negative {
+            color: $color-error;
+        }
+    }
+
+    &__footer-number {
+        color: $gray-950;
+        font-size: 16px;
+        font-weight: 500;
+    }
+}
+
+.payouts-tab {
+    display: flex;
+    flex-direction: column;
+    gap: $space-l;
+    width: 100%;
+    align-items: center;
+
+    &__title {
+        font-size: $font-size-h2;
+        font-weight: $font-weight-semibold;
+        color: $gray-900;
+        margin-bottom: 0px;
+        align-self: flex-start;
+    }
+
+    &__analytics-outer {
+        width: 100%;
+        max-width: 380px;
+        background: $gray-0;
+        border-radius: $radius-xl;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__analytics-title {
+        font-size: $font-size-h3;
+        font-weight: $font-weight-semibold;
+        color: $gray-950;
+        margin-bottom: $space-m;
+        align-self: flex-start;
+    }
+
+    &__analytics-card {
+        width: 100%;
+        background: $gray-50;
+        border-radius: $radius-lg;
+        box-shadow: $shadow-main;
+        padding: $space-m;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    &__analytics-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        &--top {
+            margin-bottom: $space-m;
+        }
+
+        &--mini-cards {
+            gap: $space-m;
+            margin-bottom: $space-m;
+        }
+
+        &--footer {
+            margin-top: $space-m;
+            font-size: $font-size-small;
+        }
+    }
+
+    &__analytics-label {
+        font-size: $font-size-small;
+        color: $gray-500;
+        font-weight: $font-weight-regular;
+
+        &--muted {
+            color: $gray-400;
+        }
+    }
+
+    &__analytics-main-value {
+        font-size: $font-size-h2;
+        font-weight: $font-weight-bold;
+        color: $gray-900;
+        line-height: 1.1;
+    }
+
+    &__mini-card {
+        background: $gray-0;
+        border-radius: $radius-lg;
+        box-shadow: $shadow-main;
+        padding: $space-m $space-l;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        flex: 1;
+        gap: 4px;
+    }
+
+    &__mini-label-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 2px;
+    }
+
+    &__mini-value {
+        font-size: $font-size-body;
+        font-weight: $font-weight-semibold;
+        color: $gray-900;
+    }
+
+    &__analytics-arrow {
+        font-size: 15px;
+        color: $color-success;
+
+        &--up {
+            color: $color-success;
+        }
+
+        &--down {
+            color: $color-error;
+        }
+    }
+
+    &__analytics-footer-label {
+        font-size: $font-size-small;
+        color: $gray-400;
+        font-weight: $font-weight-regular;
+    }
+
+    &__analytics-footer-value {
+        font-size: $font-size-body;
+        font-weight: $font-weight-semibold;
+
+        &--positive {
+            color: $color-success;
+        }
+
+        &--negative {
+            color: $color-error;
+        }
+    }
+
+    &__list-block {
+        width: 100%;
+        max-width: 380px;
+        background: $gray-0;
+        border-radius: $radius-xl;
+        box-shadow: $shadow-main;
+        padding: $space-l $space-m $space-m $space-m;
+        display: flex;
+        flex-direction: column;
+        gap: $space-m;
+    }
+
+    &__list-title {
+        font-size: $font-size-h3;
+        font-weight: $font-weight-semibold;
+        color: $gray-900;
+        margin-bottom: 12px;
+        margin-top: 12px;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: $space-s;
+    }
+
+    &__list-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: $space-s 0;
+        border-bottom: 1px solid $gray-100;
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    &__list-item-left {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: $space-m;
+    }
+
+    &__list-item-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: $gray-100;
+    }
+
+    &__list-item-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    &__list-item-bank {
+        font-size: $font-size-body;
+        font-weight: $font-weight-medium;
+        color: $gray-900;
+    }
+
+    &__list-item-date {
+        font-size: $font-size-small;
+        color: $gray-500;
+    }
+
+    &__list-item-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2px;
+    }
+
+    &__list-item-count {
+        font-size: $font-size-small;
+        color: $gray-500;
+    }
+
+    &__list-item-sum {
+        font-size: $font-size-body;
+        font-weight: $font-weight-semibold;
+        color: $gray-900;
+    }
+
+    &__more-btn {
+        margin-top: $space-m;
+        width: 100%;
+        max-width: 380px;
+    }
+}
+
+.payouts-list-card {
+    width: 100%;
+    max-width: 380px;
+    background: $gray-0;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 24px 16px;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    &__row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        border-bottom: 1px solid $gray-100;
+        &:last-child, &--last {
+            border-bottom: none;
+        }
+    }
+    &__left {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+    &__icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: $gray-100;
+        flex-shrink: 0;
+    }
+    &__info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 0;
+    }
+    &__bank {
+        font-size: 16px;
+        font-weight: 500;
+        color: $gray-900;
+        font-family: $font-main;
+        line-height: 22px;
+        margin-bottom: 2px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 120px;
+    }
+    &__date {
+        font-size: 14px;
+        color: $gray-500;
+        font-family: $font-main;
+        line-height: 20px;
+        white-space: nowrap;
+    }
+    &__right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        min-width: 0;
+        gap: 2px;
+    }
+    &__meta {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: $gray-500;
+        font-family: $font-main;
+        line-height: 20px;
+        margin-bottom: 2px;
+    }
+    &__meta-price {
+        color: $gray-500;
+        font-size: 14px;
+        font-family: $font-main;
+        line-height: 20px;
+        white-space: nowrap;
+    }
+    &__count {
+        white-space: nowrap;
+    }
+    &__clock {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        color: #0091FF;
+        &--blue {
+            color: #0091FF;
+        }
+    }
+    &__sum-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+    &__sum {
+        font-size: 18px;
+        font-weight: 600;
+        color: $gray-950;
+        font-family: $font-main;
+        line-height: 26px;
+        white-space: nowrap;
+    }    
 }
 </style>
