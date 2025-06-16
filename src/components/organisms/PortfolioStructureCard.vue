@@ -57,13 +57,13 @@ const activeTab = ref(0);
           <div class="portfolio-structure-card__chart-assets">{{ assetsCount }} активов</div>
         </div>
       </div>
-      <div class="portfolio-structure-card__legend-row">
+      <!-- <div class="portfolio-structure-card__legend-row">
         <div v-for="cat in categories" :key="cat.label" class="portfolio-structure-card__legend-item">
           <span class="portfolio-structure-card__legend-dot" :style="{ background: cat.color }"></span>
           <span class="portfolio-structure-card__legend-label">{{ cat.label }}</span>
           <span class="portfolio-structure-card__legend-percent">{{ cat.percent }}%</span>
         </div>
-      </div>
+      </div> -->
       <div class="portfolio-structure-card__tabs-row">
         <AppPillButton
           v-for="(tab, i) in tabs"
@@ -165,25 +165,37 @@ const activeTab = ref(0);
   &__tabs-row {
     display: flex;
     flex-direction: row;
-    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
     margin: 16px 0 8px 0;
     width: 100%;
+    gap: 0;
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
     &::-webkit-scrollbar { display: none; }
   }
   &__tab {
-    font-size: $font-size-body;
+    min-width: 72px;
+    max-width: 72px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: $radius-md;
+    font-size: $font-size-small;
+    font-family: $font-main;
     font-weight: $font-weight-medium;
-    border-radius: $radius-lg;
-    padding: 6px 16px;
-    background: $gray-50;
+    line-height: 20px;
+    background: transparent;
     color: $gray-500;
-    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    padding: 8px 12px;
+    box-sizing: border-box;
     &--active {
       background: $primary-50;
-      color: $primary-400;
+      color: $primary-500;
     }
   }
 }

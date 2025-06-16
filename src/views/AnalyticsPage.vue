@@ -245,11 +245,10 @@ const tabs = ref([
 
 // Моковые данные для структуры портфеля
 const portfolioStructure = ref([
-  { label: 'Акции', value: 2500000, percent: 50, color: '#2A7CFF' },
-  { label: 'Облигации', value: 1500000, percent: 30, color: '#00C48C' },
-  { label: 'Валюта', value: 700000, percent: 14, color: '#FFD600' },
-  { label: 'Фонды', value: 200000, percent: 4, color: '#FF4D4F' },
-  { label: 'Другое', value: 100000, percent: 2, color: '#8D94A5' },
+  { label: 'Акции', value: 2500000, percent: 50, color: '#0091FF' },
+  { label: 'Облигации', value: 1500000, percent: 30, color: '#11A772' },
+  { label: 'Фонды', value: 700000, percent: 14, color: '#FF801F' },
+  { label: 'Валюта и металы', value: 200000, percent: 4, color: '#BE63FF' },  
 ]);
 
 const apexSeries = ref([2500000, 1500000, 700000, 200000, 100000]);
@@ -324,7 +323,6 @@ function handleCreateGoal() {
 @import '@/styles/_sections.scss';
 @import '@/styles/_variables.scss';
 
-/* Кнопка создания цели инвестирования */
 .investment-goal-button {
     display: flex;
     flex-direction: row;
