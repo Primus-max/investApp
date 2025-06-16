@@ -46,16 +46,13 @@ const chartOptions = ref({
 
 const tabs = ['Активы', 'Компании', 'Отрасли', 'Валюта'];
 const activeTab = ref(0);
-const showSortMenu = ref(false);
 const sortOptions = [
   { label: 'Рост ↑', value: 'growth-up' },
   { label: 'Рост ↓', value: 'growth-down' },
   { label: 'Доход', value: 'profit-up' },
   { label: 'Доход ↓', value: 'profit-down' },
 ];
-const selectedSort = ref(sortOptions[1]);
-function openSortMenu() { showSortMenu.value = !showSortMenu.value; }
-function selectSort(option) { selectedSort.value = option; showSortMenu.value = false; }
+const selectedSortValue = ref(sortOptions[1].value);
 </script>
 <template>
   <div class="portfolio-structure-card">
@@ -78,16 +75,7 @@ function selectSort(option) { selectedSort.value = option; showSortMenu.value = 
         </AppPillButton>
       </div>
       <CategoryListMolecule :categories="categories" />
-    </div>
-    <!-- <div class="portfolio-structure-card__assets-header-row">
-      <h2 class="portfolio-structure-card__assets-title">Активы</h2>
-      <button class="portfolio-structure-card__sort-btn" @click="openSortMenu">{{ selectedSort.label }}</button>
-      <div v-if="showSortMenu" class="portfolio-structure-card__sort-menu">
-        <div v-for="option in sortOptions" :key="option.value" :class="['portfolio-structure-card__sort-menu-item', { 'portfolio-structure-card__sort-menu-item--active': selectedSort.value === option.value }]" @click="selectSort(option)">
-          {{ option.label }}
-        </div>
-      </div>
-    </div> -->
+    </div>   
   </div>
 </template>
 <style scoped lang="scss">

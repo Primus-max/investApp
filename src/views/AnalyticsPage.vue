@@ -63,7 +63,7 @@
                     <PortfolioStructureCard :categories="portfolioStructure" total="2 345 461 ₽" :assets-count="8" />
                     <div class="tab-structure__assets-header-row">
                         <span class="tab-structure__title" style="margin-bottom: 0px;">Активы</span>
-                        <AppPillButton class="tab-structure__assets-sort">Рост ↓</AppPillButton>
+                        <SortDropdown :options="sortOptions" v-model="selectedSortValue" />
                     </div>
                     <div class="tab-structure__card tab-structure__card--assets">
 
@@ -125,6 +125,7 @@ import PieChartAtom from '@/components/atoms/PieChartAtom.vue';
 import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
 import ProgressBar from '@/components/atoms/ProgressBar.vue';
 import PortfolioAssetCard from '@/components/molecules/PortfolioAssetCard.vue';
+import SortDropdown from '@/components/molecules/SortDropdown.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import HistoryMetricsTab from '@/components/organisms/HistoryMetricsTab.vue';
@@ -228,6 +229,14 @@ const currentAmount = ref('2 345 461 ₽');
 const targetAmount = ref('5 000 000 ₽');
 const goalDeadline = ref('12.12.2030');
 const goalProgress = ref(47); // 2,345,461 / 5,000,000 * 100 ≈ 47%
+
+const sortOptions = [
+  { label: 'Рост ↑', value: 'growth-up' },
+  { label: 'Рост ↓', value: 'growth-down' },
+  { label: 'Доход', value: 'profit-up' },
+  { label: 'Доход ↓', value: 'profit-down' },
+];
+const selectedSortValue = ref(sortOptions[1].value);
 
 // Табы для аналитики
 const activeTab = ref(0);
