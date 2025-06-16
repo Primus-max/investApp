@@ -68,10 +68,10 @@
                     <div class="tab-structure__card tab-structure__card--assets">
 
                         <div class="tab-structure__assets-list">
-                            <PortfolioAssetCard v-for="item in portfolioStructure" :key="item.label"
-                                :asset="{ name: item.label, amount: item.value, percent: item.percent, color: item.color, logo: item.logo }" />
+                            <PortfolioAssetCard v-for="item in assetList" :key="item.bank + item.amount"
+                                :asset="item" />
                         </div>
-                        <button class="tab-structure__assets-more">Подробнее</button>
+                        <AppButton type="white" size="medium">Подробнее</AppButton>
                     </div>
                 </div>
                 <div v-else-if="activeTab === 2" class="tab-placeholder">
@@ -114,6 +114,7 @@ import {
 import VueApexCharts from 'vue3-apexcharts';
 
 import AppBanner from '@/components/atoms/AppBanner.vue';
+import AppButton from '@/components/atoms/AppButton.vue';
 import AppPillButton from '@/components/atoms/AppPillButton.vue';
 import Edit01 from '@/components/atoms/icons/Edit-01.vue';
 import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
@@ -246,12 +247,24 @@ const tabs = ref([
     { name: 'Ближайшие выплаты' }
 ]);
 
-// Моковые данные для структуры портфеля
+// Моковые данные для структуры портфеля (для chart и прогрессбаров)
 const portfolioStructure = ref([
-    { label: 'Сбербанк', value: 2500000, percent: 50, color: '#0091FF', logo: 'sber' },
-    { label: 'Точка', value: 1500000, percent: 30, color: '#11A772', logo: 'tochka' },
-    { label: 'Модульбанк', value: 700000, percent: 14, color: '#FF801F', logo: 'modul' },
-    { label: 'Другое', value: 200000, percent: 4, color: '#BE63FF', logo: 'sovkom' },
+  { label: 'Сбербанк', value: 2500000, percent: 50, color: '#0091FF', logo: 'sber' },
+  { label: 'Точка', value: 1500000, percent: 30, color: '#11A772', logo: 'tochka' },
+  { label: 'Модульбанк', value: 700000, percent: 14, color: '#FF801F', logo: 'modul' },
+  { label: 'Совкомбанк', value: 200000, percent: 4, color: '#BE63FF', logo: 'sovkom' },
+]);
+
+// Моковые данные для списка активов
+const assetList = ref([
+  { bank: 'Сбербанк', count: 10, price: 302.41, amount: 2500000, percent: 12, profit: 40471, logo: 'sber' },
+  { bank: 'Точка', count: 10, price: 481.33, amount: 1500000, percent: -12, profit: -150471, logo: 'tochka' },
+  { bank: 'Модульбанк', count: 10, price: 802.88, amount: 5800000, percent: 68, profit: 540471, logo: 'modul' },
+  { bank: 'Совкомбанк', count: 10, price: 102.41, amount: 1702066, percent: -10, profit: -150471, logo: 'sovkom' },
+  { bank: 'Сбербанк', count: 10, price: 302.41, amount: 1306000, percent: 24, profit: 1940471, logo: 'sber' },
+  { bank: 'Точка', count: 10, price: 481.33, amount: 2482066, percent: 12, profit: 120471, logo: 'tochka' },
+  { bank: 'Модульбанк', count: 10, price: 802.88, amount: 5800000, percent: 68, profit: 540471, logo: 'modul' },
+  { bank: 'Совкомбанк', count: 10, price: 102.88, amount: 1702066, percent: -10, profit: -150471, logo: 'sovkom' },
 ]);
 
 const apexSeries = ref([2500000, 1500000, 700000, 200000, 100000]);

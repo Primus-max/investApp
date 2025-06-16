@@ -55,36 +55,44 @@ onBeforeUnmount(() => { document.removeEventListener('mousedown', handleClickOut
   position: relative;
   display: inline-block;
   &__trigger {
-    width: 34px;
-    height: 22px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: $space-s $space-m; // 8px 12px
+    gap: $space-xs; // 4px
+    margin: 0 auto;
+    width: 82px;
+    height: 38px;
+    background: $gray-0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    border-radius: $radius-md; // 12px
+    border: none;
+    outline: none;
+    cursor: pointer;
     font-family: $font-main;
     font-style: normal;
     font-weight: $font-weight-medium;
     font-size: $font-size-body;
     line-height: 22px;
     color: $gray-700;
-    background: none;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    transition: color 0.2s;
+    transition: color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
   }
   &__icon {
-    margin-right: 4px;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
-    font-size: 16px;
+    justify-content: center;
+    margin-right: 0;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
   }
   &__menu {
     position: absolute;
-    top: 28px;
+    top: 44px;
     right: 0;
     min-width: 110px;
     background: $gray-0;
