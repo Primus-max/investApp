@@ -74,9 +74,45 @@
                         <AppPillButton class="tab-structure__assets-more">Подробнее</AppPillButton>
                     </div>
                 </div>
-                <div v-else-if="activeTab === 2" class="tab-placeholder">
-                    <h3>Ближайшие выплаты</h3>
-                    <p>Содержимое вкладки "Ближайшие выплаты" будет добавлено позже</p>
+                <div v-else-if="activeTab === 2" class="payouts-tab">
+                  <div class="payouts-tab__analytics-card">
+                    <div class="payouts-tab__analytics-header">Краткая аналитика</div>
+                    <div class="payouts-tab__analytics-values-row">
+                      <div class="payouts-tab__analytics-value-block">
+                        <div class="payouts-tab__analytics-value-label">Получено всего</div>
+                        <div class="payouts-tab__analytics-value-main">2 345 461 ₽</div>
+                      </div>
+                      <div class="payouts-tab__analytics-value-block payouts-tab__analytics-value-block--right">
+                        <div class="payouts-tab__analytics-value-label">Дивиденды</div>
+                        <div class="payouts-tab__analytics-value">1 345 461 ₽</div>
+                        <div class="payouts-tab__analytics-value-label">Средний чек</div>
+                        <div class="payouts-tab__analytics-value">1 000 000 ₽</div>
+                      </div>
+                    </div>
+                    <div class="payouts-tab__analytics-footer-row">
+                      <span class="payouts-tab__analytics-footer-label">Доходность на вложенный капитал</span>
+                      <span class="payouts-tab__analytics-footer-value payouts-tab__analytics-footer-value--positive">+4%</span>
+                    </div>
+                  </div>
+                  <div class="payouts-tab__list-block">
+                    <div class="payouts-tab__list-title">Ближайшие выплаты</div>
+                    <div class="payouts-tab__list">
+                      <div class="payouts-tab__list-item" v-for="item in payoutsList" :key="item.id">
+                        <div class="payouts-tab__list-item-left">
+                          <img :src="item.icon" :alt="item.bank" class="payouts-tab__list-item-icon" />
+                          <div class="payouts-tab__list-item-info">
+                            <div class="payouts-tab__list-item-bank">{{ item.bank }}</div>
+                            <div class="payouts-tab__list-item-date">{{ item.date }}</div>
+                          </div>
+                        </div>
+                        <div class="payouts-tab__list-item-right">
+                          <div class="payouts-tab__list-item-count">{{ item.count }} шт</div>
+                          <div class="payouts-tab__list-item-sum">{{ item.sum }} ₽</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <AppButton class="payouts-tab__more-btn" size="large">Подробнее</AppButton>
                 </div>
             </div>
             <div v-if="showStickyHeader" class="page__sticky-header-fake">
@@ -298,6 +334,49 @@ const chartOptions = ref({
         }
     }
 });
+
+const payoutsList = ref([
+  {
+    id: 1,
+    bank: 'Сбербанк',
+    icon: new URL('@/assets/icons/coins/sber.svg', import.meta.url).href,
+    date: '12.12.2025',
+    count: 10,
+    sum: '3 020,66',
+  },
+  {
+    id: 2,
+    bank: 'Точка',
+    icon: new URL('@/assets/icons/coins/tochka.svg', import.meta.url).href,
+    date: '12.12.2025',
+    count: 10,
+    sum: '3 020,66',
+  },
+  {
+    id: 3,
+    bank: 'Модульбанк',
+    icon: new URL('@/assets/icons/coins/modul.svg', import.meta.url).href,
+    date: '12.12.2025',
+    count: 10,
+    sum: '3 020,66',
+  },
+  {
+    id: 4,
+    bank: 'Совкомбанк',
+    icon: new URL('@/assets/icons/coins/sovkom.svg', import.meta.url).href,
+    date: '12.12.2025',
+    count: 10,
+    sum: '3 020,66',
+  },
+  {
+    id: 5,
+    bank: 'Сбербанк',
+    icon: new URL('@/assets/icons/coins/sber.svg', import.meta.url).href,
+    date: '12.12.2025',
+    count: 10,
+    sum: '3 020,66',
+  },
+]);
 
 function goBack() {
     router.back();
@@ -803,5 +882,162 @@ function handleCreateGoal() {
         background: darken($gray-100, 5%);
       }
     }
+}
+
+.payouts-tab {
+  display: flex;
+  flex-direction: column;
+  gap: $space-l;
+  width: 100%;
+  align-items: center;
+
+  &__analytics-card {
+    background: $gray-0;
+    border-radius: $radius-xl;
+    box-shadow: $shadow-main;
+    padding: $space-l $space-m $space-m $space-m;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: $space-m;
+  }
+  &__analytics-header {
+    font-size: $font-size-h3;
+    font-weight: $font-weight-semibold;
+    color: $gray-900;
+    margin-bottom: $space-s;
+  }
+  &__analytics-values-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: $space-m;
+  }
+  &__analytics-value-block {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    &--right {
+      align-items: flex-end;
+    }
+  }
+  &__analytics-value-label {
+    font-size: $font-size-small;
+    color: $gray-500;
+    font-weight: $font-weight-regular;
+  }
+  &__analytics-value-main {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+  }
+  &__analytics-value {
+    font-size: $font-size-body;
+    font-weight: $font-weight-medium;
+    color: $gray-900;
+  }
+  &__analytics-footer-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: $space-s;
+    margin-top: $space-xs;
+  }
+  &__analytics-footer-label {
+    font-size: $font-size-small;
+    color: $gray-500;
+    font-weight: $font-weight-regular;
+  }
+  &__analytics-footer-value {
+    font-size: $font-size-body;
+    font-weight: $font-weight-semibold;
+    &--positive {
+      color: $color-success;
+    }
+    &--negative {
+      color: $color-error;
+    }
+  }
+  &__list-block {
+    width: 100%;
+    max-width: 380px;
+    background: $gray-0;
+    border-radius: $radius-xl;
+    box-shadow: $shadow-main;
+    padding: $space-l $space-m $space-m $space-m;
+    display: flex;
+    flex-direction: column;
+    gap: $space-m;
+  }
+  &__list-title {
+    font-size: $font-size-h3;
+    font-weight: $font-weight-semibold;
+    color: $gray-900;
+    margin-bottom: $space-s;
+  }
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-s;
+  }
+  &__list-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: $space-s 0;
+    border-bottom: 1px solid $gray-100;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  &__list-item-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: $space-m;
+  }
+  &__list-item-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: $gray-100;
+  }
+  &__list-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  &__list-item-bank {
+    font-size: $font-size-body;
+    font-weight: $font-weight-medium;
+    color: $gray-900;
+  }
+  &__list-item-date {
+    font-size: $font-size-small;
+    color: $gray-500;
+  }
+  &__list-item-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+  &__list-item-count {
+    font-size: $font-size-small;
+    color: $gray-500;
+  }
+  &__list-item-sum {
+    font-size: $font-size-body;
+    font-weight: $font-weight-semibold;
+    color: $gray-900;
+  }
+  &__more-btn {
+    margin-top: $space-m;
+    width: 100%;
+    max-width: 380px;
+  }
 }
 </style>
