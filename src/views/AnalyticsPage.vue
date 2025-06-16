@@ -75,23 +75,34 @@
                     </div>
                 </div>
                 <div v-else-if="activeTab === 2" class="payouts-tab">
-                  <div class="payouts-tab__analytics-card">
-                    <div class="payouts-tab__analytics-header">Краткая аналитика</div>
-                    <div class="payouts-tab__analytics-values-row">
-                      <div class="payouts-tab__analytics-value-block">
-                        <div class="payouts-tab__analytics-value-label">Получено всего</div>
-                        <div class="payouts-tab__analytics-value-main">2 345 461 ₽</div>
+                  <div class="payouts-tab__title">Ближайшие выплаты</div>
+                  <div class="payouts-tab__analytics-outer">
+                    <h3 class="payouts-tab__analytics-title">Краткая аналитика</h3>
+                    <div class="payouts-tab__analytics-card">
+                      <div class="payouts-tab__analytics-row payouts-tab__analytics-row--top">
+                        <span class="payouts-tab__analytics-label payouts-tab__analytics-label--muted">Получено всего</span>
+                        <span class="payouts-tab__analytics-main-value">2 345 461 ₽</span>
                       </div>
-                      <div class="payouts-tab__analytics-value-block payouts-tab__analytics-value-block--right">
-                        <div class="payouts-tab__analytics-value-label">Дивиденды</div>
-                        <div class="payouts-tab__analytics-value">1 345 461 ₽</div>
-                        <div class="payouts-tab__analytics-value-label">Средний чек</div>
-                        <div class="payouts-tab__analytics-value">1 000 000 ₽</div>
+                      <div class="payouts-tab__analytics-row payouts-tab__analytics-row--mini-cards">
+                        <div class="payouts-tab__mini-card">
+                          <div class="payouts-tab__mini-label-row">
+                            <span class="payouts-tab__analytics-label payouts-tab__analytics-label--muted">Дивиденды</span>
+                            <span class="payouts-tab__analytics-arrow payouts-tab__analytics-arrow--up">↑</span>
+                          </div>
+                          <div class="payouts-tab__mini-value">1 345 461 ₽</div>
+                        </div>
+                        <div class="payouts-tab__mini-card">
+                          <div class="payouts-tab__mini-label-row">
+                            <span class="payouts-tab__analytics-label payouts-tab__analytics-label--muted">Средний чек</span>
+                            <span class="payouts-tab__analytics-arrow payouts-tab__analytics-arrow--up">↑</span>
+                          </div>
+                          <div class="payouts-tab__mini-value">1 000 000 ₽</div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="payouts-tab__analytics-footer-row">
-                      <span class="payouts-tab__analytics-footer-label">Доходность на вложенный капитал</span>
-                      <span class="payouts-tab__analytics-footer-value payouts-tab__analytics-footer-value--positive">+4%</span>
+                      <div class="payouts-tab__analytics-row payouts-tab__analytics-row--footer">
+                        <span class="payouts-tab__analytics-footer-label">Доходность на вложенный капитал</span>
+                        <span class="payouts-tab__analytics-footer-value payouts-tab__analytics-footer-value--positive">+4%</span>
+                      </div>
                     </div>
                   </div>
                   <div class="payouts-tab__list-block">
@@ -891,62 +902,108 @@ function handleCreateGoal() {
   width: 100%;
   align-items: center;
 
-  &__analytics-card {
-    background: $gray-0;
-    border-radius: $radius-xl;
-    box-shadow: $shadow-main;
-    padding: $space-l $space-m $space-m $space-m;
-    width: 100%;
-    max-width: 380px;
-    display: flex;
-    flex-direction: column;
-    gap: $space-m;
-  }
-  &__analytics-header {
-    font-size: $font-size-h3;
+  &__title {
+    font-size: $font-size-h2;
     font-weight: $font-weight-semibold;
     color: $gray-900;
-    margin-bottom: $space-s;
+    margin-bottom: 0px;
+    align-self: flex-start;
   }
-  &__analytics-values-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: $space-m;
-  }
-  &__analytics-value-block {
+  &__analytics-outer {
+    width: 100%;
+    max-width: 380px;
+    background: $gray-0;
+    border-radius: $radius-xl;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    gap: $space-xs;
-    &--right {
-      align-items: flex-end;
-    }
+    align-items: center;
   }
-  &__analytics-value-label {
-    font-size: $font-size-small;
-    color: $gray-500;
-    font-weight: $font-weight-regular;
+  &__analytics-title {
+    font-size: $font-size-h3;
+    font-weight: $font-weight-semibold;
+    color: $gray-950;
+    margin-bottom: $space-m;
+    align-self: flex-start;
   }
-  &__analytics-value-main {
-    font-size: $font-size-h2;
-    font-weight: $font-weight-bold;
-    color: $gray-900;
+  &__analytics-card {
+    width: 100%;
+    background: $gray-50;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-main;
+    padding: $space-m;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
-  &__analytics-value {
-    font-size: $font-size-body;
-    font-weight: $font-weight-medium;
-    color: $gray-900;
-  }
-  &__analytics-footer-row {
+  &__analytics-row {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: $space-s;
-    margin-top: $space-xs;
+    justify-content: space-between;
+    width: 100%;
+    &--top {
+      margin-bottom: $space-m;
+    }
+    &--mini-cards {
+      gap: $space-m;
+      margin-bottom: $space-m;
+    }
+    &--footer {
+      margin-top: $space-m;
+      font-size: $font-size-small;
+    }
+  }
+  &__analytics-label {
+    font-size: $font-size-small;
+    color: $gray-500;
+    font-weight: $font-weight-regular;
+    &--muted {
+      color: $gray-400;
+    }
+  }
+  &__analytics-main-value {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+    line-height: 1.1;
+  }
+  &__mini-card {
+    background: $gray-0;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-main;
+    padding: $space-m $space-l;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+    gap: 4px;
+  }
+  &__mini-label-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 2px;
+  }
+  &__mini-value {
+    font-size: $font-size-body;
+    font-weight: $font-weight-semibold;
+    color: $gray-900;
+  }
+  &__analytics-arrow {
+    font-size: 15px;
+    color: $color-success;
+    &--up {
+      color: $color-success;
+    }
+    &--down {
+      color: $color-error;
+    }
   }
   &__analytics-footer-label {
     font-size: $font-size-small;
-    color: $gray-500;
+    color: $gray-400;
     font-weight: $font-weight-regular;
   }
   &__analytics-footer-value {
@@ -974,7 +1031,8 @@ function handleCreateGoal() {
     font-size: $font-size-h3;
     font-weight: $font-weight-semibold;
     color: $gray-900;
-    margin-bottom: $space-s;
+    margin-bottom: 12px;
+    margin-top: 12px;
   }
   &__list {
     display: flex;
