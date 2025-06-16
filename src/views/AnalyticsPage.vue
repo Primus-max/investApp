@@ -71,7 +71,7 @@
                             <PortfolioAssetCard v-for="item in assetList" :key="item.bank + item.amount"
                                 :asset="item" />
                         </div>
-                        <AppButton type="white" size="medium">Подробнее</AppButton>
+                        <AppPillButton type="white" size="medium">Подробнее</AppPillButton>
                     </div>
                 </div>
                 <div v-else-if="activeTab === 2" class="tab-placeholder">
