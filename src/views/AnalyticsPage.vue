@@ -37,7 +37,7 @@
                         </div>
                         <div class="page__header-badge-row">
                             <span class="page__header-badge-current-amount">{{ currentAmount }} / {{ targetAmount
-                            }}</span>
+                                }}</span>
                             <span class="page__header-badge-period">до {{ goalDeadline }}</span>
                         </div>
                     </div>
@@ -58,9 +58,21 @@
             <!-- Контент вкладок -->
             <div class="page__body-content">
                 <HistoryMetricsTab v-if="activeTab === 0" :portfolio-data="portfolio" />
-                <div v-else-if="activeTab === 1" class="tab-placeholder">
-                    <h3>Структура портфеля</h3>
-                    <p>Содержимое вкладки "Структура" будет добавлено позже</p>
+                <div v-else-if="activeTab === 1" class="tab-structure">
+                    <h2 class="tab-structure__title">Структура</h2>
+                    <PortfolioStructureCard :categories="portfolioStructure" total="2 345 461 ₽" :assets-count="8" />
+                    <div class="tab-structure__assets-header-row">
+                        <span class="tab-structure__title" style="margin-bottom: 0px;">Активы</span>
+                        <SortDropdown :options="sortOptions" v-model="selectedSortValue" />
+                    </div>
+                    <div class="tab-structure__card tab-structure__card--assets">
+
+                        <div class="tab-structure__assets-list">
+                            <PortfolioAssetCard v-for="item in assetList" :key="item.bank + item.amount"
+                                :asset="item" />
+                        </div>
+                        <AppPillButton class="tab-structure__assets-more">Подробнее</AppPillButton>
+                    </div>
                 </div>
                 <div v-else-if="activeTab === 2" class="tab-placeholder">
                     <h3>Ближайшие выплаты</h3>
@@ -99,8 +111,10 @@ import {
   useRoute,
   useRouter,
 } from 'vue-router';
+import VueApexCharts from 'vue3-apexcharts';
 
 import AppBanner from '@/components/atoms/AppBanner.vue';
+import AppButton from '@/components/atoms/AppButton.vue';
 import AppPillButton from '@/components/atoms/AppPillButton.vue';
 import Edit01 from '@/components/atoms/icons/Edit-01.vue';
 import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
@@ -108,11 +122,16 @@ import IconChartRing from '@/components/atoms/icons/IconChartRing.vue';
 import IconClock01 from '@/components/atoms/icons/IconClock01.vue';
 import IconSettings from '@/components/atoms/icons/IconSettings.vue';
 import IconTarget from '@/components/atoms/icons/IconTarget.vue';
+import PieChartAtom from '@/components/atoms/PieChartAtom.vue';
 import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
 import ProgressBar from '@/components/atoms/ProgressBar.vue';
+import PortfolioAssetCard from '@/components/molecules/PortfolioAssetCard.vue';
+import SortDropdown from '@/components/molecules/SortDropdown.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import HistoryMetricsTab from '@/components/organisms/HistoryMetricsTab.vue';
+import PortfolioStructureCard
+  from '@/components/organisms/PortfolioStructureCard.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 import { usePortfoliosStore } from '@/stores/portfolios.js';
 
@@ -212,6 +231,14 @@ const targetAmount = ref('5 000 000 ₽');
 const goalDeadline = ref('12.12.2030');
 const goalProgress = ref(47); // 2,345,461 / 5,000,000 * 100 ≈ 47%
 
+const sortOptions = [
+  { label: 'Рост ↑', value: 'growth-up' },
+  { label: 'Рост ↓', value: 'growth-down' },
+  { label: 'Доход', value: 'profit-up' },
+  { label: 'Доход ↓', value: 'profit-down' },
+];
+const selectedSortValue = ref(sortOptions[1].value);
+
 // Табы для аналитики
 const activeTab = ref(0);
 const tabs = ref([
@@ -219,6 +246,58 @@ const tabs = ref([
     { name: 'Структура' },
     { name: 'Ближайшие выплаты' }
 ]);
+
+// Моковые данные для структуры портфеля (для chart и прогрессбаров)
+const portfolioStructure = ref([
+  { label: 'Сбербанк', value: 2500000, percent: 50, color: '#0091FF', logo: 'sber' },
+  { label: 'Точка', value: 1500000, percent: 30, color: '#11A772', logo: 'tochka' },
+  { label: 'Модульбанк', value: 700000, percent: 14, color: '#FF801F', logo: 'modul' },
+  { label: 'Совкомбанк', value: 200000, percent: 4, color: '#BE63FF', logo: 'sovkom' },
+]);
+
+// Моковые данные для списка активов
+const assetList = ref([
+  { bank: 'Сбербанк', count: 10, price: 302.41, amount: 2500000, percent: 12, profit: 40471, logo: 'sber' },
+  { bank: 'Точка', count: 10, price: 481.33, amount: 1500000, percent: -12, profit: -150471, logo: 'tochka' },
+  { bank: 'Модульбанк', count: 10, price: 802.88, amount: 5800000, percent: 68, profit: 540471, logo: 'modul' },
+  { bank: 'Совкомбанк', count: 10, price: 102.41, amount: 1702066, percent: -10, profit: -150471, logo: 'sovkom' },
+  { bank: 'Сбербанк', count: 10, price: 302.41, amount: 1306000, percent: 24, profit: 1940471, logo: 'sber' },
+  { bank: 'Точка', count: 10, price: 481.33, amount: 2482066, percent: 12, profit: 120471, logo: 'tochka' },
+  { bank: 'Модульбанк', count: 10, price: 802.88, amount: 5800000, percent: 68, profit: 540471, logo: 'modul' },
+  { bank: 'Совкомбанк', count: 10, price: 102.88, amount: 1702066, percent: -10, profit: -150471, logo: 'sovkom' },
+]);
+
+const apexSeries = ref([2500000, 1500000, 700000, 200000, 100000]);
+const apexLabels = ['Акции', 'Облигации', 'Валюта', 'Фонды', 'Другое'];
+const apexColors = ['#2A7CFF', '#00C48C', '#FFD600', '#FF4D4F', '#8D94A5'];
+const chartOptions = ref({
+    chart: {
+        type: 'donut',
+        background: 'transparent',
+    },
+    labels: apexLabels,
+    colors: apexColors,
+    stroke: {
+        width: 6,
+        colors: ['#fff']
+    },
+    dataLabels: {
+        enabled: false
+    },
+    legend: {
+        show: false
+    },
+    plotOptions: {
+        pie: {
+            donut: {
+                size: '75%',
+                labels: {
+                    show: false
+                }
+            }
+        }
+    }
+});
 
 function goBack() {
     router.back();
@@ -260,7 +339,6 @@ function handleCreateGoal() {
 @import '@/styles/_sections.scss';
 @import '@/styles/_variables.scss';
 
-/* Кнопка создания цели инвестирования */
 .investment-goal-button {
     display: flex;
     flex-direction: row;
@@ -321,8 +399,8 @@ function handleCreateGoal() {
             opacity: 0.6;
         }
 
-        &-stats-row {          
-            gap: 20px;            
+        &-stats-row {
+            gap: 20px;
         }
 
         &-stats-info {
@@ -507,7 +585,7 @@ function handleCreateGoal() {
     flex-direction: column;
     gap: 0;
     padding-top: $space-m;
-    padding-bottom: 0;   
+    padding-bottom: 0;
 }
 
 .page__sticky-header-fake {
@@ -519,148 +597,211 @@ function handleCreateGoal() {
     background: $color-bg-main;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     padding-top: $space-m;
     padding-bottom: 0;
     padding-top: 4px !important;
 }
 
 .page__body--sticky {
-  .page__back,
-  .page__back-icon {
-    color: $primary-400 !important;
-    fill: $primary-400 !important;
-  }
-  .page__back-icon {
-    :deep(svg) {
-      color: $primary-400 !important;
-      fill: $primary-400 !important;
-      stroke: $primary-400 !important;
+
+    .page__back,
+    .page__back-icon {
+        color: $primary-400 !important;
+        fill: $primary-400 !important;
     }
-  }
+
+    .page__back-icon {
+        :deep(svg) {
+            color: $primary-400 !important;
+            fill: $primary-400 !important;
+            stroke: $primary-400 !important;
+        }
+    }
 }
 
-// .page__back {
-//     display: flex;
-//     align-items: center;
-//     color: $gray-0;
-//     font-size: 17px;
-//     font-family: 'SF Pro', Arial, sans-serif;
-//     font-weight: 400;
-//     padding: 0 16px;
-//     height: 40px;
-//     cursor: pointer;
-// }
+.tab-structure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $space-l;
 
-// .page__back-icon {
-//     font-size: 22px;
-//     margin-right: 3px;
-//     display: flex;
-//     align-items: center;
-//     font-weight: 590;
-// }
+    &__title {
+        font-size: $font-size-h2;
+        font-weight: $font-weight-semibold;
+        color: $gray-900;
+        margin-bottom: $space-m;
+        align-self: flex-start;
+        margin-left: 8px;
+    }
 
-// .page__back-text {
-//     font-size: 17px;
-//     font-family: 'SF Pro', Arial, sans-serif;
-//     font-weight: 400;
-//     letter-spacing: -0.4px;
-// }
+    &__card {
+        background: $gray-0;
+        border-radius: $radius-xl;
+        box-shadow: 0 2px 16px rgba(44, 62, 80, 0.06);
+        padding: $space-l $space-m;
+        width: 100%;
+        max-width: 380px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $space-l;
 
-// .page__header-goal-title {
-//   display: flex;
-//   align-items: center;
-//   gap: 8px;
-//   font-size: 14px;
-//   font-weight: 400;
-//   color: rgba(255, 255, 255, 0.7);
-//   margin-bottom: 4px;
-// }
+        &--structure {
+            margin-bottom: $space-l;
+        }
 
-// .page__header-goal-edit {
-//   color: rgba(255, 255, 255, 0.6);
-//   cursor: pointer;
-//   width: 16px;
-//   height: 16px;
-// }
+        &--assets {
+            margin-top: 0;
+        }
+    }
 
-// .page__body-tabs {
-//   display: flex;
-//   gap: 0;
-//   padding: 0 16px;
-//   margin-bottom: 24px;
-//   border-bottom: 1px solid $gray-100;
-// }
+    &__chart-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $space-m;
+        width: 100%;
+    }
 
-// .page__body-tab {
-//   background: none;
-//   border: none;
-//   font-family: 'SF Pro', Arial, sans-serif;
-//   font-size: 16px;
-//   font-weight: 500;
-//   color: $gray-400;
-//   padding: 12px 16px;
-//   border-bottom: 2px solid transparent;
-//   cursor: pointer;
-//   transition: all 0.2s;
+    &__chart-center {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 180px;
+        height: 180px;
+    }
 
-//   &:hover {
-//     color: $gray-600;
-//   }
+    &__chart-center-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        pointer-events: none;
+    }
 
-//   &--active {
-//     color: $gray-900;
-//     border-bottom-color: $color-primary;
-//   }
-// }
+    &__chart-sum {
+        font-size: 22px;
+        font-weight: $font-weight-semibold;
+        color: $gray-900;
+        line-height: 1.1;
+    }
 
-// .page__body-analytics {
-//   margin-top: 32px;
-// }
+    &__chart-assets {
+        font-size: $font-size-small;
+        color: $gray-500;
+        margin-top: 2px;
+    }
 
-// .page__body-analytics-title {
-//   font-family: 'SF Pro Rounded', Arial, sans-serif;
-//   font-size: 24px;
-//   font-weight: 600;
-//   color: #181818;
-//   margin-bottom: 16px;
-//   padding: 0 16px;
-// }
+    &__tabs-row {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        margin: 16px 0 8px 0;
+        width: 100%;
+        justify-content: flex-start;
+    }
 
-// .page__body-analytics-content {
-//   padding: 0 16px;
-// }
+    &__tab {
+        font-size: $font-size-body;
+        font-weight: $font-weight-medium;
+        border-radius: 16px;
+        padding: 6px 16px;
+        background: $gray-50;
+        color: $gray-500;
 
-// .analytics-placeholder {
-//   background: $gray-50;
-//   border-radius: 16px;
-//   padding: 32px;
-//   text-align: center;
-//   color: $gray-600;
-//   font-size: 16px;
-// }
+        &--active {
+            background: $primary-50;
+            color: $primary-400;
+        }
+    }
 
-// .page__body-analytics-empty {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   padding: 32px 16px;
-//   margin-top: 32px;
-// }
+    &__legend {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 8px;
+        width: 100%;
+        max-width: 220px;
+    }
 
-// .page__body-analytics-empty-button {
-//   display: flex;
-//   align-items: center;
-//   gap: 8px;
-// }
+    &__legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: $font-size-body;
+        font-weight: $font-weight-medium;
+        color: $gray-700;
+    }
 
-// .page__body-analytics-empty-button-icon {
-//   width: 20px;
-//   height: 20px;
-// }
+    &__legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: inline-block;
+    }
 
-// .page__body-analytics-empty-button-label {
-//   font-size: 16px;
-//   font-weight: 500;
-// }
+    &__legend-label {
+        flex: 1;
+    }
+
+    &__legend-percent {
+        font-weight: $font-weight-semibold;
+        color: $gray-900;
+    }
+
+    &__assets-header-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;        
+    }
+
+    &__assets-title {
+        font-size: $font-size-h3;
+        font-weight: $font-weight-semibold;
+        color: $gray-900;
+    }
+
+    &__assets-sort {
+        font-size: $font-size-small;
+        font-weight: $font-weight-medium;
+        background: $gray-0;
+        color: $gray-500;
+        border-radius: $radius-md;
+        padding: 8px 12px;
+        width: 82px;               
+    }
+
+    &__assets-list {
+        width: 100%;
+        max-width: 340px;
+        display: flex;
+        flex-direction: column;
+        gap: $space-s;
+    }  
+
+    &__assets-more {
+        width: 100%;
+      margin-bottom: 12px;
+      background: $gray-100;
+      border: none;
+      border-radius: $radius-lg;
+      padding: $space-m;
+      font-size: $font-size-body;
+      font-weight: $font-weight-medium;
+      color: $gray-700;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        background: darken($gray-100, 5%);
+      }
+    }
+}
 </style>

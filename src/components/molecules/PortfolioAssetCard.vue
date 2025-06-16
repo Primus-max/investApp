@@ -10,13 +10,21 @@
     <div class="asset-item__content">
       <div class="asset-item__name">{{ asset.bank }}</div>
       <div class="asset-item__details">
-        {{ asset.count }} шт {{ formattedPrice }}
+        <span class="asset-item__count">{{ asset.count }} шт</span>
+        <span class="asset-item__dot"></span>
+        <span class="asset-item__price">{{ formattedPrice }}</span>
       </div>
     </div>
     <div class="asset-item__right">
       <div class="asset-item__amount">{{ formattedAmount }}</div>
       <div class="asset-item__profit" :class="profitClass">
-        {{ profitSign }} {{ formattedPercent }}% • {{ profitSign }}{{ formattedProfit }}
+        <span class="asset-item__profit-arrow">
+          <svg v-if="asset.profit < 0" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M8 13l-4-4m4 4l4-4" :stroke="$colorError" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg v-else width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 13V3M8 3l-4 4m4-4l4 4" :stroke="$colorSuccess" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="asset-item__profit-percent">{{ profitSign }}{{ formattedPercent }}%</span>
+        <span class="asset-item__dot asset-item__dot--profit"></span>
+        <span class="asset-item__profit-value">{{ profitSign }}{{ formattedProfit }}</span>
       </div>
     </div>
   </div>
@@ -87,7 +95,7 @@ const getIconPath = (icon) => {
 .asset-item {
   display: flex;
   align-items: center;
-  padding: $space-m $space-l;
+  padding: 12px 0px;
   min-height: 70px;
   position: relative;
 
@@ -123,19 +131,39 @@ const getIconPath = (icon) => {
 
 .asset-item__name {
   font-family: $font-main;
-  font-size: $font-size-h3;
-  font-weight: $font-weight-semibold;
-  color: $gray-900;
-  line-height: $line-height-h3;
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+  line-height: 22px;
+  color: $gray-950;
   margin-bottom: 2px;
 }
 
 .asset-item__details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
   font-family: $font-main;
-  font-size: $font-size-caption;
+  font-size: $font-size-small;
   font-weight: $font-weight-regular;
-  color: $gray-700;
-  line-height: $line-height-caption;
+  line-height: 20px;
+  color: $gray-500;
+}
+
+.asset-item__count, .asset-item__price {
+  font-family: $font-main;
+  font-size: $font-size-small;
+  font-weight: $font-weight-regular;
+  line-height: 20px;
+  color: $gray-500;
+}
+
+.asset-item__dot {
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: $gray-200;
+  display: inline-block;
 }
 
 .asset-item__right {
@@ -147,31 +175,63 @@ const getIconPath = (icon) => {
 
 .asset-item__amount {
   font-family: $font-main;
-  font-size: $font-size-h3;
-  font-weight: $font-weight-semibold;
-  color: $gray-900;
-  line-height: $line-height-h3;
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+  line-height: 22px;
+  color: $gray-950;
   margin-bottom: 2px;
 }
 
 .asset-item__profit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
   font-family: $font-main;
-  font-size: $font-size-caption;
+  font-size: $font-size-small;
   font-weight: $font-weight-regular;
-  line-height: $line-height-caption;
+  line-height: 20px;
 
   &--positive {
     color: $color-success;
+    .asset-item__profit-arrow svg path { stroke: $color-success; }
+    .asset-item__dot--profit { background: $color-success; }
+    .asset-item__profit-percent, .asset-item__profit-value { color: $color-success; }
   }
 
   &--negative {
     color: $color-error;
+    .asset-item__profit-arrow svg path { stroke: $color-error; }
+    .asset-item__dot--profit { background: $color-error; }
+    .asset-item__profit-percent, .asset-item__profit-value { color: $color-error; }
   }
+}
+
+.asset-item__profit-arrow {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.asset-item__profit-percent, .asset-item__profit-value {
+  font-family: $font-main;
+  font-size: $font-size-small;
+  font-weight: $font-weight-regular;
+  line-height: 20px;
+}
+
+.asset-item__dot--profit {
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 @media (max-width: 480px) {
   .asset-item {
-    padding: $space-s $space-m;
+    padding: 12px 12px;
     min-height: 60px;
   }
   
