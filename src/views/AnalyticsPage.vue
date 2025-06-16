@@ -108,29 +108,34 @@
                         </div>
                         <div class="payouts-analytics-card__footer-row">
                             <span class="payouts-analytics-card__footer-label">Доходность на вложенный капитал</span>
-                            <span
-                                class="payouts-analytics-card__footer-value payouts-analytics-card__footer-value--positive">+4%</span>
+                            <span class="payouts-analytics-card__footer-value">
+                                <span class="payouts-analytics-card__footer-sign payouts-analytics-card__footer-sign--positive">+</span>
+                                <span class="payouts-analytics-card__footer-number">4%</span>
+                            </span>
                         </div>
                     </div>
-                    <div class="payouts-tab__list-block">
-                        <div class="payouts-tab__list-title">Ближайшие выплаты</div>
-                        <div class="payouts-tab__list">
-                            <div class="payouts-tab__list-item" v-for="item in payoutsList" :key="item.id">
-                                <div class="payouts-tab__list-item-left">
-                                    <img :src="item.icon" :alt="item.bank" class="payouts-tab__list-item-icon" />
-                                    <div class="payouts-tab__list-item-info">
-                                        <div class="payouts-tab__list-item-bank">{{ item.bank }}</div>
-                                        <div class="payouts-tab__list-item-date">{{ item.date }}</div>
-                                    </div>
+                    <div class="payouts-list-card">
+                        <div v-for="(item, idx) in payoutsList" :key="item.id" class="payouts-list-card__row" :class="{ 'payouts-list-card__row--last': idx === payoutsList.length - 1 }">
+                            <div class="payouts-list-card__left">
+                                <img :src="item.icon" :alt="item.bank" class="payouts-list-card__icon" />
+                                <div class="payouts-list-card__info">
+                                    <div class="payouts-list-card__bank">{{ item.bank }}</div>
+                                    <div class="payouts-list-card__date">{{ item.date }}</div>
                                 </div>
-                                <div class="payouts-tab__list-item-right">
-                                    <div class="payouts-tab__list-item-count">{{ item.count }} шт</div>
-                                    <div class="payouts-tab__list-item-sum">{{ item.sum }} ₽</div>
+                            </div>
+                            <div class="payouts-list-card__right">
+                                <div class="payouts-list-card__meta">
+                                    <span class="payouts-list-card__count">{{ item.count }} шт</span>
+                                    <span class="payouts-list-card__meta-price">{{ item.metaPrice }} ₽</span>
+                                </div>
+                                <div class="payouts-list-card__sum-row">
+                                    <span class="payouts-list-card__sum">{{ item.sum }} ₽</span>
+                                    <IconClock01 class="payouts-list-card__clock payouts-list-card__clock--blue" />
                                 </div>
                             </div>
                         </div>
+                        <AppPillButton class="tab-structure__assets-more">Подробнее</AppPillButton>
                     </div>
-                    <AppButton class="payouts-tab__more-btn" size="large">Подробнее</AppButton>
                 </div>
             </div>
             <div v-if="showStickyHeader" class="page__sticky-header-fake">
@@ -360,7 +365,9 @@ const payoutsList = ref([
         icon: new URL('@/assets/icons/coins/sber.svg', import.meta.url).href,
         date: '12.12.2025',
         count: 10,
+        price: '3 020,66',
         sum: '3 020,66',
+        metaPrice: '302,41',
     },
     {
         id: 2,
@@ -368,7 +375,9 @@ const payoutsList = ref([
         icon: new URL('@/assets/icons/coins/tochka.svg', import.meta.url).href,
         date: '12.12.2025',
         count: 10,
+        price: '3 020,66',
         sum: '3 020,66',
+        metaPrice: '302,41',
     },
     {
         id: 3,
@@ -376,7 +385,9 @@ const payoutsList = ref([
         icon: new URL('@/assets/icons/coins/modul.svg', import.meta.url).href,
         date: '12.12.2025',
         count: 10,
+        price: '3 020,66',
         sum: '3 020,66',
+        metaPrice: '302,41',
     },
     {
         id: 4,
@@ -384,7 +395,9 @@ const payoutsList = ref([
         icon: new URL('@/assets/icons/coins/sovkom.svg', import.meta.url).href,
         date: '12.12.2025',
         count: 10,
+        price: '3 020,66',
         sum: '3 020,66',
+        metaPrice: '302,41',
     },
     {
         id: 5,
@@ -392,7 +405,9 @@ const payoutsList = ref([
         icon: new URL('@/assets/icons/coins/sber.svg', import.meta.url).href,
         date: '12.12.2025',
         count: 10,
+        price: '3 020,66',
         sum: '3 020,66',
+        metaPrice: '302,41',
     },
 ]);
 
@@ -1027,14 +1042,12 @@ function handleCreateGoal() {
     }
 
     &__footer-row {
+        width: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        align-self: flex-start;
-        padding: 0 8px;
-        gap: 10px;
-        box-sizing: border-box;
+        justify-self: space-between;
         margin-top: 16px;
     }
 
@@ -1052,20 +1065,35 @@ function handleCreateGoal() {
     &__footer-value {
         font-size: 16px;
         font-weight: 500;
-        color: #03B65C;
         font-family: $font-main;
         line-height: 22px;
         display: flex;
         align-items: center;
         white-space: nowrap;
-
         &--positive {
             color: #03B65C;
         }
-
         &--negative {
             color: $color-error;
         }
+    }
+
+    &__footer-sign {
+        font-size: 16px;
+        font-weight: 500;
+        margin-right: 2px;
+        &--positive {
+            color: #03B65C;
+        }
+        &--negative {
+            color: $color-error;
+        }
+    }
+
+    &__footer-number {
+        color: $gray-950;
+        font-size: 16px;
+        font-weight: 500;
     }
 }
 
@@ -1305,5 +1333,120 @@ function handleCreateGoal() {
         width: 100%;
         max-width: 380px;
     }
+}
+
+.payouts-list-card {
+    width: 100%;
+    max-width: 380px;
+    background: $gray-0;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 24px 16px;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    &__row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        border-bottom: 1px solid $gray-100;
+        &:last-child, &--last {
+            border-bottom: none;
+        }
+    }
+    &__left {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+    &__icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: $gray-100;
+        flex-shrink: 0;
+    }
+    &__info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 0;
+    }
+    &__bank {
+        font-size: 16px;
+        font-weight: 500;
+        color: $gray-900;
+        font-family: $font-main;
+        line-height: 22px;
+        margin-bottom: 2px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 120px;
+    }
+    &__date {
+        font-size: 14px;
+        color: $gray-500;
+        font-family: $font-main;
+        line-height: 20px;
+        white-space: nowrap;
+    }
+    &__right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        min-width: 0;
+        gap: 2px;
+    }
+    &__meta {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: $gray-500;
+        font-family: $font-main;
+        line-height: 20px;
+        margin-bottom: 2px;
+    }
+    &__meta-price {
+        color: $gray-500;
+        font-size: 14px;
+        font-family: $font-main;
+        line-height: 20px;
+        white-space: nowrap;
+    }
+    &__count {
+        white-space: nowrap;
+    }
+    &__clock {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        color: #0091FF;
+        &--blue {
+            color: #0091FF;
+        }
+    }
+    &__sum-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+    &__sum {
+        font-size: 18px;
+        font-weight: 600;
+        color: $gray-950;
+        font-family: $font-main;
+        line-height: 26px;
+        white-space: nowrap;
+    }    
 }
 </style>
