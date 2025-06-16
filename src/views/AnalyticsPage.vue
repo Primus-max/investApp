@@ -71,7 +71,7 @@
                             <PortfolioAssetCard v-for="item in assetList" :key="item.bank + item.amount"
                                 :asset="item" />
                         </div>
-                        <AppPillButton type="white" size="medium">Подробнее</AppPillButton>
+                        <AppPillButton class="tab-structure__assets-more">Подробнее</AppPillButton>
                     </div>
                 </div>
                 <div v-else-if="activeTab === 2" class="tab-placeholder">
@@ -784,24 +784,24 @@ function handleCreateGoal() {
         display: flex;
         flex-direction: column;
         gap: $space-s;
-    }
+    }  
 
     &__assets-more {
-        margin: 16px auto 0 auto;
-        display: block;
-        background: $primary-50;
-        color: $primary-400;
-        border: none;
-        border-radius: 16px;
-        padding: 8px 24px;
-        font-size: $font-size-body;
-        font-weight: $font-weight-semibold;
-        cursor: pointer;
-        transition: background 0.2s;
+        width: 100%;
+      margin-bottom: 12px;
+      background: $gray-100;
+      border: none;
+      border-radius: $radius-lg;
+      padding: $space-m;
+      font-size: $font-size-body;
+      font-weight: $font-weight-medium;
+      color: $gray-700;
+      cursor: pointer;
+      transition: all 0.2s;
 
-        &:hover {
-            background: $primary-100;
-        }
+      &:hover {
+        background: darken($gray-100, 5%);
+      }
     }
 }
 </style>
