@@ -42,7 +42,7 @@
 
     <section class="page__body">
       <div class="page__body-header-stats-buttons">
-        <AppPillButton class="page__body-header-stats-button">
+        <AppPillButton class="page__body-header-stats-button" @click="goToOperations">
           <template #default>
             <div class="page__body-header-stats-button-content">
               <IconClock01 class="page__body-header-stats-button-icon" />
@@ -214,6 +214,10 @@ function goBack() {
 function goToAnalytics() {
   const portfolioId = route.params.id;
   router.push(`/analytics/${portfolioId}`);
+}
+
+function goToOperations() {
+  router.push('/operations');
 }
 
 function startNameEdit() {
