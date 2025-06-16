@@ -8,28 +8,60 @@ const props = defineProps({
 </script>
 <template>
   <div class="category-progress-bar">
-    <div class="category-progress-bar__label">{{ label }}</div>
+    <div class="category-progress-bar__top-row">
+      <div class="category-progress-bar__label">{{ label }}</div>
+      <div class="category-progress-bar__percent">{{ percent }}%</div>
+    </div>
     <div class="category-progress-bar__track">
       <div class="category-progress-bar__fill" :style="{ width: value + '%', background: color }"></div>
     </div>
-    <div class="category-progress-bar__percent">{{ percent }}%</div>
   </div>
 </template>
 <style scoped lang="scss">
 @import '@/styles/_variables.scss';
 .category-progress-bar {
   display: flex;
-  align-items: center;
-  gap: $space-s;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
   width: 100%;
+  &__top-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 2px;
+  }
   &__label {
-    flex: 1;
-    font-size: $font-size-body;
+    font-size: $font-size-caption;
     color: $gray-700;
-    font-weight: $font-weight-medium;
+    font-weight: $font-weight-regular;
+    text-align: left;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  &__percent {
+    font-size: $font-size-caption;
+    font-family: $font-main;
+    font-style: normal;
+    font-weight: $font-weight-regular;
+    line-height: 20px;
+    color: $gray-950;
+    text-align: right;
+    min-width: 20px;
+    margin-left: $space-xs;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
   &__track {
-    flex: 2;
+    width: 100%;
     height: 6px;
     background: $gray-100;
     border-radius: $radius-progress-bar;
@@ -40,13 +72,6 @@ const props = defineProps({
     height: 100%;
     border-radius: $radius-progress-bar;
     transition: width 0.3s;
-  }
-  &__percent {
-    min-width: 32px;
-    text-align: right;
-    font-size: $font-size-body;
-    color: $gray-900;
-    font-weight: $font-weight-semibold;
   }
 }
 </style> 
