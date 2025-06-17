@@ -1,10 +1,15 @@
 <template>
   <div class="sort-dropdown" ref="dropdownRef">
     <button class="sort-dropdown__trigger" @click="toggleMenu">
-      <span v-if="activeOption && activeOption.icon" class="sort-dropdown__icon">
-        <component :is="activeOption.icon" />
-      </span>
-      {{ activeOption ? activeOption.label : '' }}
+      <template v-if="$slots.default">
+        <slot />
+      </template>
+      <template v-else>
+        <span v-if="activeOption && activeOption.icon" class="sort-dropdown__icon">
+          <component :is="activeOption.icon" />
+        </span>
+        {{ activeOption ? activeOption.label : '' }}
+      </template>
     </button>
     <div v-if="showMenu" class="sort-dropdown__menu">
       <div v-for="option in options" :key="option.value"

@@ -20,24 +20,20 @@
           </AppInput>
         </div>
         <div class="operations-page__selects">
-          <button class="operations-page__filter" @click="() => showPeriod = !showPeriod">
-            {{ periodOptions.find(o => o.value === selectedPeriod)?.label }}
-            <span class="operations-page__filter-arrow">▼</span>
-          </button>
-          <button class="operations-page__filter" @click="() => showType = !showType">
-            {{ typeOptions.find(o => o.value === selectedType)?.label }}
-            <span class="operations-page__filter-arrow">▼</span>
-          </button>
-        </div>
-        <div v-if="showPeriod" class="operations-page__dropdown">
-          <div v-for="option in periodOptions" :key="option.value" class="operations-page__dropdown-item" @click="selectPeriod(option.value)">
-            {{ option.label }}
-          </div>
-        </div>
-        <div v-if="showType" class="operations-page__dropdown">
-          <div v-for="option in typeOptions" :key="option.value" class="operations-page__dropdown-item" @click="selectType(option.value)">
-            {{ option.label }}
-          </div>
+          <SortDropdown
+            :options="periodOptions"
+            v-model="selectedPeriod"
+          >
+            <span>{{ periodOptions.find(o => o.value === selectedPeriod)?.label }}</span>
+            <IconArrowBottom style="margin-left:8px;" />
+          </SortDropdown>
+          <SortDropdown
+            :options="typeOptions"
+            v-model="selectedType"
+          >
+            <span>{{ typeOptions.find(o => o.value === selectedType)?.label }}</span>
+            <IconArrowBottom style="margin-left:8px;" />
+          </SortDropdown>
         </div>
       </div>
       <div class="operations-page__list">
@@ -75,8 +71,10 @@ import {
 import { useRouter } from 'vue-router';
 
 import AppInput from '@/components/atoms/AppInput.vue';
+import IconArrowBottom from '@/components/atoms/icons/IconArrowBottom.vue';
 import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
 import IconSearch from '@/components/atoms/icons/IconSearch.vue';
+import SortDropdown from '@/components/molecules/SortDropdown.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 import { useOperationsStore } from '@/stores/operations.js';
 
@@ -88,38 +86,23 @@ function goBack() {
 const store = useOperationsStore();
 const searchQuery = ref('');
 const selectedPeriod = ref('all');
-const selectedType = ref('all');
-const showPeriod = ref(false);
-const showType = ref(false);
-
 const periodOptions = [
-  { label: 'Период', value: 'all' },
-  { label: 'Май', value: 'may' },
+  { label: '1–14 мая', value: 'may-1-14' },
   { label: 'Апрель', value: 'april' },
+  { label: 'Март', value: 'march' },
 ];
+const selectedType = ref('all');
 const typeOptions = [
   { label: 'Все операции', value: 'all' },
   { label: 'Покупка', value: 'buy' },
   { label: 'Продажа', value: 'sell' },
+  { label: 'Дивиденды', value: 'dividends' },
+  { label: 'Купоны', value: 'coupons' },
+  { label: 'Налоги', value: 'taxes' },
 ];
-
-function selectPeriod(val) {
-  selectedPeriod.value = val;
-  showPeriod.value = false;
-}
-function selectType(val) {
-  selectedType.value = val;
-  showType.value = false;
-}
 
 const filteredOperations = computed(() => {
   return store.operationsByDate
-    .filter(group => {
-      if (selectedPeriod.value === 'all') return true;
-      if (selectedPeriod.value === 'may' && group.date.includes('мая')) return true;
-      if (selectedPeriod.value === 'april' && group.date.includes('апреля')) return true;
-      return false;
-    })
     .map(group => ({
       date: group.date,
       items: group.items.filter(item => {
@@ -221,54 +204,6 @@ function formatAmount(val) {
   display: flex;
   gap: $space-m;
   margin-top: 0;
-}
-
-.operations-page__filter {
-  flex: 1;
-  background: $gray-0;
-  border-radius: $radius-xl;
-  box-shadow: $shadow-main;
-  border: none;
-  padding: 12px 36px 12px 16px;
-  font-size: $font-size-body;
-  color: $gray-900;
-  text-align: left;
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: box-shadow 0.2s;
-}
-.operations-page__filter-arrow {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 14px;
-  color: $gray-400;
-  pointer-events: none;
-}
-
-.operations-page__dropdown {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-top: 8px;
-  background: $gray-0;
-  border-radius: $radius-xl;
-  box-shadow: $shadow-main;
-  z-index: 10;
-  padding: 8px 0;
-}
-.operations-page__dropdown-item {
-  padding: 12px 24px;
-  font-size: $font-size-body;
-  color: $gray-900;
-  cursor: pointer;
-  transition: background 0.15s;
-  &:hover {
-    background: $gray-100;
-  }
 }
 
 .operations-page__list {
