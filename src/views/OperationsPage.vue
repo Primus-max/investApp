@@ -1,15 +1,12 @@
 <template>
-  <MainLayout>
-    <template #header>
+  <MainLayout>    
+    <section class="operations-page__body">
       <section class="page__header">
         <button class="page__back" @click="goBack">
-          <IconArrowLeft class="page__back-icon" />
-          <span class="page__back-text">Назад</span>
-        </button>
-        <div class="page__header-title">Операции</div>
+          <IconArrowLeft class="page__back-icon" :color="'#4868EA'"/>
+          <span class="page__back-text">Back</span>
+        </button>        
       </section>
-    </template>
-    <section class="operations-page__body">
       <h1 class="operations-page__title">Операции</h1>
       <div class="operations-page__filters">
         <div class="operations-page__search-wrap">
@@ -79,6 +76,7 @@ import {
 import { useRouter } from 'vue-router';
 
 import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
+import MainLayout from '@/layout/MainLayout.vue';
 import { useOperationsStore } from '@/stores/operations.js';
 
 const router = useRouter();
@@ -141,57 +139,35 @@ function formatAmount(val) {
 
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
+@import '@/styles/_sections.scss';
 
-.page__header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: $space-m $space-m 0 $space-m;
-  background: $color-bg-main;
-  min-height: 56px;
-}
-.page__back {
-  display: flex;
-  align-items: center;
-  background: none;
-  border: none;
-  color: $primary-400;
-  font-size: 17px;
-  font-family: 'SF Pro', Arial, sans-serif;
-  font-weight: 400;
-  padding: 0 8px 0 0;
-  height: 40px;
-  cursor: pointer;
-  outline: none;
-  box-shadow: none;
-  transition: background 0.15s;
-}
-.page__back-icon {
-  font-size: 22px;
-  margin-right: 3px;
-  display: flex;
-  align-items: center;
-  font-weight: 590;
-  color: $primary-400;
-}
-.page__back-text {
-  font-size: 17px;
-  font-family: 'SF Pro', Arial, sans-serif;
-  font-weight: 400;
-  letter-spacing: -0.4px;
-  color: $primary-400;
-}
-.page__header-title {
-  font-size: $font-size-h2;
-  font-weight: $font-weight-semibold;
-  color: $gray-900;
-  margin-left: 8px;
+.page{
+  &__back{
+    padding: 0;
+  }
+  &__header{
+    width: 100%;
+    height: 60px;    
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;        
+  }  
+  &__back-icon{
+    font-size: 22px;
+    margin-right: 3px;
+    display: flex;
+    align-items: center;
+    font-weight: 590;
+  }
+  &__back-text{
+    color: $primary-400;
+  }
 }
 
 .operations-page__body {
   background: $gray-50;
   min-height: 100vh;
-  padding: $space-l $space-s $space-xl $space-s;
+  padding: $space-s $space-m $space-xl $space-m;
   display: flex;
   flex-direction: column;
   align-items: stretch;
