@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia-colada';
+import { defineStore } from 'pinia';
 
 export const useOperationsStore = defineStore('operations', {
   state: () => ({
