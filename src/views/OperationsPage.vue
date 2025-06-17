@@ -10,15 +10,14 @@
       <h1 class="operations-page__title">Операции</h1>
       <div class="operations-page__filters">
         <div class="operations-page__search-wrap">
-          <span class="operations-page__search-icon">
-            <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7" stroke="#AEB8D4" stroke-width="2"/><path d="M15.5 15.5L13 13" stroke="#AEB8D4" stroke-width="2" stroke-linecap="round"/></svg>
-          </span>
-          <input
-            class="operations-page__search"
-            placeholder="Поиск по активам"
+          <AppInput
             v-model="searchQuery"
-            type="text"
-          />
+            placeholder="Поиск по активам"
+          >
+            <template #prefix>
+              <IconSearch />
+            </template>
+          </AppInput>
         </div>
         <div class="operations-page__selects">
           <button class="operations-page__filter" @click="() => showPeriod = !showPeriod">
@@ -75,7 +74,9 @@ import {
 
 import { useRouter } from 'vue-router';
 
+import AppInput from '@/components/atoms/AppInput.vue';
 import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
+import IconSearch from '@/components/atoms/icons/IconSearch.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 import { useOperationsStore } from '@/stores/operations.js';
 
