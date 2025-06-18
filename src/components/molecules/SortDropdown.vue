@@ -63,12 +63,8 @@ onBeforeUnmount(() => { document.removeEventListener('mousedown', handleClickOut
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
-    padding: $space-s $space-m; // 8px 12px
-    gap: $space-xs; // 4px
-    margin: 0 auto;
-    width: 82px;
-    height: 38px;
+    align-items: center;    
+    width: 100%;
     background: $gray-0;
     box-shadow: 0 4px 20px rgba(0,0,0,0.04);
     border-radius: $radius-md; // 12px
@@ -83,18 +79,7 @@ onBeforeUnmount(() => { document.removeEventListener('mousedown', handleClickOut
     color: $gray-700;
     transition: color 0.2s, box-shadow 0.2s;
     box-sizing: border-box;
-  }
-  &__icon {
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 0;
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-  }
+  } 
   &__menu {
     position: absolute;
     top: 44px;
@@ -114,6 +99,9 @@ onBeforeUnmount(() => { document.removeEventListener('mousedown', handleClickOut
     font-size: $font-size-body;
     color: $gray-700;
     padding: 8px 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
     display: flex;

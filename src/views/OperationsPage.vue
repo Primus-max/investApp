@@ -27,13 +27,19 @@
             <span>{{ periodOptions.find(o => o.value === selectedPeriod)?.label }}</span>
             <IconArrowBottom style="margin-left:8px;" />
           </SortDropdown>
+
+          <!-- Сортировка по операциям -->
           <SortDropdown
+            class="filter-bubble"
             :options="typeOptions"
             v-model="selectedType"
           >
-            <span>{{ typeOptions.find(o => o.value === selectedType)?.label }}</span>
-            <IconArrowBottom style="margin-left:8px;" />
+            <div class="filter-bubble__content">
+              <span class="filter-bubble__label">{{ typeOptions.find(o => o.value === selectedType)?.label }}</span>
+              <IconArrowBottom  />
+            </div>
           </SortDropdown>
+
         </div>
       </div>
       <div class="operations-page__list">
@@ -286,6 +292,24 @@ function formatAmount(val) {
 .operations-page__details {
   font-size: $font-size-small;
   color: $gray-500;
+}
+
+.filter-bubble {
+  &__content {
+    min-width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+     padding: 8px 12px;   
+  }  
+  &__label {
+    font-size: $font-size-body;
+    font-weight: $font-weight-medium;
+    color: $gray-900;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 </style>
 
