@@ -19,7 +19,7 @@
         <div class="operations-page__selects">
 
           <!-- Период -->
-          <AppPillButton class="filter-bubble-period" @click="onPeriodClick">
+          <AppPillButton class="filter-bubble-period" @click="modalVisible = true">
             <div class="filter-bubble__content">
               <span class="filter-bubble__label">{{ selectedPeriodLabel }}</span>
               <IconArrowBottom class="filter-bubble__icon" />
@@ -59,6 +59,19 @@
           </div>
         </div>
       </div>
+      <DateRangePickerModal
+        v-model="modalVisible"
+        v-model:range="dateRange"
+        @apply="onApplyRange"
+      />
+      <div v-if="modalVisible" class="custom-modal">
+        <div class="custom-modal__backdrop" @click="modalVisible = false"></div>
+        <div class="custom-modal__content">
+          <div class="custom-modal__title">Выберите период</div>
+          <div class="custom-modal__calendar">[Тут будет календарь]</div>
+          <button class="custom-modal__apply" @click="modalVisible = false">Применить</button>
+        </div>
+      </div>
     </section>
   </MainLayout>
 </template>
@@ -73,6 +86,7 @@ import { useRouter } from 'vue-router';
 
 import AppInput from '@/components/atoms/AppInput.vue';
 import AppPillButton from '@/components/atoms/AppPillButton.vue';
+import DateRangePickerModal from '@/components/atoms/DateRangePickerModal.vue';
 import IconArrowBottom from '@/components/atoms/icons/IconArrowBottom.vue';
 import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
 import IconSearch from '@/components/atoms/icons/IconSearch.vue';
@@ -102,6 +116,15 @@ const typeOptions = [
   { label: 'Купоны', value: 'coupons' },
   { label: 'Налоги', value: 'taxes' },
 ];
+
+const modalVisible = ref(false);
+const dateRange = ref({ start: '', end: '' });
+function onPeriodClick() { modalVisible.value = true; }
+function onApplyRange(val) {
+  if (val && val.start && val.end) {
+    selectedPeriodLabel.value = `${val.start} – ${val.end}`;
+  }
+}
 
 const filteredOperations = computed(() => {
   return store.operationsByDate
@@ -329,5 +352,62 @@ function formatAmount(val) {
   &__icon {
     margin-left: 4px;
   }
+}
+
+.custom-modal {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.custom-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+}
+.custom-modal__content {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 24px 24px 24px;
+  z-index: 1;
+  min-width: 320px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.custom-modal__title {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.custom-modal__calendar {
+  min-height: 120px;
+  background: #f5f5f7;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+}
+.custom-modal__apply {
+  width: 100%;
+  background: #4868EA;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 14px 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.custom-modal__apply:hover {
+  background: #1B43E5;
 }
 </style>
