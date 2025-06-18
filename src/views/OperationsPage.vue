@@ -1,42 +1,36 @@
 <template>
-  <MainLayout>    
+  <MainLayout>
     <section class="operations-page__body">
       <section class="page__header">
         <button class="page__back" @click="goBack">
-          <IconArrowLeft class="page__back-icon" :color="'#4868EA'"/>
+          <IconArrowLeft class="page__back-icon" :color="'#4868EA'" />
           <span class="page__back-text">Back</span>
-        </button>        
+        </button>
       </section>
       <h1 class="operations-page__title">Операции</h1>
       <div class="operations-page__filters">
         <div class="operations-page__search-wrap">
-          <AppInput
-            v-model="searchQuery"
-            placeholder="Поиск по активам"
-          >
+          <AppInput v-model="searchQuery" placeholder="Поиск по активам">
             <template #prefix>
               <IconSearch />
             </template>
           </AppInput>
         </div>
         <div class="operations-page__selects">
-          <SortDropdown
-            :options="periodOptions"
-            v-model="selectedPeriod"
-          >
-            <span>{{ periodOptions.find(o => o.value === selectedPeriod)?.label }}</span>
-            <IconArrowBottom style="margin-left:8px;" />
-          </SortDropdown>
+
+          <!-- Период -->
+          <AppPillButton class="filter-bubble-period" @click="onPeriodClick">
+            <div class="filter-bubble__content">
+              <span class="filter-bubble__label">{{ selectedPeriodLabel }}</span>
+              <IconArrowBottom class="filter-bubble__icon" />
+            </div>
+          </AppPillButton>
 
           <!-- Сортировка по операциям -->
-          <SortDropdown
-            class="filter-bubble"
-            :options="typeOptions"
-            v-model="selectedType"
-          >
+          <SortDropdown class="filter-bubble-type" :options="typeOptions" v-model="selectedType">
             <div class="filter-bubble__content">
-              <span class="filter-bubble__label">{{ typeOptions.find(o => o.value === selectedType)?.label }}</span>
-              <IconArrowBottom  />
+              <span class="filter-bubble__label">{{typeOptions.find(o => o.value === selectedType)?.label}}</span>
+              <IconArrowBottom />
             </div>
           </SortDropdown>
 
@@ -53,7 +47,8 @@
                 <div class="operations-page__type">{{ item.type }}</div>
               </div>
               <div class="operations-page__meta">
-                <div :class="['operations-page__amount', item.amount > 0 ? 'operations-page__amount--positive' : 'operations-page__amount--negative']">
+                <div
+                  :class="['operations-page__amount', item.amount > 0 ? 'operations-page__amount--positive' : 'operations-page__amount--negative']">
                   {{ item.amount > 0 ? '+' : '' }}{{ formatAmount(item.amount) }} ₽
                 </div>
                 <div class="operations-page__details">
@@ -77,6 +72,7 @@ import {
 import { useRouter } from 'vue-router';
 
 import AppInput from '@/components/atoms/AppInput.vue';
+import AppPillButton from '@/components/atoms/AppPillButton.vue';
 import IconArrowBottom from '@/components/atoms/icons/IconArrowBottom.vue';
 import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
 import IconSearch from '@/components/atoms/icons/IconSearch.vue';
@@ -91,7 +87,7 @@ function goBack() {
 
 const store = useOperationsStore();
 const searchQuery = ref('');
-const selectedPeriod = ref('all');
+const selectedPeriodLabel = ref('Период');
 const periodOptions = [
   { label: '1–14 мая', value: 'may-1-14' },
   { label: 'Апрель', value: 'april' },
@@ -131,25 +127,28 @@ function formatAmount(val) {
 @import '@/styles/_variables.scss';
 @import '@/styles/_sections.scss';
 
-.page{
-  &__back{
+.page {
+  &__back {
     padding: 0;
   }
-  &__header{
+
+  &__header {
     width: 100%;
-    height: 60px;    
+    height: 60px;
     display: flex;
     flex-direction: column;
-    font-size: 20px;        
-  }  
-  &__back-icon{
+    font-size: 20px;
+  }
+
+  &__back-icon {
     font-size: 22px;
     margin-right: 3px;
     display: flex;
     align-items: center;
     font-weight: 590;
   }
-  &__back-text{
+
+  &__back-text {
     color: $primary-400;
   }
 }
@@ -182,6 +181,7 @@ function formatAmount(val) {
   position: relative;
   width: 100%;
 }
+
 .operations-page__search-icon {
   position: absolute;
   left: 16px;
@@ -190,6 +190,7 @@ function formatAmount(val) {
   z-index: 2;
   pointer-events: none;
 }
+
 .operations-page__search {
   width: 100%;
   background: $gray-0;
@@ -202,6 +203,7 @@ function formatAmount(val) {
   outline: none;
   transition: box-shadow 0.2s;
 }
+
 .operations-page__search::placeholder {
   color: $gray-400;
 }
@@ -285,8 +287,14 @@ function formatAmount(val) {
 .operations-page__amount {
   font-size: $font-size-body;
   font-weight: $font-weight-semibold;
-  &--positive { color: #03B65C; }
-  &--negative { color: $color-error; }
+
+  &--positive {
+    color: #03B65C;
+  }
+
+  &--negative {
+    color: $color-error;
+  }
 }
 
 .operations-page__details {
@@ -300,8 +308,9 @@ function formatAmount(val) {
     display: flex;
     align-items: center;
     justify-content: space-between;
-     padding: 8px 12px;   
-  }  
+    padding: 8px 12px;
+  }
+
   &__label {
     font-size: $font-size-body;
     font-weight: $font-weight-medium;
@@ -310,6 +319,15 @@ function formatAmount(val) {
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  &__icon {
+    margin-left: 4px;
+  }
+}
+
+.filter-bubble-period {
+  width: 105px !important;
+  max-width: 105px;
+  border-radius: $radius-md !important;
 }
 </style>
-
