@@ -320,14 +320,14 @@ function formatAmount(val) {
     text-overflow: ellipsis;
   }
 
+  &-period {
+    width: 105px !important;
+    max-width: 105px;
+    border-radius: $radius-md !important;
+  }
+
   &__icon {
     margin-left: 4px;
   }
-}
-
-.filter-bubble-period {
-  width: 105px !important;
-  max-width: 105px;
-  border-radius: $radius-md !important;
 }
 </style>
