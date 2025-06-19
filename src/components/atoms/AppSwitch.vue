@@ -65,8 +65,7 @@ const props = defineProps({
     transition: background 0.2s;
     position: relative;
     display: flex;
-    align-items: center;
-    margin-right: $space-s;
+    align-items: center;    
     box-sizing: border-box;
   }
 

@@ -26,10 +26,12 @@
           <template v-for="(item, idx) in profileMenu" :key="item.action">
             <div class="profile-menu__item" :class="{ 'profile-menu__item--switch': item.isSwitch }">
               <AppIcon :name="item.icon" :color="$primary-500" />
-              <span>{{ item.label }}</span>
+              <span class="profile-menu__label">{{ item.label }}</span>
               <template v-if="item.isSwitch">
-                <span class="profile-menu__theme-label">Светлая</span>
-                <AppSwitch v-model="themeLight" />
+                <div class="profile-menu__switch-wrap">
+                  <span class="profile-menu__theme-label">Светлая</span>
+                  <AppSwitch v-model="themeLight" />
+                </div>
               </template>
               <template v-else>
                 <IconArrowLeft class="profile-menu__arrow"  />
@@ -79,6 +81,7 @@ const profileMenu = [
     action: 'docs',
   }
 ]
+
 </script>
 
 <style scoped lang="scss">
@@ -229,23 +232,26 @@ const profileMenu = [
       margin-right: 14px;
       color: $primary-500;
       flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+    }
+    & > span:not(.profile-menu__theme-label) {
+      flex: 1;
     }
     &--switch {
-      gap: 8px;
+      justify-content: space-between;
       .profile-menu__theme-label {
-        margin-left: auto;
         color: $gray-400;
         font-size: 15px;
+        margin-right: 12px;
       }
     }
     .profile-menu__arrow {
       margin-left: auto;
       color: $gray-300;
-      font-size: 22px;
-      font-weight: 700;
-      line-height: 1;
-      display: flex;
-      align-items: center;
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
     }
   }
   &__divider {
@@ -253,6 +259,22 @@ const profileMenu = [
     width: 100%;
     background: $gray-100;
     margin: 0;
+  }
+  &__switch-wrap {
+    width: 34%;
+    display: flex;
+    align-items: center;
+    justify-self: end;
+    gap: 0;
+    padding-right: 0;
+  }
+  :deep(.app-switch) {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+  }
+  .profile-menu__label {
+    flex: 1;
+    min-width: 0;
   }
 }
 </style> 
