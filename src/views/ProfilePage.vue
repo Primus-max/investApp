@@ -22,26 +22,21 @@
         <AppButton size="small" type="white">Подробнее</AppButton>
       </AppBanner>
       <div class="profile-menu">
-        <div class="profile-menu__item">
-          <AppIcon name="user" :color="$primary-500" />
-          <span>Изменение профиля</span>
-          <AppIcon name="arrow-down" />
-        </div>
-        <div class="profile-menu__item">
-          <AppIcon name="briefcase-01" :color="$primary-500" />
-          <span>Изменение портфелей</span>
-          <AppIcon name="arrow-down" />
-        </div>
-        <div class="profile-menu__item profile-menu__item--switch">
-          <AppIcon name="change-screen-mode" :color="$primary-500" />
-          <span>Тема</span>
-          <span class="profile-menu__theme-label">Светлая</span>
-          <AppSwitch v-model="themeLight" />
-        </div>
-        <div class="profile-menu__item">
-          <AppIcon name="document-text" :color="$primary-500" />
-          <span>Юридические документы</span>
-          <AppIcon name="arrow-down" />
+        <div class="profile-menu__list">
+          <template v-for="(item, idx) in profileMenu" :key="item.action">
+            <div class="profile-menu__item" :class="{ 'profile-menu__item--switch': item.isSwitch }">
+              <AppIcon :name="item.icon" :color="$primary-500" />
+              <span>{{ item.label }}</span>
+              <template v-if="item.isSwitch">
+                <span class="profile-menu__theme-label">Светлая</span>
+                <AppSwitch v-model="themeLight" />
+              </template>
+              <template v-else>
+                <IconArrowLeft class="profile-menu__arrow"  />
+              </template>
+            </div>
+            <div v-if="idx < profileMenu.length - 1" class="profile-menu__divider"></div>
+          </template>
         </div>
       </div>
     </div>
@@ -56,9 +51,34 @@ import AppButton from '@/components/atoms/AppButton.vue';
 import AppIcon from '@/components/atoms/AppIcon.vue';
 import AppSwitch from '@/components/atoms/AppSwitch.vue';
 import BadgeAtom from '@/components/atoms/BadgeAtom.vue';
+import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 
 const themeLight = ref(true)
+
+const profileMenu = [
+  {
+    icon: 'user',
+    label: 'Изменение профиля',
+    action: 'editProfile',
+  },
+  {
+    icon: 'briefcase-01',
+    label: 'Изменение портфелей',
+    action: 'editPortfolios',
+  },
+  {
+    icon: 'change-screen-mode',
+    label: 'Тема',
+    action: 'theme',
+    isSwitch: true
+  },
+  {
+    icon: 'document-text',
+    label: 'Юридические документы',
+    action: 'docs',
+  }
+]
 </script>
 
 <style scoped lang="scss">
@@ -174,32 +194,41 @@ const themeLight = ref(true)
   }
 }
 .profile-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  &__item {
-    display: flex;
-    align-items: center;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  &__list {
     background: $gray-0;
     border-radius: $radius-lg;
     box-shadow: 0 2px 8px rgba($gray-900, 0.04);
-    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+  }
+  &__item {
+    display: flex;
+    align-items: center;
     font-size: 16px;
     color: $gray-900;
     font-family: $font-main;
     font-weight: $font-weight-regular;
+    padding: 18px 16px;
+    background: none;
+    border: none;
     cursor: pointer;
-    transition: background 0.15s;
-    &:hover {
-      background: $primary-50;
+    transition: none;
+    box-shadow: none;
+    outline: none;
+    user-select: none;
+    &:active, &:hover, &:focus {
+      background: none;
+      color: $gray-900;
     }
     & > .app-icon {
       margin-right: 14px;
       color: $primary-500;
-    }
-    & > .app-icon:last-child {
-      margin-left: auto;
-      color: $gray-300;
+      flex-shrink: 0;
     }
     &--switch {
       gap: 8px;
@@ -209,6 +238,21 @@ const themeLight = ref(true)
         font-size: 15px;
       }
     }
+    .profile-menu__arrow {
+      margin-left: auto;
+      color: $gray-300;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+    }
+  }
+  &__divider {
+    height: 1px;
+    width: 100%;
+    background: $gray-100;
+    margin: 0;
   }
 }
 </style> 
