@@ -120,11 +120,16 @@ function submit() {
   }
 
   &__label {
-    font-size: $font-size-body;
-    font-weight: $font-weight-medium;
-    color: $gray-900;
-    margin-bottom: 4px;
+    font-size: 18px;
+    line-height: 24px;
     font-family: $font-main;
+    font-weight: $font-weight-semibold;
+    color: $gray-950;
+    align-self: stretch;
+    margin-bottom: 4px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
   }
 
   &__input {
