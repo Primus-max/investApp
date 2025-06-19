@@ -1,19 +1,21 @@
 <template>
-  <div v-if="modalVisible" class="date-range-modal-fullscreen">
-    <div class="date-range-modal-fullscreen__backdrop" @click="modalVisible = false"></div>
-    <div class="date-range-modal-fullscreen__content">
-      <div class="date-range-modal__title">Выберите период</div>
-      <VDatePicker
-        v-model="rangeValue"
-        is-range
-        :first-day-of-week="1"
-        :panes="6"
-        :show-months="6"
-        :show-caps="false"
-        :title-position="'left'"
-        :show-title="false"
-        class="date-range-modal__calendar"
-      />
+  <div v-if="modalVisible" class="date-range-modal-absolute">
+    <div class="date-range-modal-absolute__backdrop" @click="modalVisible = false"></div>
+    <div class="date-range-modal-absolute__container">
+      <div class="date-range-modal-absolute__content">
+        <div class="date-range-modal__title">Выберите период</div>
+        <VCalendar
+          v-model="rangeValue"
+          is-range
+          :columns="1"
+          :rows="6"
+          :first-day-of-week="1"
+          :show-caps="false"
+          :title-position="'left'"
+          :show-title="false"
+          class="date-range-modal__calendar"
+        />
+      </div>
       <button class="date-range-modal__apply" :disabled="!rangeValue.start || !rangeValue.end" @click="applyRange">Применить</button>
     </div>
   </div>
@@ -45,33 +47,43 @@ function applyRange() {
 </script>
 
 <style scoped lang="scss">
-.date-range-modal-fullscreen {
+.date-range-modal-absolute {
   position: fixed;
   inset: 0;
   z-index: 99999;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: stretch;
 }
-.date-range-modal-fullscreen__backdrop {
+.date-range-modal-absolute__backdrop {
   position: absolute;
   inset: 0;
   background: rgba(34, 34, 34, 0.32);
   z-index: 1;
 }
-.date-range-modal-fullscreen__content {
+.date-range-modal-absolute__container {
   position: relative;
   z-index: 2;
+  height: 100vh;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+.date-range-modal-absolute__content {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
   background: #fff;
-  border-radius: 24px;
+  border-radius: 24px 24px 0 0;
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  padding: 32px 20px 28px 20px;
-  min-width: 340px;
-  max-width: 95vw;
-  max-height: 90vh;
+  padding: 32px 20px 0 20px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  flex: 1 1 auto;
   overflow-y: auto;
 }
 .date-range-modal__title {
@@ -87,9 +99,11 @@ function applyRange() {
   background: #fff;
   box-shadow: none;
   margin-bottom: 24px;
+  width: 100%;
 }
 .date-range-modal__apply {
   width: 100%;
+  max-width: 420px;
   background: #4868EA;
   color: #fff;
   border: none;
@@ -97,9 +111,11 @@ function applyRange() {
   font-size: 18px;
   font-weight: 600;
   padding: 14px 0;
-  margin-top: 12px;
+  margin: 0 auto 24px auto;
   cursor: pointer;
   transition: background 0.2s;
+  position: relative;
+  z-index: 3;
 }
 .date-range-modal__apply:disabled {
   background: #e0e0e0;
