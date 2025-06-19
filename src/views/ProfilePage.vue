@@ -14,13 +14,13 @@
           <div class="profile-header__email">E-mail: konstantin.k.k@gmail.com</div>
         </div>
       </div>
-      <div class="profile-banner">
-        <div class="profile-banner__text">
-          <span>Станьте <BadgeAtom customClass="profile-banner__badge">PRO</BadgeAtom></span>
-          <div class="profile-banner__desc">Выберите один из трех тарифов</div>
+      <AppBanner class="profile-pro-banner">
+        <div class="profile-pro-banner__text-block">
+          <span class="profile-pro-banner__title">Станьте <BadgeAtom customClass="profile-pro-banner__badge">PRO</BadgeAtom></span>
+          <span class="profile-pro-banner__desc">Выберите один из трех тарифов</span>
         </div>
         <AppButton size="small" type="white">Подробнее</AppButton>
-      </div>
+      </AppBanner>
       <div class="profile-menu">
         <div class="profile-menu__item">
           <AppIcon name="user" />
@@ -51,6 +51,7 @@
 <script setup>
 import { ref } from 'vue';
 
+import AppBanner from '@/components/atoms/AppBanner.vue';
 import AppButton from '@/components/atoms/AppButton.vue';
 import AppIcon from '@/components/atoms/AppIcon.vue';
 import AppSwitch from '@/components/atoms/AppSwitch.vue';
@@ -128,23 +129,33 @@ const themeLight = ref(true)
   gap: 20px;
   padding: 0 16px 24px 16px;
 }
-.profile-banner {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(90deg, #3B6EEA 0%, #6A9CFF 100%);
-  border-radius: $radius-xl;
-  padding: 18px 20px;
-  margin-bottom: 12px;
-  box-shadow: 0 4px 20px rgba($gray-900, 0.08);
-  &__text {
+.profile-pro-banner {
+  width: 100%;
+  max-width: 358px;
+  margin: 0 auto 12px auto;
+  .app-banner__content {
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+  }
+  &__text-block {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    color: $gray-0;
+    min-width: 0;
+  }
+  &__title {
+    font-family: $font-main;
     font-size: 16px;
     font-weight: $font-weight-semibold;
+    color: $gray-0;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
   &__badge {
     background: $gray-0;
