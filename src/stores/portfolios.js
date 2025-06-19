@@ -121,6 +121,7 @@ export const usePortfoliosStore = defineStore('portfolios', {
         ],
       },
     ],
+    isCreatePortfolioModalOpen: false,
   }),
   actions: {
     async fetchPortfolioById(id) {
@@ -130,6 +131,15 @@ export const usePortfoliosStore = defineStore('portfolios', {
     getAllPortfolios() {
       // Можно добавить имитацию задержки, если нужно
       return this.portfolios;
+    },
+    openCreatePortfolioModal() {
+      this.isCreatePortfolioModalOpen = true;
+    },
+    closeCreatePortfolioModal() {
+      this.isCreatePortfolioModalOpen = false;
+    },
+    toggleCreatePortfolioModal() {
+      this.isCreatePortfolioModalOpen = !this.isCreatePortfolioModalOpen;
     }
   },
 }); 

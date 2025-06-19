@@ -74,7 +74,7 @@
         </ul>
       </section>
       <div v-else class="page__body-portfolio-empty">
-        <AppPillButton @click="createPortfolioModalVisible = true">          
+        <AppPillButton @click="store.isCreatePortfolioModalOpen = true">          
           <template #default>
             <div class="page__body-portfolio-empty-button">
               <IconBriefcase01 class="page__body-portfolio-empty-button-icon" />
@@ -83,7 +83,7 @@
           </template>         
         </AppPillButton>
       </div>
-      <CreatePortfolioModal v-model="createPortfolioModalVisible" />
+      <CreatePortfolioModal v-model="store.isCreatePortfolioModalOpen" />
     </section>
   </MainLayout>
 </template>
@@ -113,7 +113,6 @@ const amount = ref(27861.33);
 const totalAmount = ref(123456789);
 const editMode = ref(false);
 const isNotData = ref(false);
-const createPortfolioModalVisible = ref(false);
 
 const widgets = [
   {
