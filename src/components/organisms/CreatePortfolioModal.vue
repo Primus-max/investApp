@@ -12,21 +12,23 @@
 
         <label class="create-portfolio-modal__label">Тип портфеля</label>
         <SelectGroupMolecule v-model="type" :options="typeOptions" />
+        
+        <div v-if="type === 'integration'" class="create-portfolio-modal__integration-fields">
+          <label class="create-portfolio-modal__label">Брокер</label>
+          <SortDropdown v-model="broker" :options="brokerOptions"  class="create-portfolio-modal__dropdown">
+            <template #default>            
+              <span>{{ brokerOptions.find(b => b.value === broker)?.label || 'Выберите брокера' }}</span>
+              <IconArrowBottom style="margin-left:auto;" />
+            </template>
+          </SortDropdown>
 
-        <label class="create-portfolio-modal__label">Брокер</label>
-        <SortDropdown v-model="broker" :options="brokerOptions"  class="create-portfolio-modal__dropdown">
-          <template #default>            
-            <span>{{ brokerOptions.find(b => b.value === broker)?.label || 'Выберите брокера' }}</span>
-            <IconArrowBottom style="margin-left:auto;" />
-          </template>
-        </SortDropdown>
+          <label class="create-portfolio-modal__label">Токен портфеля (API)</label>
+          <AppInput v-model="token" placeholder="Введите токен" />
 
-        <label class="create-portfolio-modal__label">Токен портфеля (API)</label>
-        <AppInput v-model="token" placeholder="Введите токен" />
-
-        <label class="create-portfolio-modal__label">Отчет</label>
-        <button class="create-portfolio-modal__file" @click="openFileDialog">{{ selectedFile ? selectedFile.name : 'Добавить файл' }}</button>
-        <input ref="fileInput" type="file" class="create-portfolio-modal__file-input" @change="onFileChange" style="display:none" />
+          <label class="create-portfolio-modal__label">Отчет</label>
+          <button class="create-portfolio-modal__file" @click="openFileDialog">{{ selectedFile ? selectedFile.name : 'Добавить файл' }}</button>
+          <input ref="fileInput" type="file" class="create-portfolio-modal__file-input" @change="onFileChange" style="display:none" />
+        </div>
       </div>
       <button class="create-portfolio-modal__submit" @click="submit">Создать портфель</button>
     </div>
@@ -258,6 +260,12 @@ function submit() {
     //   font-weight: $font-weight-semibold;
     //   background: $gray-50;
     // }
+  }
+
+  &__integration-fields {
+    display: flex;
+    flex-direction: column;
+    gap: $space-s;
   }
 }
 </style> 
