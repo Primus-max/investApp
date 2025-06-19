@@ -31,64 +31,64 @@ function onClick() {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 12px 16px;
-  gap: 6px;
-  width: 95px;
-  height: 46px;
+  padding: $space-s $space-m;
+  gap: $space-xs;
   background: $gray-0;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 4px 20px rgba($gray-900, 0.04);
   border: 2px solid transparent;
   border-radius: $radius-lg;
-  font-size: 16px;
+  font-size: $font-size-body;
   font-family: $font-main;
   font-weight: $font-weight-semibold;
   color: $gray-700;
   cursor: pointer;
   position: relative;
   transition: border-color 0.18s, background 0.18s;
+  min-height: 44px;
   min-width: 0;
-  min-height: 0;
   flex: none;
   order: 2;
   flex-grow: 0;
-}
-.select-option-atom--selected {
-  border-color: $primary-400;
-  background: $gray-0;
-}
-.select-option-atom--selected .select-option-atom__label {
-  color: $gray-900;
-}
-.select-option-atom--disabled {
-  opacity: 0.5;
-  pointer-events: none;
-}
-.select-option-atom__label {
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 16px;
-  font-family: $font-main;
-  font-weight: $font-weight-semibold;
-  color: $gray-700;
-  line-height: 22px;
-  order: 1;
-}
-.select-option-atom__check {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  z-index: 2;
-}
-// Стили для иконки-флага
-::v-deep(.select-group-molecule__icon),
-::v-deep(img) {
-  width: 20px !important;
-  height: 20px !important;
-  border-radius: 1.5px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
+
+  &--selected {
+    border-color: $primary-400;
+    background: $gray-0;
+    .select-option-atom__label {
+      color: $gray-900;
+    }
+  }
+  &--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &__label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: $font-size-body;
+    font-family: $font-main;
+    font-weight: $font-weight-semibold;
+    color: $gray-700;
+    line-height: 22px;
+    order: 1;
+  }
+  &__check {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    z-index: 2;
+  }
+  // Стили для иконки-флага
+  ::v-deep(.select-group-molecule__icon),
+  ::v-deep(img) {
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 1.5px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+  }
 }
 </style> 

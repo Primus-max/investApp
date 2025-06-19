@@ -73,82 +73,96 @@ function submit() {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-}
-.create-portfolio-modal__backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(34, 34, 34, 0.32);
-  z-index: 1;
-}
-.create-portfolio-modal__content {
-  position: relative;
-  z-index: 2;
-  background: $gray-50;
-  border-radius: 24px 24px 0 0;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  padding: 32px 20px 28px 20px;
-  min-width: 100vw;
-  min-height: 100vh;
-  max-width: 100vw;
-  max-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  overflow-y: auto;
-}
-.create-portfolio-modal__title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #222;
-  text-align: center;
-  margin-bottom: 18px;
-  margin-top: 0;
-}
-.create-portfolio-modal__form {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-.create-portfolio-modal__label {
-  font-size: 16px;
-  font-weight: 500;
-  color: #222;
-  margin-bottom: 4px;
-}
-.create-portfolio-modal__input {
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-size: 16px;
-  margin-bottom: 8px;
-}
-.create-portfolio-modal__file {
-  border: 2px dashed #4868EA;
-  border-radius: 12px;
-  background: #f7f8fa;
-  color: #4868EA;
-  font-size: 16px;
-  padding: 12px 0;
-  margin-bottom: 8px;
-  cursor: pointer;
-}
-.create-portfolio-modal__submit {
-  width: 100%;
-  background: #4868EA;
-  color: #fff;
-  border: none;
-  border-radius: 16px;
-  font-size: 18px;
-  font-weight: 600;
-  padding: 14px 0;
-  margin-top: auto;
-  margin-bottom: 12px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.create-portfolio-modal__submit:enabled:hover {
-  background: #1B43E5;
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba($gray-900, 0.32);
+    z-index: 1;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+    background: $gray-50;
+    border-radius: $radius-xl $radius-xl 0 0;
+    box-shadow: 0 8px 32px rgba($gray-900, 0.18);
+    padding: $space-xl $space-m $space-l $space-m;
+    min-width: 100vw;
+    min-height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow-y: auto;
+  }
+
+  &__title {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+    text-align: center;
+    margin-bottom: $space-m;
+    margin-top: 0;
+    font-family: $font-main;
+  }
+
+  &__form {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: $space-s;
+    margin-bottom: $space-l;
+  }
+
+  &__label {
+    font-size: $font-size-body;
+    font-weight: $font-weight-medium;
+    color: $gray-900;
+    margin-bottom: 4px;
+    font-family: $font-main;
+  }
+
+  &__input {
+    border: 2px solid $gray-100;
+    border-radius: $radius-md;
+    padding: $space-s $space-m;
+    font-size: $font-size-body;
+    margin-bottom: $space-xs;
+    font-family: $font-main;
+  }
+
+  &__file {
+    border: 2px dashed $primary-400;
+    border-radius: $radius-md;
+    background: $gray-50;
+    color: $primary-400;
+    font-size: $font-size-body;
+    padding: $space-s 0;
+    margin-bottom: $space-xs;
+    cursor: pointer;
+    font-family: $font-main;
+  }
+
+  &__submit {
+    width: 100%;
+    background: $primary-400;
+    color: $gray-0;
+    border: none;
+    border-radius: $radius-lg;
+    font-size: $font-size-h3;
+    font-weight: $font-weight-semibold;
+    padding: $space-m 0;
+    margin-top: auto;
+    margin-bottom: $space-s;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: $font-main;
+
+    &:enabled:hover {
+      background: $primary-500;
+    }
+  }
 }
 </style> 
