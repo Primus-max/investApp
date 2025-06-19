@@ -178,21 +178,31 @@ function submit() {
   }
 
   &__file {
-    border: 2px dashed $primary-400;
-    border-radius: $radius-md;
-    background: $gray-50;
-    color: $primary-400;
-    font-size: $font-size-body;
-    padding: $space-s 0;
-    margin-bottom: $space-xs;
-    cursor: pointer;
-    font-family: $font-main;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    gap: 6px;
+    min-width: 108px;
+    min-height: 46px;
     width: 100%;
+    background: $primary-50;
+    border: 1px dashed $primary-500;
+    border-radius: $radius-lg;
+    box-shadow: 0 4px 20px rgba($gray-900, 0.04);
+    font-family: $font-main;
+    font-style: normal;
+    font-weight: $font-weight-regular;
+    font-size: $font-size-body;
+    line-height: 22px;
+    color: $primary-500;
     text-align: center;
-    transition: border-color 0.2s;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
     &:hover {
-      border-color: $primary-500;
-      color: $primary-500;
+      border-color: $primary-400;
+      color: $primary-400;
     }
   }
 
