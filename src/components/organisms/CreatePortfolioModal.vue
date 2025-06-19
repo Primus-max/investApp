@@ -14,7 +14,12 @@
         <SelectGroupMolecule v-model="type" :options="typeOptions" />
 
         <label class="create-portfolio-modal__label">Брокер</label>
-        <AppInput v-model="broker" placeholder="Сбербанк – отчет брокера" />
+        <SortDropdown v-model="broker" :options="brokerOptions"  class="create-portfolio-modal__dropdown">
+          <template #default>            
+            <span>{{ brokerOptions.find(b => b.value === broker)?.label || 'Выберите брокера' }}</span>
+            <IconArrowBottom style="margin-left:auto;" />
+          </template>
+        </SortDropdown>
 
         <label class="create-portfolio-modal__label">Токен портфеля (API)</label>
         <AppInput v-model="token" placeholder="Введите токен" />
@@ -38,7 +43,9 @@ import ruFlag from '@/assets/icons/flags/ru.svg';
 import usFlag from '@/assets/icons/flags/us.svg';
 
 import AppInput from '../atoms/AppInput.vue';
+import IconArrowBottom from '../atoms/icons/IconArrowBottom.vue';
 import SelectGroupMolecule from '../molecules/SelectGroupMolecule.vue';
+import SortDropdown from '../molecules/SortDropdown.vue';
 
 const props = defineProps({
   modelValue: Boolean
@@ -64,6 +71,13 @@ const currencyOptions = [
 const typeOptions = [
   { label: 'Ручной', value: 'manual' },
   { label: 'Интеграция', value: 'integration' },
+];
+const brokerOptions = [
+  { label: 'Т Банк – отчет брокера', value: 'tbank' },
+  { label: 'Сбербанк – отчет брокера', value: 'sber' },
+  { label: 'ВТБ – отчет брокера', value: 'vtb' },
+  { label: 'Тинькофф – отчет брокера', value: 'tinkoff' },
+  { label: 'Открытие – отчет брокера', value: 'open' },
 ];
 function submit() {
   emit('submit', { name: name.value, currency: currency.value, type: type.value, broker: broker.value, token: token.value });
@@ -180,6 +194,48 @@ function submit() {
     &:enabled:hover {
       background: $primary-500;
     }
+  }
+
+  &__dropdown {
+    margin-bottom: $space-xs;
+    width: 100%;
+
+    ::v-deep(.sort-dropdown__trigger) {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 $space-m;
+      background: $gray-0;
+      border-radius: $radius-lg;
+      box-shadow: 0 4px 20px rgba($gray-900, 0.04);
+      font-size: $font-size-body;
+      font-family: $font-main;
+      font-weight: $font-weight-semibold;
+      color: $gray-900;
+      display: flex;
+      align-items: center;
+    }
+    ::v-deep(.sort-dropdown__menu) {
+      width: 100%;
+      border-radius: $radius-lg;
+      box-shadow: 0 2px 8px rgba($gray-900, 0.10);
+      background: $gray-0;
+    }
+    // ::v-deep(.sort-dropdown__menu-item) {
+    //   font-size: $font-size-body;
+    //   color: $gray-700;
+    //   padding: 8px 16px;
+    //   border-radius: $radius-md;
+    //   font-family: $font-main;
+    // }
+    // ::v-deep(.sort-dropdown__menu-item:hover) {
+    //   background: $gray-100;
+    //   color: $primary-500;
+    // }
+    // ::v-deep(.sort-dropdown__menu-item--active) {
+    //   color: $primary-500;
+    //   font-weight: $font-weight-semibold;
+    //   background: $gray-50;
+    // }
   }
 }
 </style> 
