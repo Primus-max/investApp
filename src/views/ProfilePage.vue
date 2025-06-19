@@ -67,15 +67,23 @@ const themeLight = ref(true)
   height: 180px;
 }
 .profile-header {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 32px 0 16px 0;
+  padding: 40px 0 16px 0;
   &__avatar-wrap {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 0;
+    width: 80px;
+    height: 80px;
   }
   &__avatar {
     width: 80px;
@@ -89,7 +97,7 @@ const themeLight = ref(true)
     font-size: 32px;
     font-weight: $font-weight-semibold;
     color: $primary-500;
-    margin-bottom: 8px;
+    margin-bottom: 0;
   }
   &__info {
     display: flex;
