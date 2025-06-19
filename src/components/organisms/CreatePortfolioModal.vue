@@ -25,7 +25,8 @@
         <AppInput v-model="token" placeholder="Введите токен" />
 
         <label class="create-portfolio-modal__label">Отчет</label>
-        <button class="create-portfolio-modal__file">Добавить файл</button>
+        <button class="create-portfolio-modal__file" @click="openFileDialog">{{ selectedFile ? selectedFile.name : 'Добавить файл' }}</button>
+        <input ref="fileInput" type="file" class="create-portfolio-modal__file-input" @change="onFileChange" style="display:none" />
       </div>
       <button class="create-portfolio-modal__submit" @click="submit">Создать портфель</button>
     </div>
@@ -79,6 +80,16 @@ const brokerOptions = [
   { label: 'Тинькофф – отчет брокера', value: 'tinkoff' },
   { label: 'Открытие – отчет брокера', value: 'open' },
 ];
+
+const fileInput = ref(null);
+const selectedFile = ref(null);
+function openFileDialog() {
+  fileInput.value && fileInput.value.click();
+}
+function onFileChange(e) {
+  selectedFile.value = e.target.files[0] || null;
+}
+
 function submit() {
   emit('submit', { name: name.value, currency: currency.value, type: type.value, broker: broker.value, token: token.value });
   close();
@@ -174,6 +185,17 @@ function submit() {
     margin-bottom: $space-xs;
     cursor: pointer;
     font-family: $font-main;
+    width: 100%;
+    text-align: center;
+    transition: border-color 0.2s;
+    &:hover {
+      border-color: $primary-500;
+      color: $primary-500;
+    }
+  }
+
+  &__file-input {
+    display: none;
   }
 
   &__submit {
