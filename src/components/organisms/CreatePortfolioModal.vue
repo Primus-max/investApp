@@ -85,7 +85,6 @@ function submit() {
     position: relative;
     z-index: 2;
     background: $gray-50;
-    border-radius: $radius-xl $radius-xl 0 0;
     box-shadow: 0 8px 32px rgba($gray-900, 0.18);
     padding: $space-xl $space-m $space-l $space-m;
     min-width: 100vw;
@@ -99,13 +98,17 @@ function submit() {
   }
 
   &__title {
-    font-size: $font-size-h2;
+    font-size: 32px;
+    line-height: 40px;
+    font-family: $font-main;
     font-weight: $font-weight-bold;
-    color: $gray-900;
-    text-align: center;
+    color: $gray-950;
+    text-align: left;
     margin-bottom: $space-m;
     margin-top: 0;
-    font-family: $font-main;
+    width: 100%;
+    padding: 0;
+    display: block;
   }
 
   &__form {
