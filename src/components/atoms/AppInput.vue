@@ -86,14 +86,14 @@ watch(inputValue, v => emit('update:modelValue', v))
     display: flex;
     align-items: center;
     background: $gray-0;
-    border: 2px solid $gray-200;
-    border-radius: $radius-md;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    height: 48px;
+    border-radius: $radius-lg;
+    transition: box-shadow 0.2s;
+    min-height: 48px;
     padding: 0 $space-m;
     box-sizing: border-box;
+    filter: drop-shadow(0px 2px 4px rgba($gray-900, 0.06));
+    border: none;
     &:focus-within {
-      border-color: $primary-500;
       box-shadow: 0 0 0 2px rgba($primary-500, 0.08);
     }
   }
@@ -105,13 +105,16 @@ watch(inputValue, v => emit('update:modelValue', v))
     background: transparent;
     font-family: $font-main;
     font-size: 16px;
-    color: $gray-900;
+    color: $gray-950;
     height: 100%;
     padding: 0;
     &::placeholder {
-      color: $gray-400;
-      opacity: 1;
+      font-family: $font-main;
+      font-size: 16px;
+      line-height: 22px;
       font-weight: $font-weight-regular;
+      color: $gray-950;
+      opacity: 1;
     }
     &:disabled {
       color: $gray-300;
@@ -142,11 +145,10 @@ watch(inputValue, v => emit('update:modelValue', v))
   }
 
   &--error &__wrapper {
-    border-color: $color-error;
+    box-shadow: 0 0 0 2px $color-error;
   }
   &--disabled &__wrapper {
     background: $gray-100;
-    border-color: $gray-100;
     cursor: not-allowed;
   }
   &--with-icon &__field {

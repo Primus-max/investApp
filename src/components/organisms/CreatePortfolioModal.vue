@@ -5,7 +5,7 @@
       <div class="create-portfolio-modal__title">Создание портфеля</div>
       <div class="create-portfolio-modal__form">
         <label class="create-portfolio-modal__label">Название портфеля</label>
-        <input v-model="name" class="create-portfolio-modal__input" placeholder="Портфель №3" />
+        <AppInput v-model="name" placeholder="Портфель №3" />
 
         <label class="create-portfolio-modal__label">Валюта</label>
         <SelectGroupMolecule v-model="currency" :options="currencyOptions" />
@@ -14,7 +14,10 @@
         <SelectGroupMolecule v-model="type" :options="typeOptions" />
 
         <label class="create-portfolio-modal__label">Брокер</label>
-        <input v-model="broker" class="create-portfolio-modal__input" placeholder="Сбербанк – отчет брокера" />
+        <AppInput v-model="broker" placeholder="Сбербанк – отчет брокера" />
+
+        <label class="create-portfolio-modal__label">Токен портфеля (API)</label>
+        <AppInput v-model="token" placeholder="Введите токен" />
 
         <label class="create-portfolio-modal__label">Отчет</label>
         <button class="create-portfolio-modal__file">Добавить файл</button>
@@ -30,6 +33,11 @@ import {
   ref,
 } from 'vue';
 
+import euroFlag from '@/assets/icons/flags/euro.svg';
+import ruFlag from '@/assets/icons/flags/ru.svg';
+import usFlag from '@/assets/icons/flags/us.svg';
+
+import AppInput from '../atoms/AppInput.vue';
 import SelectGroupMolecule from '../molecules/SelectGroupMolecule.vue';
 
 const props = defineProps({
@@ -46,18 +54,19 @@ const name = ref('');
 const currency = ref('rub');
 const type = ref('manual');
 const broker = ref('');
+const token = ref('');
 
 const currencyOptions = [
-  { label: 'Рубль', value: 'rub', icon: '/src/assets/icons/coins/rub.svg' },
-  { label: 'Доллар', value: 'usd', icon: '/src/assets/icons/coins/bitcoin.svg' },
-  { label: 'Евро', value: 'eur', icon: '/src/assets/icons/coins/ethereum.svg' },
+  { label: 'Рубль', value: 'rub', icon: ruFlag },
+  { label: 'Доллар', value: 'usd', icon: usFlag },
+  { label: 'Евро', value: 'eur', icon: euroFlag },
 ];
 const typeOptions = [
   { label: 'Ручной', value: 'manual' },
   { label: 'Интеграция', value: 'integration' },
 ];
 function submit() {
-  emit('submit', { name: name.value, currency: currency.value, type: type.value, broker: broker.value });
+  emit('submit', { name: name.value, currency: currency.value, type: type.value, broker: broker.value, token: token.value });
   close();
 }
 </script>
