@@ -23,23 +23,23 @@
       </AppBanner>
       <div class="profile-menu">
         <div class="profile-menu__item">
-          <AppIcon name="user" />
+          <AppIcon name="user" :color="$primary-500" />
           <span>Изменение профиля</span>
           <AppIcon name="arrow-down" />
         </div>
         <div class="profile-menu__item">
-          <AppIcon name="briefcase-01" />
+          <AppIcon name="briefcase-01" :color="$primary-500" />
           <span>Изменение портфелей</span>
           <AppIcon name="arrow-down" />
         </div>
         <div class="profile-menu__item profile-menu__item--switch">
-          <AppIcon name="change-screen-mode" />
+          <AppIcon name="change-screen-mode" :color="$primary-500" />
           <span>Тема</span>
           <span class="profile-menu__theme-label">Светлая</span>
           <AppSwitch v-model="themeLight" />
         </div>
         <div class="profile-menu__item">
-          <AppIcon name="document-text" />
+          <AppIcon name="document-text" :color="$primary-500" />
           <span>Юридические документы</span>
           <AppIcon name="arrow-down" />
         </div>
