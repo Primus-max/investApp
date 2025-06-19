@@ -1,6 +1,9 @@
 <template>
   <MainLayout>
     <template #header>
+      <div class="profile-empty-header"></div>
+    </template>
+    <div class="profile-content">
       <div class="profile-header">
         <div class="profile-header__avatar-wrap">
           <div class="profile-header__avatar">KK</div>
@@ -11,8 +14,6 @@
           <div class="profile-header__email">E-mail: konstantin.k.k@gmail.com</div>
         </div>
       </div>
-    </template>
-    <div class="profile-content">
       <div class="profile-banner">
         <div class="profile-banner__text">
           <span>Станьте <BadgeAtom customClass="profile-banner__badge">PRO</BadgeAtom></span>
@@ -61,6 +62,10 @@ const themeLight = ref(true)
 
 <style scoped lang="scss">
 @import '@/styles/_sections.scss';
+.profile-empty-header {
+  width: 100%;
+  height: 180px;
+}
 .profile-header {
   display: flex;
   flex-direction: column;
