@@ -1,31 +1,34 @@
 <template>
-  <v-dialog v-model="modalVisible" max-width="360" persistent>
-    <div class="date-range-modal">
+  <div v-if="modalVisible" class="date-range-modal-fullscreen">
+    <div class="date-range-modal-fullscreen__backdrop" @click="modalVisible = false"></div>
+    <div class="date-range-modal-fullscreen__content">
       <div class="date-range-modal__title">Выберите период</div>
-      <v-date-picker
+      <VDatePicker
         v-model="rangeValue"
-        color="$primary-400"
-        header-color="$primary-400"
-        range
-        show-adjacent-months
+        is-range
         :first-day-of-week="1"
+        :panes="6"
+        :show-months="6"
+        :show-caps="false"
+        :title-position="'left'"
+        :show-title="false"
+        class="date-range-modal__calendar"
       />
       <button class="date-range-modal__apply" :disabled="!rangeValue.start || !rangeValue.end" @click="applyRange">Применить</button>
     </div>
-  </v-dialog>
+  </div>
 </template>
 
 <script setup>
 import {
   computed,
   ref,
-  toRefs,
   watch,
 } from 'vue';
 
 const props = defineProps({
   modelValue: Boolean,
-  range: { type: Object, default: () => ({ start: '', end: '' }) },
+  range: { type: Object, default: () => ({ start: null, end: null }) },
 });
 const emit = defineEmits(['update:modelValue', 'update:range', 'apply']);
 const modalVisible = computed({
@@ -42,51 +45,68 @@ function applyRange() {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/_variables.scss';
-.date-range-modal {
-  background: $gray-0;
-  border-radius: $radius-lg;
-  padding: $space-l $space-m $space-xl $space-m;
-  min-width: 320px;
+.date-range-modal-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.date-range-modal-fullscreen__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(34, 34, 34, 0.32);
+  z-index: 1;
+}
+.date-range-modal-fullscreen__content {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 32px 20px 28px 20px;
+  min-width: 340px;
+  max-width: 95vw;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  .date-range-modal__title {
-    font-family: $font-main;
-    font-size: $font-size-h3;
-    font-weight: $font-weight-semibold;
-    color: $gray-900;
-    text-align: center;
-    margin-bottom: $space-m;
-    margin-top: $space-m;
-  }
-  .v-date-picker {
-    border-radius: $radius-lg;
-    background: $gray-0;
-    box-shadow: none;
-    margin-bottom: $space-l;
-  }
-  .date-range-modal__apply {
-    width: 100%;
-    background: $primary-400;
-    color: $gray-0;
-    border: none;
-    border-radius: $radius-lg;
-    font-family: $font-main;
-    font-size: $font-size-body;
-    font-weight: $font-weight-semibold;
-    padding: $space-m 0;
-    margin-top: $space-m;
-    cursor: pointer;
-    transition: background 0.2s;
-    &:hover:enabled {
-      background: $primary-500;
-    }
-    &:disabled {
-      background: $gray-200;
-      color: $gray-400;
-      cursor: not-allowed;
-    }
-  }
+  overflow-y: auto;
+}
+.date-range-modal__title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #222;
+  text-align: center;
+  margin-bottom: 18px;
+  margin-top: 0;
+}
+.date-range-modal__calendar {
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: none;
+  margin-bottom: 24px;
+}
+.date-range-modal__apply {
+  width: 100%;
+  background: #4868EA;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 14px 0;
+  margin-top: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.date-range-modal__apply:disabled {
+  background: #e0e0e0;
+  color: #aaa;
+  cursor: not-allowed;
+}
+.date-range-modal__apply:enabled:hover {
+  background: #1B43E5;
 }
 </style> 

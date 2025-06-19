@@ -64,14 +64,6 @@
         v-model:range="dateRange"
         @apply="onApplyRange"
       />
-      <div v-if="modalVisible" class="custom-modal">
-        <div class="custom-modal__backdrop" @click="modalVisible = false"></div>
-        <div class="custom-modal__content">
-          <div class="custom-modal__title">Выберите период</div>
-          <div class="custom-modal__calendar">[Тут будет календарь]</div>
-          <button class="custom-modal__apply" @click="modalVisible = false">Применить</button>
-        </div>
-      </div>
     </section>
   </MainLayout>
 </template>
