@@ -112,7 +112,7 @@ import { usePortfoliosStore } from '@/stores/portfolios.js';
 const amount = ref(27861.33);
 const totalAmount = ref(123456789);
 const editMode = ref(false);
-const isNotData = ref(true);
+const isNotData = ref(false);
 const createPortfolioModalVisible = ref(false);
 
 const widgets = [
