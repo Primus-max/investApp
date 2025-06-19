@@ -71,7 +71,7 @@ const themeLight = ref(true)
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 0 16px 0;
+  padding: 52px 0 16px 0;
   &__avatar-wrap {
     position: absolute;
     top: -40px;
@@ -94,9 +94,9 @@ const themeLight = ref(true)
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 32px;
+    font-size: 24px;
     font-weight: $font-weight-semibold;
-    color: $primary-500;
+    color: $gray-400;
     margin-bottom: 0;
   }
   &__info {
