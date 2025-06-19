@@ -18,6 +18,11 @@ const routes = [
     path: '/analytics/:portfolioId',
     name: 'AnalyticsPage',
     component: () => import('@/views/AnalyticsPage.vue')
+  },
+  {
+    path: '/operations',
+    name: 'OperationsPage',
+    component: () => import('@/views/OperationsPage.vue')
   }
 ]
 
