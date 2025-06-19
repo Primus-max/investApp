@@ -26,7 +26,17 @@
           <AppInput v-model="token" placeholder="Введите токен" />
 
           <label class="create-portfolio-modal__label">Отчет</label>
-          <button class="create-portfolio-modal__file" @click="openFileDialog">{{ selectedFile ? selectedFile.name : 'Добавить файл' }}</button>
+          <div v-if="selectedFile" class="create-portfolio-modal__file create-portfolio-modal__file--selected">
+            <IconDocumentText class="create-portfolio-modal__file-icon" />
+            <span class="create-portfolio-modal__file-name">{{ selectedFile.name }}</span>
+            <button class="create-portfolio-modal__file-remove" @click="selectedFile = null" type="button" aria-label="Удалить файл">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 6L14 14" stroke="#8D94A5" stroke-width="2" stroke-linecap="round"/>
+                <path d="M14 6L6 14" stroke="#8D94A5" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+          <button v-else class="create-portfolio-modal__file" @click="openFileDialog">Добавить файл</button>
           <input ref="fileInput" type="file" class="create-portfolio-modal__file-input" @change="onFileChange" style="display:none" />
         </div>
       </div>
@@ -47,6 +57,7 @@ import usFlag from '@/assets/icons/flags/us.svg';
 
 import AppInput from '../atoms/AppInput.vue';
 import IconArrowBottom from '../atoms/icons/IconArrowBottom.vue';
+import IconDocumentText from '../atoms/icons/IconDocumentText.vue';
 import SelectGroupMolecule from '../molecules/SelectGroupMolecule.vue';
 import SortDropdown from '../molecules/SortDropdown.vue';
 
@@ -204,10 +215,47 @@ function submit() {
       border-color: $primary-400;
       color: $primary-400;
     }
+    &--selected {
+      justify-content: flex-start;
+      cursor: default;
+      border-style: none;
+      background: $gray-0;
+      color: $gray-900;
+      box-shadow: none;
+    }
   }
 
   &__file-input {
     display: none;
+  }
+
+  &__file-icon {
+    width: 24px;
+    height: 24px;
+    flex: none;
+  }
+
+  &__file-name {
+    flex: 1 1 auto;
+    font-size: $font-size-body;
+    color: $gray-900;
+    margin: 0 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__file-remove {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    svg {
+      display: block;
+    }
   }
 
   &__submit {
