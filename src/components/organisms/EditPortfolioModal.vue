@@ -17,6 +17,7 @@
             :portfolio="portfolio"
             @click="selectPortfolio(portfolio)" 
             class="edit-portfolio-modal__portfolio-card"
+            :disable-routing="true"
           />
         </div>
       </div>
@@ -70,7 +71,14 @@ const props = defineProps({
 const emit = defineEmits(['update:visible']);
 
 const portfoliosStore = usePortfoliosStore();
-const portfolios = computed(() => portfoliosStore.portfolios);
+
+// Подготавливаем данные, добавляя массив icons
+const portfolios = computed(() => 
+  portfoliosStore.portfolios.map(p => ({
+    ...p,
+    icons: Array.isArray(p.assets) ? p.assets.map(a => a.logo) : []
+  }))
+);
 
 const selectedPortfolio = ref(null);
 const editablePortfolio = ref(null);
@@ -105,34 +113,40 @@ function close() {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: $gray-50;
 
   &__list-view, &__form-view {
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: $space-l $space-m;
+    padding: $space-m;
   }
   
   &__header {
     display: flex;
     align-items: center;
-    position: relative;
     justify-content: center;
+    position: relative;
+    padding-top: $space-s;
     margin-bottom: $space-s;
   }
 
   &__title {
-    font-size: $font-size-h2;
-    font-weight: $font-weight-bold;
+    font-size: $font-size-h3;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-h3;
+    color: $gray-950;
   }
 
   &__back-btn, &__close-btn {
     position: absolute;
     left: 0;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0;
+    padding: $space-xs;
     color: $gray-900;
   }
 
@@ -147,12 +161,7 @@ function close() {
     display: flex;
     flex-direction: column;
     gap: $space-s;
-    flex-grow: 1;
     overflow-y: auto;
-  }
-
-  &__portfolio-card {
-    cursor: pointer;
   }
 
   &__form {
@@ -160,20 +169,23 @@ function close() {
     display: flex;
     flex-direction: column;
     gap: $space-l;
-    margin-top: $space-xl;
+    margin-top: $space-m;
   }
   
   &__label {
     font-size: $font-size-body;
     font-weight: $font-weight-semibold;
     margin-bottom: $space-xs;
+    color: $gray-950;
   }
 
   &__submit {
     margin-top: auto;
-    width: 100%;
+    margin-bottom: $space-xl;
     background: $primary-400;
     color: $gray-0;
+    border-radius: $radius-md;
+    height: 50px;
   }
 }
 </style> 
