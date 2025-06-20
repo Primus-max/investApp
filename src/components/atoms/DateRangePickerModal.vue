@@ -323,6 +323,7 @@ function closeModal() {
   }
 
   :deep(.vc-header) {
-    padding: 0;    
+    padding: 0;
+    margin-bottom: 1px;    
   }
 </style> 
