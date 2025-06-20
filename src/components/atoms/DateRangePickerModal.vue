@@ -29,7 +29,11 @@
             next: false,
             prev: false,
           }"
-        />
+        >
+          <template #header-title="{ title }">
+            {{ title.charAt(0).toUpperCase() + title.slice(1) }}
+          </template>
+        </VDatePicker>
       </div>
       <div class="date-range-modal__footer">
         <button class="date-range-modal__apply" :disabled="!rangeValue || !rangeValue.start || !rangeValue.end" @click="applyRange">Применить</button>
@@ -147,7 +151,9 @@ function closeModal() {
 
 .date-range-modal__calendar {
   width: 100%;
-  border: none;  
+  border: none;
+  --vc-nav-visibility: hidden;
+  --vc-weekdays-display: none;
 
   :deep(.vc-header) {
     padding: 0;
@@ -160,7 +166,6 @@ function closeModal() {
     font-size: 20px;
     line-height: 24px;
     color: $gray-900;
-    text-transform: capitalize;
   }
 
   :deep(.vc-arrow) {
@@ -168,7 +173,7 @@ function closeModal() {
   }
   
   :deep(.vc-pane) {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 
   :deep(.vc-weeks) {
