@@ -78,46 +78,45 @@ const russianMonths = ['Январь', 'Февраль', 'Март', 'Апрел
 
 watch(rangeValue, (newRange) => {
   setTimeout(() => {
-    monthBadgeRefs.value.forEach(el => {
-      if (!el) return;
-      el.classList.remove('select-option-atom--selected');
-      const checkmark = el.querySelector('.select-option-atom__check');
-      if (checkmark) {
-        checkmark.remove();
-      }
-    });
-
-    if (!newRange || !newRange.start) {
-      return;
-    }
-
     const monthsToSelect = new Set();
-    const start = new Date(newRange.start);
-    const end = newRange.end ? new Date(newRange.end) : start;
-    const [startDate, endDate] = start > end ? [end, start] : [start, end];
 
-    let current = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
-    while (current <= endDate) {
-      monthsToSelect.add(russianMonths[current.getMonth()]);
-      current.setMonth(current.getMonth() + 1);
+    if (newRange && newRange.start) {
+      const start = new Date(newRange.start);
+      const end = newRange.end ? new Date(newRange.end) : start;
+      const [startDate, endDate] = start > end ? [end, start] : [start, end];
+
+      let current = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+      while (current <= endDate) {
+        monthsToSelect.add(russianMonths[current.getMonth()]);
+        current.setMonth(current.getMonth() + 1);
+      }
     }
 
     monthBadgeRefs.value.forEach(el => {
       if (!el) return;
       const label = el.querySelector('.select-option-atom__label');
-      if (label && monthsToSelect.has(label.textContent)) {
+      const isSelected = label && monthsToSelect.has(label.textContent);
+      
+      if (isSelected) {
+        // Add styles if it should be selected
         el.classList.add('select-option-atom--selected');
-        
         if (!el.querySelector('.select-option-atom__check')) {
-            const checkmark = document.createElement('span');
-            checkmark.className = 'select-option-atom__check';
-            checkmark.innerHTML = `
-              <svg width="24" height="24" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="12" fill="#4868EA" />
-                <polyline points="7,13 11,17 17,9" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            `;
-            el.appendChild(checkmark);
+          const checkmark = document.createElement('span');
+          checkmark.className = 'select-option-atom__check';
+          checkmark.innerHTML = `
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="12" fill="#4868EA" />
+              <polyline points="7,13 11,17 17,9" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          `;
+          el.appendChild(checkmark);
+        }
+      } else {
+        // Remove styles if it should NOT be selected
+        el.classList.remove('select-option-atom--selected');
+        const checkmark = el.querySelector('.select-option-atom__check');
+        if (checkmark) {
+          checkmark.remove();
         }
       }
     });
