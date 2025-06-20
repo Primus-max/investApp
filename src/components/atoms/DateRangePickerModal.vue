@@ -31,9 +31,9 @@
           }"
         >
           <template #header-title="{ title, page }">
-            <SelectOptionAtom :selected="true" style="background-color: #F1F2F4;">
-              {{ title.charAt(0).toUpperCase() + title.slice(1) }}
-            </SelectOptionAtom>
+            <div class="select-option-atom" :ref="setMonthBadgeRef">
+              <span class="select-option-atom__label">{{ title.charAt(0).toUpperCase() + title.slice(1) }}</span>
+            </div>
           </template>
         </VDatePicker>
       </div>
@@ -46,11 +46,11 @@
 
 <script setup>
 import {
+  onBeforeUpdate,
   ref,
   watch,
 } from 'vue';
 
-import SelectOptionAtom from '@/components/atoms/SelectOptionAtom.vue';
 import BaseModal from '@/components/molecules/BaseModal.vue';
 
 const props = defineProps({
@@ -62,24 +62,72 @@ const emit = defineEmits(['update:modelValue', 'update:range', 'apply']);
 
 const weekdays = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
 const rangeValue = ref({ ...props.range });
+const monthBadgeRefs = ref([]);
 
-watch(() => props.range, v => {
-  rangeValue.value = { ...v };
+const setMonthBadgeRef = (el) => {
+  if (el) {
+    monthBadgeRefs.value.push(el);
+  }
+};
+
+onBeforeUpdate(() => {
+  monthBadgeRefs.value = [];
+});
+
+const russianMonths = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+
+watch(rangeValue, (newRange) => {
+  setTimeout(() => {
+    monthBadgeRefs.value.forEach(el => {
+      if (!el) return;
+      el.classList.remove('select-option-atom--selected');
+      const checkmark = el.querySelector('.select-option-atom__check');
+      if (checkmark) {
+        checkmark.remove();
+      }
+    });
+
+    if (!newRange || !newRange.start) {
+      return;
+    }
+
+    const monthsToSelect = new Set();
+    const start = new Date(newRange.start);
+    const end = newRange.end ? new Date(newRange.end) : start;
+    const [startDate, endDate] = start > end ? [end, start] : [start, end];
+
+    let current = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+    while (current <= endDate) {
+      monthsToSelect.add(russianMonths[current.getMonth()]);
+      current.setMonth(current.getMonth() + 1);
+    }
+
+    monthBadgeRefs.value.forEach(el => {
+      if (!el) return;
+      const label = el.querySelector('.select-option-atom__label');
+      if (label && monthsToSelect.has(label.textContent)) {
+        el.classList.add('select-option-atom--selected');
+        
+        if (!el.querySelector('.select-option-atom__check')) {
+            const checkmark = document.createElement('span');
+            checkmark.className = 'select-option-atom__check';
+            checkmark.innerHTML = `
+              <svg width="24" height="24" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="12" fill="#4868EA" />
+                <polyline points="7,13 11,17 17,9" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            `;
+            el.appendChild(checkmark);
+        }
+      }
+    });
+  }, 0);
 }, { deep: true, immediate: true });
 
-function isMonthInRange(page) {
-  if (!page || !rangeValue.value || !rangeValue.value.start || !rangeValue.value.end) {
-    return false;
-  }
-
-  const selectionStart = new Date(rangeValue.value.start).getTime();
-  const selectionEnd = new Date(rangeValue.value.end).getTime();
-
-  const monthStart = new Date(page.year, page.month - 1, 1).getTime();
-  const monthEnd = new Date(page.year, page.month, 1).getTime() - 1;
-
-  return selectionStart <= monthEnd && selectionEnd >= monthStart;
-}
+// Sync range from parent component
+watch(() => props.range, v => {
+  rangeValue.value = { ...v };
+}, { deep: true });
 
 function applyRange() {
   emit('update:range', { ...rangeValue.value });
@@ -326,4 +374,38 @@ function closeModal() {
     padding: 0;
     margin-bottom: 14px;    
   }
+
+.select-option-atom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  background-color: $gray-100;
+  transition: background-color 0.2s ease;
+
+  &--selected {
+    background-color: $primary-50;
+    .select-option-atom__label {
+      color: $primary-500;
+      font-weight: $font-weight-semibold;
+    }
+  }
+}
+
+.select-option-atom__label {
+  font-family: $font-main;
+  font-size: 16px;
+  line-height: 20px;
+  color: $gray-900;
+  font-weight: $font-weight-medium;
+}
+
+.select-option-atom__check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style> 
