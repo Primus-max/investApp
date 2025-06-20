@@ -75,13 +75,13 @@
         </ul>
       </section>
       <div v-else class="page__body-portfolio-empty">
-        <AppPillButton @click="store.isCreatePortfolioModalOpen = true">          
+        <AppPillButton @click="store.isCreatePortfolioModalOpen = true">
           <template #default>
             <div class="page__body-portfolio-empty-button">
               <IconBriefcase01 class="page__body-portfolio-empty-button-icon" />
               <span class="page__body-portfolio-empty-button-label">Добавить портфель</span>
-            </div>            
-          </template>         
+            </div>
+          </template>
         </AppPillButton>
       </div>
     </section>

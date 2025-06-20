@@ -92,7 +92,7 @@
         </div>
       </section>
       <div v-else class="page__body-portfolio-empty">
-        <AppPillButton>          
+        <AppPillButton @click="uiStore.openAddOperationModal()">          
           <template #default>
             <div class="page__body-portfolio-empty-button">
               <IconCoinsSwap class="page__body-portfolio-empty-button-icon" />
@@ -134,10 +134,12 @@ import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 import { usePortfoliosStore } from '@/stores/portfolios.js';
+import { useUiStore } from '@/stores/ui.js';
 
 const route = useRoute();
 const router = useRouter();
 const store = usePortfoliosStore();
+const uiStore = useUiStore();
 
 const portfolio = ref(null);
 const isLoading = ref(true);
