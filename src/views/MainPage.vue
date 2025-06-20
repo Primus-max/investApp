@@ -83,7 +83,6 @@
           </template>         
         </AppPillButton>
       </div>
-      <CreatePortfolioModal v-model="store.isCreatePortfolioModalOpen" />
     </section>
   </MainLayout>
 </template>
@@ -103,8 +102,6 @@ import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
 import PortfolioCard from '@/components/molecules/PortfolioCard.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
-import CreatePortfolioModal
-  from '@/components/organisms/CreatePortfolioModal.vue';
 import Header from '@/components/organisms/Header.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 import { usePortfoliosStore } from '@/stores/portfolios.js';
