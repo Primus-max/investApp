@@ -1,24 +1,23 @@
 <template>
   <div class="quantity-input">
-    <button class="quantity-input__btn" @click="decrement" :disabled="modelValue <= 1">
+    <button class="quantity-input__btn" @click="decrement" :disabled="modelValue <= 0">
       <IconMinus />
     </button>
-    <span class="quantity-input__value">{{ modelValue }}</span>
+    <input type="number" class="quantity-input__value" :value="modelValue" @input="onInput" />
     <button class="quantity-input__btn" @click="increment">
-      <IconPlusSignCircle />
+      <IconPlus />
     </button>
   </div>
 </template>
 
 <script setup>
 import IconMinus from '@/components/atoms/icons/IconMinus.vue';
-import IconPlusSignCircle
-  from '@/components/atoms/icons/IconPlusSignCircle.vue';
+import IconPlus from '@/components/atoms/icons/IconPlus.vue';
 
 const props = defineProps({
   modelValue: {
     type: Number,
-    default: 1,
+    default: 0,
   },
 });
 
@@ -29,8 +28,15 @@ const increment = () => {
 };
 
 const decrement = () => {
-  if (props.modelValue > 1) {
+  if (props.modelValue > 0) {
     emit('update:modelValue', props.modelValue - 1);
+  }
+};
+
+const onInput = (event) => {
+  const value = parseInt(event.target.value, 10);
+  if (!isNaN(value)) {
+    emit('update:modelValue', value);
   }
 };
 </script>
@@ -39,40 +45,60 @@ const decrement = () => {
 @import '@/styles/_variables.scss';
 
 .quantity-input {
+  box-sizing: border-box;
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: $space-m;
-  background-color: $gray-100;
-  border-radius: $radius-md;
-  padding: $space-s;
-  justify-content: space-between;
+  padding: 4px;
+  gap: 12px;
   width: 150px;
+  height: 48px;
+  background: $gray-0;
+  border: 1px solid $gray-100;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
 
   &__btn {
-    background: $gray-0;
-    border: none;
-    border-radius: $radius-sm;
-    width: 36px;
-    height: 36px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background: $gray-50;
+    border-radius: 12px;
+    border: none;
     cursor: pointer;
-    color: $gray-900;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    color: $gray-950;
 
     &:disabled {
       background-color: $gray-100;
-      color: $gray-300;
       cursor: not-allowed;
-      box-shadow: none;
+      color: $gray-400;
     }
   }
 
   &__value {
-    font-size: $font-size-body;
-    font-weight: $font-weight-medium;
+    font-family: $font-main;
+    font-style: normal;
+    font-weight: $font-weight-regular;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
     color: $gray-950;
+    border: none;
+    background: transparent;
+    width: 100%;
+    flex-grow: 1;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   }
 }
 </style> 

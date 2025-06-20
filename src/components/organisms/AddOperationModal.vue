@@ -118,8 +118,12 @@ function submit() {
   background: $gray-50;
 
   &__title {
+    font-family: $font-main;
+    font-style: normal;
+    font-weight: $font-weight-semibold;
     font-size: 24px;
-    font-weight: $font-weight-bold;
+    line-height: 32px;
+    color: $gray-950;
     margin-bottom: $space-l;
     text-align: left;
   }
@@ -132,8 +136,12 @@ function submit() {
   }
 
   &__label {
-    font-size: $font-size-body;
+    font-family: $font-main;
+    font-style: normal;
     font-weight: $font-weight-semibold;
+    font-size: 18px;
+    line-height: 24px;
+    color: $gray-950;
     margin-bottom: $space-s;
     display: block;
   }
