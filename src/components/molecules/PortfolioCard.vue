@@ -62,7 +62,7 @@ const props = defineProps({
 
 const router = useRouter()
 
-const icons = computed(() => props.portfolio.icons)
+const icons = computed(() => props.portfolio.icons || [])
 
 const formattedAmount = computed(() => {
   return new Intl.NumberFormat('ru-RU', {
