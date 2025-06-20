@@ -100,6 +100,7 @@ import { ref } from 'vue';
 import AppBanner from '@/components/atoms/AppBanner.vue';
 import AppIcon from '@/components/atoms/AppIcon.vue';
 import { usePortfoliosStore } from '@/stores/portfolios.js';
+import { useUiStore } from '@/stores/ui.js';
 
 const props = defineProps({
   tabs: { type: Array, required: true },
@@ -109,6 +110,7 @@ const emit = defineEmits(['update:activeIndex', 'menu-open'])
 
 const isMenuOpen = ref(false)
 const store = usePortfoliosStore();
+const uiStore = useUiStore();
 
 const menuActions = [
   { icon: 'briefcase-01', label: 'Создать портфель' },
@@ -136,7 +138,10 @@ function onMenuAction(action) {
     store.openCreatePortfolioModal();
     isMenuOpen.value = false;
   }
-  // ... другие действия ...
+  if (action.label === 'Создать сделку') {
+    uiStore.openAddOperationModal();
+    isMenuOpen.value = false;
+  }
 }
 </script>
 

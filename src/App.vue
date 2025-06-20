@@ -1,15 +1,19 @@
 <script setup>
+import AddOperationModal from '@/components/organisms/AddOperationModal.vue';
 import CreatePortfolioModal
   from '@/components/organisms/CreatePortfolioModal.vue';
 import { usePortfoliosStore } from '@/stores/portfolios';
+import { useUiStore } from '@/stores/ui';
 
 const portfoliosStore = usePortfoliosStore();
+const uiStore = useUiStore();
 </script>
 
 <template>
   <v-app>
     <router-view />
     <CreatePortfolioModal v-model="portfoliosStore.isCreatePortfolioModalOpen" />
+    <AddOperationModal v-model:visible="uiStore.isAddOperationModalVisible" />
   </v-app>
 </template>
 
