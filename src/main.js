@@ -4,6 +4,7 @@ import 'v-calendar/style.css';
 
 import { createApp } from 'vue';
 
+import { ru } from 'date-fns/locale';
 import { createPinia } from 'pinia';
 import VCalendar from 'v-calendar';
 import VueApexCharts from 'vue3-apexcharts';
@@ -20,5 +21,14 @@ app.use(PiniaColada, {})
 app.use(createVuetify())
 app.use(router)
 app.use(VueApexCharts)
-app.use(VCalendar, {})
+app.use(VCalendar, {
+  locales: {
+    ru: {
+      ...ru,
+      masks: {
+        weekdays: 'WW',
+      }
+    }
+  }
+})
 app.mount('#app')

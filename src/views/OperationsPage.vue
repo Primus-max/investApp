@@ -336,6 +336,7 @@ function formatAmount(val) {
   }
 
   &-period {
+    height: 40px !important;
     width: 105px !important;
     max-width: 105px;
     border-radius: $radius-md !important;
