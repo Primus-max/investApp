@@ -35,11 +35,15 @@
         </div>
         <div class="add-operation-modal__field">
           <label class="add-operation-modal__label">Дата операции</label>
-          <AppInput v-model="form.date" placeholder="24.05.2025">
-            <template #append>
-              <IconCalendar />
+          <VDatePicker v-model="date" :masks="{ modelValue: 'DD.MM.YYYY' }" :popover="{ visibility: 'click' }">
+            <template #default="{ inputValue, inputEvents }">
+              <AppInput :model-value="inputValue" placeholder="24.05.2025" v-on="inputEvents">
+                <template #icon>
+                  <IconCalendar style="cursor: pointer;" />
+                </template>
+              </AppInput>
             </template>
-          </AppInput>
+          </VDatePicker>
         </div>
       </div>
 
@@ -63,6 +67,12 @@ import {
   ref,
 } from 'vue';
 
+import {
+  format,
+  isValid,
+  parse,
+} from 'date-fns';
+
 import modul from '@/assets/icons/coins/modul.svg';
 import sber from '@/assets/icons/coins/sber.svg';
 import AppInput from '@/components/atoms/AppInput.vue';
@@ -83,6 +93,16 @@ const form = reactive({
   asset: 'sber',
   quantity: 100,
   date: '24.05.2025',
+});
+
+const date = computed({
+  get: () => {
+    const d = parse(form.date, 'dd.MM.yyyy', new Date());
+    return isValid(d) ? d : null;
+  },
+  set: (val) => {
+    form.date = val ? format(val, 'dd.MM.yyyy') : '';
+  }
 });
 
 const activeAsset = computed(() => assetOptions.find(o => o.value === form.asset));
