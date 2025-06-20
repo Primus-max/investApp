@@ -132,6 +132,12 @@ export const usePortfoliosStore = defineStore('portfolios', {
       // Можно добавить имитацию задержки, если нужно
       return this.portfolios;
     },
+    updatePortfolio(updatedPortfolio) {
+      const index = this.portfolios.findIndex(p => p.id === updatedPortfolio.id);
+      if (index !== -1) {
+        this.portfolios[index] = { ...this.portfolios[index], ...updatedPortfolio };
+      }
+    },
     openCreatePortfolioModal() {
       this.isCreatePortfolioModalOpen = true;
     },

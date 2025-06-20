@@ -47,6 +47,7 @@
       </div>
     </div>
     <EditProfileModal v-model:visible="isEditProfileModalVisible" @submit="updateProfile" />
+    <EditPortfolioModal v-model:visible="isEditPortfolioModalVisible" />
   </MainLayout>
 </template>
 
@@ -59,11 +60,13 @@ import AppIcon from '@/components/atoms/AppIcon.vue';
 import AppSwitch from '@/components/atoms/AppSwitch.vue';
 import BadgeAtom from '@/components/atoms/BadgeAtom.vue';
 import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
+import EditPortfolioModal from '@/components/organisms/EditPortfolioModal.vue';
 import EditProfileModal from '@/components/organisms/EditProfileModal.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 
 const themeLight = ref(true);
 const isEditProfileModalVisible = ref(false);
+const isEditPortfolioModalVisible = ref(false);
 
 const profileMenu = [
   {
@@ -93,7 +96,9 @@ const handleMenuClick = (action) => {
   if (action === 'editProfile') {
     isEditProfileModalVisible.value = true;
   }
-  //
+  if (action === 'editPortfolios') {
+    isEditPortfolioModalVisible.value = true;
+  }
 };
 
 const updateProfile = (data) => {

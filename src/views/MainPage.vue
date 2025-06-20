@@ -69,7 +69,8 @@
           <PortfolioCard 
             v-for="portfolio in portfolios" 
             :key="portfolio.id" 
-            :portfolio="portfolio" 
+            :portfolio="portfolio"
+            @click="navigateToPortfolio(portfolio.id)" 
           />
         </ul>
       </section>
@@ -90,6 +91,8 @@
 <script setup>
 import { ref } from 'vue';
 
+import { useRouter } from 'vue-router';
+
 import AppBanner from '@/components/atoms/AppBanner.vue';
 import AppPillButton from '@/components/atoms/AppPillButton.vue';
 import BadgeAtom from '@/components/atoms/BadgeAtom.vue';
@@ -106,6 +109,7 @@ import Header from '@/components/organisms/Header.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 import { usePortfoliosStore } from '@/stores/portfolios.js';
 
+const router = useRouter();
 const amount = ref(27861.33);
 const totalAmount = ref(123456789);
 const editMode = ref(false);
@@ -146,6 +150,10 @@ const portfolios = store.getAllPortfolios().map(p => ({
   percent: p.totalPercent,
   icons: Array.isArray(p.assets) ? p.assets.map(a => a.logo) : [],
 }));
+
+const navigateToPortfolio = (id) => {
+  router.push(`/portfolio/${id}`);
+};
 </script>
 
 <style lang="scss" scoped>

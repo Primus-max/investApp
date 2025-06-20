@@ -1,5 +1,5 @@
 <template>
-  <div class="portfolio-card" @click="handleClick">
+  <div class="portfolio-card" @click="$emit('click')">
     <div class="portfolio-card__icons">
       <template v-if="icons.length <= 3">
         <img
@@ -43,8 +43,6 @@
 <script setup>
 import { computed } from 'vue';
 
-import { useRouter } from 'vue-router';
-
 const props = defineProps({
   portfolio: {
     type: Object,
@@ -60,9 +58,9 @@ const props = defineProps({
   }
 })
 
-const router = useRouter()
+defineEmits(['click']);
 
-const icons = computed(() => props.portfolio.icons)
+const icons = computed(() => props.portfolio.icons || [])
 
 const formattedAmount = computed(() => {
   return new Intl.NumberFormat('ru-RU', {
@@ -106,10 +104,6 @@ const profitArrow = computed(() => {
 
 const getIconPath = (icon) => {
   return new URL(`../../assets/icons/coins/${icon}.svg`, import.meta.url).href
-}
-
-const handleClick = () => {
-  router.push(`/portfolio/${props.portfolio.id}`)
 }
 </script>
 
