@@ -176,9 +176,6 @@ function closeModal() {
     margin-bottom: 16px;
   }
 
-  :deep(.vc-weeks) {
-    display: none;
-  }
 
   :deep(.vc-weekday) {
     font-family: $font-main;
@@ -291,5 +288,13 @@ function closeModal() {
 
 :deep(.vc-container, .vc-container) {    
     width: 100% !important;
+  }
+
+  :deep(.vc-weeks) {
+    padding: 0;
+  }
+
+  :deep(.vc-weekdays) {
+    display: none;
   }
 </style> 
