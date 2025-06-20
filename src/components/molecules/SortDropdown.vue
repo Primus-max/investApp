@@ -15,10 +15,12 @@
       <div v-for="option in options" :key="option.value"
         :class="['sort-dropdown__menu-item', { 'sort-dropdown__menu-item--active': modelValue === option.value }]"
         @click="selectOption(option)">
-        <span v-if="option.icon" class="sort-dropdown__icon">
-          <component :is="option.icon" />
-        </span>
-        {{ option.label }}
+        <slot name="item" :option="option">
+          <span v-if="option.icon" class="sort-dropdown__icon">
+            <component :is="option.icon" />
+          </span>
+          {{ option.label }}
+        </slot>
       </div>
     </div>
   </div>

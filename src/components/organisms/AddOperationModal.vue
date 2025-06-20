@@ -20,6 +20,10 @@
               <span class="asset-trigger__label">{{ activeAsset.label }}</span>
               <span class="asset-trigger__price">{{ activeAsset.price }} ₽</span>
             </div>
+            <template #item="{ option }">
+              <img :src="option.icon" :alt="option.label" class="asset-trigger__icon" />
+              <span class="asset-trigger__label">{{ option.label }}</span>
+            </template>
           </SortDropdown>
           <p class="add-operation-modal__commission">Комиссия 02,41 ₽</p>
         </div>
@@ -189,6 +193,19 @@ function submit() {
         background-repeat: no-repeat;
         background-position: center;
       }
+    }
+
+    .sort-dropdown__menu {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      width: 100%;
+      background: $gray-0;
+      border-radius: $radius-lg;
+      box-shadow: 0 4px 12px rgba(44, 62, 80, 0.12);
+      z-index: 1000;
+      padding: $space-xs;
     }
 
     .sort-dropdown__menu-item {
