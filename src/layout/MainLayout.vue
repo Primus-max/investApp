@@ -15,7 +15,7 @@
     </div>
     <div
       class="main-layout__tabbar-wrap"
-      :class="{ 'main-layout__tabbar-wrap--hidden': isTabBarHidden }"
+      :class="{ 'main-layout__tabbar-wrap--hidden': uiStore.isTabBarHidden }"
     >
       <TabBar :tabs="tabs" :activeIndex="activeIndex" @update:activeIndex="handleTabChange" @menu-open="isTabMenuOpen = $event" />
     </div>
@@ -37,6 +37,7 @@ import {
 } from 'vue-router';
 
 import TabBar from '@/components/organisms/TabBar.vue';
+import { useUiStore } from '@/stores/ui';
 
 const tabs = [
   { icon: 'home-05', label: 'Главная' },
@@ -49,10 +50,9 @@ const tabs = [
 const router = useRouter()
 const route = useRoute()
 const activeIndex = ref(0)
-const isTabBarHidden = ref(false)
 const isTabMenuOpen = ref(false)
-const layoutRef = ref(null)
-let lastScrollY = 0
+const uiStore = useUiStore();
+let lastScrollY = 0;
 
 function handleTabChange(newIndex) {
   activeIndex.value = newIndex
@@ -74,14 +74,20 @@ function handleTabChange(newIndex) {
   }
 }
 
-function handleTabBarScroll(e) {
-  const currentY = e.target.scrollTop
-  if (currentY > lastScrollY) {
-    isTabBarHidden.value = true
-  } else if (currentY < lastScrollY) {
-    isTabBarHidden.value = false
+function handleScroll(event) {
+  const scrollingElement = event.target;
+  const scrollTop = scrollingElement.scrollTop;
+
+  if (scrollTop > lastScrollY && scrollTop > 10) {
+    if (!uiStore.isTabBarHidden) {
+      uiStore.isTabBarHidden = true;
+    }
+  } else if (scrollTop < lastScrollY) {
+    if (uiStore.isTabBarHidden) {
+      uiStore.isTabBarHidden = false;
+    }
   }
-  lastScrollY = currentY
+  lastScrollY = scrollTop < 0 ? 0 : scrollTop;
 }
 
 function updateActiveTabFromRoute() {
@@ -103,15 +109,14 @@ const $slots = useSlots();
 watch(route, updateActiveTabFromRoute, { immediate: true })
 
 onMounted(() => {
-  if (layoutRef.value) {
-    layoutRef.value.addEventListener('scroll', handleTabBarScroll)
-  }
-})
+  // Listen on document in capture phase to catch the event from any scrolling element.
+  document.addEventListener('scroll', handleScroll, true);
+});
+
 onUnmounted(() => {
-  if (layoutRef.value) {
-    layoutRef.value.removeEventListener('scroll', handleTabBarScroll)
-  }
-})
+  document.removeEventListener('scroll', handleScroll, true);
+});
+
 </script>
 
 <style lang="scss" scoped>
@@ -172,7 +177,7 @@ onUnmounted(() => {
     }
   }
   &__tabbar-wrap--hidden {
-    display: none;
+    transform: translateY(300%);
   }
 }
 </style> 
