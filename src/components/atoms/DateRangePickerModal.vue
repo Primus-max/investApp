@@ -31,9 +31,9 @@
           }"
         >
           <template #header-title="{ title, page }">
-            <BadgeAtom :disabled="!isMonthInRange(page)">
+            <SelectOptionAtom :selected="true" style="background-color: #F1F2F4;">
               {{ title.charAt(0).toUpperCase() + title.slice(1) }}
-            </BadgeAtom>
+            </SelectOptionAtom>
           </template>
         </VDatePicker>
       </div>
@@ -50,7 +50,7 @@ import {
   watch,
 } from 'vue';
 
-import BadgeAtom from '@/components/atoms/BadgeAtom.vue';
+import SelectOptionAtom from '@/components/atoms/SelectOptionAtom.vue';
 import BaseModal from '@/components/molecules/BaseModal.vue';
 
 const props = defineProps({
@@ -324,6 +324,6 @@ function closeModal() {
 
   :deep(.vc-header) {
     padding: 0;
-    margin-bottom: 1px;    
+    margin-bottom: 14px;    
   }
 </style> 
