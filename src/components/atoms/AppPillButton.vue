@@ -17,10 +17,9 @@
   display: flex;  
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
   background: $gray-0;
   border-radius: $radius-xl;
+  padding: 15px 12px;
 }
 
 .app-pill-btn__button {
@@ -28,7 +27,13 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
 }
-
-
 </style> 

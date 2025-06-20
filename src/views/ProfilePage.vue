@@ -24,7 +24,11 @@
       <div class="profile-menu">
         <div class="profile-menu__list">
           <template v-for="(item, idx) in profileMenu" :key="item.action">
-            <div class="profile-menu__item" :class="{ 'profile-menu__item--switch': item.isSwitch }">
+            <div 
+              class="profile-menu__item" 
+              :class="{ 'profile-menu__item--switch': item.isSwitch }"
+              @click="handleMenuClick(item.action)"
+            >
               <AppIcon :name="item.icon" :color="$primary-500" />
               <span class="profile-menu__label">{{ item.label }}</span>
               <template v-if="item.isSwitch">
@@ -42,6 +46,7 @@
         </div>
       </div>
     </div>
+    <EditProfileModal v-model:visible="isEditProfileModalVisible" @submit="updateProfile" />
   </MainLayout>
 </template>
 
@@ -54,9 +59,11 @@ import AppIcon from '@/components/atoms/AppIcon.vue';
 import AppSwitch from '@/components/atoms/AppSwitch.vue';
 import BadgeAtom from '@/components/atoms/BadgeAtom.vue';
 import IconArrowLeft from '@/components/atoms/icons/IconArrowLeft.vue';
+import EditProfileModal from '@/components/organisms/EditProfileModal.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 
-const themeLight = ref(true)
+const themeLight = ref(true);
+const isEditProfileModalVisible = ref(false);
 
 const profileMenu = [
   {
@@ -80,7 +87,18 @@ const profileMenu = [
     label: 'Юридические документы',
     action: 'docs',
   }
-]
+];
+
+const handleMenuClick = (action) => {
+  if (action === 'editProfile') {
+    isEditProfileModalVisible.value = true;
+  }
+  //
+};
+
+const updateProfile = (data) => {
+  console.log('Profile updated:', data);
+};
 
 </script>
 
