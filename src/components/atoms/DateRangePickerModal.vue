@@ -31,7 +31,9 @@
           }"
         >
           <template #header-title="{ title }">
-            {{ title.charAt(0).toUpperCase() + title.slice(1) }}
+            <BadgeAtom disabled>
+              {{ title.charAt(0).toUpperCase() + title.slice(1) }}
+            </BadgeAtom>
           </template>
         </VDatePicker>
       </div>
@@ -48,6 +50,7 @@ import {
   watch,
 } from 'vue';
 
+import BadgeAtom from '@/components/atoms/BadgeAtom.vue';
 import BaseModal from '@/components/molecules/BaseModal.vue';
 
 const props = defineProps({
@@ -166,10 +169,12 @@ function closeModal() {
     font-size: 20px;
     line-height: 24px;
     color: $gray-900;
+    padding: 0;
+    margin: 0;
   }
 
   :deep(.vc-arrow) {
-   display: none;
+    display: none;
   }
   
   :deep(.vc-pane) {
@@ -252,6 +257,11 @@ function closeModal() {
   :deep(.vc-pane-container) {
     width: 100%;
   }
+
+  :deep(.vc-bordered) {
+    border: none !important;
+    width: 100% !important;
+  }
 }
 
 .date-range-modal__footer {
@@ -296,5 +306,9 @@ function closeModal() {
 
   :deep(.vc-weekdays) {
     display: none;
+  }
+
+  :deep(.vc-header) {
+    padding: 0;    
   }
 </style> 
