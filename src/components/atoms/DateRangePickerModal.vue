@@ -129,7 +129,7 @@ function closeModal() {
 
 .date-range-modal__calendar {
   width: 100%;
-  border: none;
+  border: none;  
 
   :deep(.vc-header) {
     padding: 0;
@@ -265,4 +265,9 @@ function closeModal() {
     background: $primary-600;
   }
 }
+
+:deep(.vc-bordered) {
+    border: none !important;
+    width: 100% !important;
+  }
 </style> 
