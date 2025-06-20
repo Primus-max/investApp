@@ -10,6 +10,9 @@
           </svg>
         </button>
       </div>
+      <div class="date-range-modal__weekdays">
+        <span v-for="day in weekdays" :key="day">{{ day }}</span>
+      </div>
       <div class="date-range-modal__calendar-container">
         <VDatePicker
           v-model.range="rangeValue"
@@ -18,8 +21,9 @@
           :step="1"
           locale="ru"
           :first-day-of-week="2"
-          :masks="{ weekdays: 'WW' }"
+          :masks="{ weekdays: 'WW', title: 'MMMM' }"
           class="date-range-modal__calendar"
+          borderless="false"
           title-position="left"
           :header-props="{
             next: false,
@@ -49,6 +53,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'update:range', 'apply']);
 
+const weekdays = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
 const rangeValue = ref({ ...props.range });
 
 watch(() => props.range, v => {
@@ -110,20 +115,33 @@ function closeModal() {
   justify-content: center;
 }
 
+.date-range-modal__weekdays {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 calc(#{$space-m} + 8px);
+  margin-bottom: 8px;
+  flex-shrink: 0;
+
+  span {
+    font-family: $font-main;
+    font-weight: $font-weight-medium;
+    font-size: 13px;
+    color: $gray-400;
+    text-transform: uppercase;
+    width: 36px;
+    text-align: center;
+  }
+}
+
 .date-range-modal__calendar-container {
   flex-grow: 1;
   overflow-y: auto;
   padding: 0 $space-m;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
   &::-webkit-scrollbar {
-    width: 4px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: $gray-200;
-    border-radius: 2px;
+    display: none;
   }
 }
 
@@ -138,8 +156,8 @@ function closeModal() {
 
   :deep(.vc-title) {
     font-family: $font-main;
-    font-weight: $font-weight-medium;
-    font-size: 18px;
+    font-weight: $font-weight-semibold;
+    font-size: 20px;
     line-height: 24px;
     color: $gray-900;
     text-transform: capitalize;
@@ -154,7 +172,7 @@ function closeModal() {
   }
 
   :deep(.vc-weeks) {
-    padding: 0;
+    display: none;
   }
 
   :deep(.vc-weekday) {
@@ -266,8 +284,7 @@ function closeModal() {
   }
 }
 
-:deep(.vc-bordered) {
-    border: none !important;
+:deep(.vc-container, .vc-container) {    
     width: 100% !important;
   }
 </style> 
