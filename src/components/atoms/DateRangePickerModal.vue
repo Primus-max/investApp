@@ -30,8 +30,8 @@
             prev: false,
           }"
         >
-          <template #header-title="{ title }">
-            <BadgeAtom disabled>
+          <template #header-title="{ title, page }">
+            <BadgeAtom :disabled="!isMonthInRange(page)">
               {{ title.charAt(0).toUpperCase() + title.slice(1) }}
             </BadgeAtom>
           </template>
@@ -66,6 +66,20 @@ const rangeValue = ref({ ...props.range });
 watch(() => props.range, v => {
   rangeValue.value = { ...v };
 }, { deep: true, immediate: true });
+
+function isMonthInRange(page) {
+  if (!page || !rangeValue.value || !rangeValue.value.start || !rangeValue.value.end) {
+    return false;
+  }
+
+  const selectionStart = new Date(rangeValue.value.start).getTime();
+  const selectionEnd = new Date(rangeValue.value.end).getTime();
+
+  const monthStart = new Date(page.year, page.month - 1, 1).getTime();
+  const monthEnd = new Date(page.year, page.month, 1).getTime() - 1;
+
+  return selectionStart <= monthEnd && selectionEnd >= monthStart;
+}
 
 function applyRange() {
   emit('update:range', { ...rangeValue.value });
