@@ -20,11 +20,9 @@
           </div>
         </div>
       </div>
-      <div class="edit-profile-modal__footer">
-        <AppButton class="edit-profile-modal__submit" @click="submit" :is-stroked="true" :is-full-width="true">
-          Редактировать
-        </AppButton>
-      </div>
+      <AppPillButton class="edit-profile-modal__submit" @click="submit">
+        Редактировать
+      </AppPillButton>
     </div>
   </BaseModal>
 </template>
@@ -32,8 +30,8 @@
 <script setup>
 import { ref } from 'vue';
 
-import AppButton from '@/components/atoms/AppButton.vue';
 import AppInput from '@/components/atoms/AppInput.vue';
+import AppPillButton from '@/components/atoms/AppPillButton.vue';
 import BaseModal from '@/components/molecules/BaseModal.vue';
 
 defineProps({
@@ -61,41 +59,59 @@ const submit = () => {
 
 <style scoped lang="scss">
 @import '@/styles/_variables.scss';
+@import '@/styles/_mixins.scss';
 
-.edit-profile-modal {
+@include bem('edit-profile-modal') {
   display: flex;
   flex-direction: column;
   height: 100%;
   padding: $space-l $space-m;
+}
 
-  &__header {
-    margin-bottom: $space-xl;
-  }
+@include bem('edit-profile-modal', 'header') {
+  margin-bottom: $space-xl;
+}
   
-  &__title {
-    font-size: $font-size-h1;
-    line-height: $line-height-h1;
-    font-weight: $font-weight-bold;
-    color: $gray-950;
-    text-align: left;
-  }
+@include bem('edit-profile-modal', 'title') {
+  font-size: $font-size-h1;
+  line-height: $line-height-h1;
+  font-weight: $font-weight-bold;
+  color: $gray-950;
+  text-align: left;
+}
 
-  &__body {
-    flex-grow: 1;
-  }
+@include bem('edit-profile-modal', 'body') {
+  flex-grow: 1;
+}
 
-  &__form {
-    display: flex;
-    flex-direction: column;
-    gap: $space-l;
-  }
+@include bem('edit-profile-modal', 'form') {
+  display: flex;
+  flex-direction: column;
+  gap: $space-l;
+}
 
-  &__label {
-    font-size: $font-size-body;
-    font-weight: $font-weight-semibold;
-    color: $gray-950;
-    margin-bottom: $space-xs;
-    display: block;
-  }
+@include bem('edit-profile-modal', 'label') {
+  font-size: $font-size-body;
+  font-weight: $font-weight-semibold;
+  color: $gray-950;
+  margin-bottom: $space-xs;
+  display: block;
+}
+
+@include bem('edit-profile-modal', 'submit') {
+  position: absolute;
+  left: $space-m;
+  right: $space-m;
+  bottom: 40px;
+  height: 50px;
+  background: $gray-0;
+  border-radius: $radius-sm;
+  width: auto;
+
+  font-family: $font-main;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-body;
+  line-height: 22px;
+  color: $gray-900;
 }
 </style> 
