@@ -5,14 +5,15 @@
 <script setup>
 import { computed } from 'vue';
 
+import IconElements from './IconElements.vue';
 import IconBriefcase01 from './icons/IconBriefcase01.vue';
+import IconCoinsSwap from './icons/IconCoinsSwap.vue';
+import IconDocumentText from './icons/IconDocumentText.vue';
 import IconHome05 from './icons/IconHome05.vue';
 import IconMenuSquare from './icons/IconMenuSquare.vue';
 import IconPlusSignSquare from './icons/IconPlusSignSquare.vue';
+import IconSun from './icons/IconSun.vue';
 import IconUser from './icons/IconUser.vue';
-import IconCoinsSwap from './icons/IconCoinsSwap.vue';
-import IconElements from './IconElements.vue';
-import IconDocumentText from './icons/IconDocumentText.vue';
 
 const props = defineProps({
   name: { type: String, required: true }
@@ -28,6 +29,7 @@ const icons = {
   'coins-swap': IconCoinsSwap,
   'elements': IconElements,
   'document-text': IconDocumentText,
+  'change-screen-mode': IconSun,
 }
 
 const iconComponent = computed(() => icons[props.name] || null)

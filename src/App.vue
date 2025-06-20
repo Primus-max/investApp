@@ -1,9 +1,15 @@
 <script setup>
+import CreatePortfolioModal
+  from '@/components/organisms/CreatePortfolioModal.vue';
+import { usePortfoliosStore } from '@/stores/portfolios';
+
+const portfoliosStore = usePortfoliosStore();
 </script>
 
 <template>
   <v-app>
     <router-view />
+    <CreatePortfolioModal v-model="portfoliosStore.isCreatePortfolioModalOpen" />
   </v-app>
 </template>
 

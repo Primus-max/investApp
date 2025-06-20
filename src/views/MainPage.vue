@@ -74,7 +74,7 @@
         </ul>
       </section>
       <div v-else class="page__body-portfolio-empty">
-        <AppPillButton @click="createPortfolioModalVisible = true">          
+        <AppPillButton @click="store.isCreatePortfolioModalOpen = true">          
           <template #default>
             <div class="page__body-portfolio-empty-button">
               <IconBriefcase01 class="page__body-portfolio-empty-button-icon" />
@@ -83,7 +83,6 @@
           </template>         
         </AppPillButton>
       </div>
-      <CreatePortfolioModal v-model="createPortfolioModalVisible" />
     </section>
   </MainLayout>
 </template>
@@ -103,8 +102,6 @@ import PlusButtonAtom from '@/components/atoms/PlusButtonAtom.vue';
 import PortfolioCard from '@/components/molecules/PortfolioCard.vue';
 import StatWidgetCard
   from '@/components/molecules/stat-widgets/StatWidgetCard.vue';
-import CreatePortfolioModal
-  from '@/components/organisms/CreatePortfolioModal.vue';
 import Header from '@/components/organisms/Header.vue';
 import MainLayout from '@/layout/MainLayout.vue';
 import { usePortfoliosStore } from '@/stores/portfolios.js';
@@ -112,8 +109,7 @@ import { usePortfoliosStore } from '@/stores/portfolios.js';
 const amount = ref(27861.33);
 const totalAmount = ref(123456789);
 const editMode = ref(false);
-const isNotData = ref(true);
-const createPortfolioModalVisible = ref(false);
+const isNotData = ref(false);
 
 const widgets = [
   {

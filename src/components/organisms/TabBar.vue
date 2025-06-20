@@ -10,7 +10,7 @@
       </AppBanner>
       <ul class="tab-bar__menu-list">
         <li v-for="action in menuActions" :key="action.label" class="tab-bar__menu-list-item">
-          <a href="#" class="tab-bar__menu-item">
+          <a href="#" class="tab-bar__menu-item" @click.prevent="onMenuAction(action)">
             <span class="tab-bar__menu-item-icon"><AppIcon :name="action.icon" /></span>
             <span class="tab-bar__menu-item-label">{{ action.label }}</span>
           </a>
@@ -99,6 +99,7 @@ import { ref } from 'vue';
 
 import AppBanner from '@/components/atoms/AppBanner.vue';
 import AppIcon from '@/components/atoms/AppIcon.vue';
+import { usePortfoliosStore } from '@/stores/portfolios.js';
 
 const props = defineProps({
   tabs: { type: Array, required: true },
@@ -107,6 +108,7 @@ const props = defineProps({
 const emit = defineEmits(['update:activeIndex', 'menu-open'])
 
 const isMenuOpen = ref(false)
+const store = usePortfoliosStore();
 
 const menuActions = [
   { icon: 'briefcase-01', label: 'Создать портфель' },
@@ -123,9 +125,18 @@ function onTabClick(idx) {
     emit('update:activeIndex', idx)
   }
 }
+
 function closeMenu() {
   isMenuOpen.value = false
   emit('menu-open', false)
+}
+
+function onMenuAction(action) {
+  if (action.label === 'Создать портфель') {
+    store.openCreatePortfolioModal();
+    isMenuOpen.value = false;
+  }
+  // ... другие действия ...
 }
 </script>
 

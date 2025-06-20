@@ -63,16 +63,13 @@ function handleTabChange(newIndex) {
       router.push('/')
       break
     case 1: // Портфель
-      // Перейдем на первый портфель из стора, или создадим заглушку
       router.push('/portfolio/1')
       break
-    case 3: // Рынок (пропускаем центральную кнопку с индексом 2)
-      // TODO: добавить роут для рынка
+    case 3: // Рынок
       console.log('Рынок - пока не реализован')
       break
     case 4: // Профиль
-      // TODO: добавить роут для профиля
-      console.log('Профиль - пока не реализован')
+      router.push('/profile')
       break
   }
 }
@@ -93,7 +90,9 @@ function updateActiveTabFromRoute() {
   } else if (route.name === 'PortfolioPage') {
     activeIndex.value = 1
   } else if (route.name === 'AnalyticsPage') {
-    activeIndex.value = 1 // Аналитика тоже относится к портфелю
+    activeIndex.value = 1
+  } else if (route.name === 'ProfilePage') {
+    activeIndex.value = 4
   }
   // Добавить другие роуты при необходимости
 }
