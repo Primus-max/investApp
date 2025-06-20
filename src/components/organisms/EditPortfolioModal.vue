@@ -3,13 +3,12 @@
     <div class="edit-portfolio-modal">
       <!-- View: Portfolio List -->
       <div v-if="!selectedPortfolio" class="edit-portfolio-modal__list-view">
-        <div class="edit-portfolio-modal__header">
-          <button @click="close" class="edit-portfolio-modal__close-btn">
-            <!-- Icon for close will be added here if needed -->
-          </button>
-          <h2 class="edit-portfolio-modal__title">Изменение портфелей</h2>
+        <h2 class="edit-portfolio-modal__main-title">Изменение портфелей</h2>
+        <div class="edit-portfolio-modal__section-header">
+          <h3 class="edit-portfolio-modal__section-title">Мои портфели</h3>
+          <p class="edit-portfolio-modal__subtitle">Выберите портфель, который хотите изменить</p>
         </div>
-        <p class="edit-portfolio-modal__subtitle">Выберите портфель, который хотите изменить</p>
+        
         <div class="edit-portfolio-modal__list">
           <PortfolioCard 
             v-for="portfolio in portfolios" 
@@ -23,14 +22,8 @@
       </div>
 
       <!-- View: Edit Form -->
-      <div v-else class="edit-portfolio-modal__form-view">
-        <div class="edit-portfolio-modal__header">
-          <button @click="selectedPortfolio = null" class="edit-portfolio-modal__back-btn">
-            <IconArrowLeft />
-          </button>
-          <h2 class="edit-portfolio-modal__title">{{ selectedPortfolio.name }}</h2>
-        </div>
-        
+      <div v-else class="edit-portfolio-modal__form-view">          
+        <h1 class="edit-portfolio-modal__title">{{ selectedPortfolio.name }}</h1>
         <div class="edit-portfolio-modal__form">
           <label class="edit-portfolio-modal__label">Название портфеля</label>
           <AppInput v-model="editablePortfolio.name" />
@@ -119,7 +112,7 @@ function close() {
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: $space-m;
+    padding: $space-l $space-m;
   }
   
   &__header {
@@ -127,15 +120,38 @@ function close() {
     align-items: center;
     justify-content: center;
     position: relative;
-    padding-top: $space-s;
     margin-bottom: $space-s;
   }
 
+  &__main-title {
+    font-family: $font-main;
+    font-size: 24px;
+    font-weight: $font-weight-semibold;
+    line-height: 32px;
+    color: $gray-950;
+    margin-bottom: $space-l;
+    padding-top: $space-s;
+  }
+
+  &__section-header {
+    margin-bottom: $space-s;
+  }
+
+  &__section-title {
+    font-family: $font-main;
+    font-size: 20px;
+    font-weight: $font-weight-semibold;
+    line-height: 26px;
+    color: $gray-950;
+    margin-bottom: $space-xs;
+  }
+
   &__title {
-    font-size: $font-size-h3;
+    font-size: $font-size-h1;
     font-weight: $font-weight-semibold;
     line-height: $line-height-h3;
     color: $gray-950;
+    margin-bottom: $space-l;
   }
 
   &__back-btn, &__close-btn {
@@ -151,10 +167,12 @@ function close() {
   }
 
   &__subtitle {
-    color: $gray-500;
-    text-align: left;
-    margin-bottom: $space-l;
-    font-size: $font-size-body;
+    font-family: $font-main;
+    color: $gray-400;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: $font-weight-regular;
+    margin-bottom: $space-m;
   }
 
   &__list {
