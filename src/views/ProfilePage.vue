@@ -169,11 +169,12 @@ const updateProfile = (data) => {
   }
 }
 .profile-content {
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 20px;
-  padding: 0 16px 24px 16px;
+  padding: 0 16px 40px 16px;
 }
 .profile-pro-banner {
   width: 100%;
