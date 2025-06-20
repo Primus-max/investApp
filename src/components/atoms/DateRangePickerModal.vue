@@ -376,22 +376,34 @@ function closeModal() {
   }
 
 .select-option-atom {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   padding: 8px 12px;
   border-radius: 12px;
   cursor: pointer;
   background-color: $gray-100;
-  transition: background-color 0.2s ease;
+  border: 1px solid transparent;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 
   &--selected {
     background-color: $primary-50;
+    border-color: #4868EA;
     .select-option-atom__label {
-      color: $primary-500;
       font-weight: $font-weight-semibold;
     }
+  }
+
+  :deep(.select-option-atom__check) {
+    position: absolute;
+    top: -10px;
+    right: -9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
   }
 }
 
@@ -401,11 +413,5 @@ function closeModal() {
   line-height: 20px;
   color: $gray-900;
   font-weight: $font-weight-medium;
-}
-
-.select-option-atom__check {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 </style> 
