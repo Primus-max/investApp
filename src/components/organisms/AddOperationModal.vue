@@ -135,7 +135,7 @@ function submit() {
 .add-operation-modal {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 95%;
   padding: $space-l $space-m;
   background: $gray-50; 
 
