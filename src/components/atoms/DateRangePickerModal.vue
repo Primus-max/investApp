@@ -11,9 +11,8 @@
         </button>
       </div>
       <div class="date-range-modal__calendar-container">
-        <VCalendar
-          v-model:range="rangeValue"
-          is-range
+        <VDatePicker
+          v-model.range="rangeValue"
           :rows="12"
           :columns="1"
           :step="1"
