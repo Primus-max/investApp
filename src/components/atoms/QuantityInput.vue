@@ -49,8 +49,8 @@ const onInput = (event) => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 4px;
-  gap: 12px;
+  justify-content: space-between;
+  padding: 4px;  
   width: 150px;
   height: 48px;
   background: $gray-0;
@@ -65,11 +65,9 @@ const onInput = (event) => {
     width: 40px;
     height: 40px;
     background: $gray-50;
-    border-radius: 12px;
+    border-radius: $radius-md;
     border: none;
     cursor: pointer;
-    color: $gray-950;
-
     &:disabled {
       background-color: $gray-100;
       cursor: not-allowed;
@@ -87,8 +85,7 @@ const onInput = (event) => {
     color: $gray-950;
     border: none;
     background: transparent;
-    width: 100%;
-    flex-grow: 1;
+    width: 40%;
 
     &:focus {
       outline: none;

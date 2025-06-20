@@ -28,8 +28,10 @@
           <p class="add-operation-modal__commission">Комиссия 02,41 ₽</p>
         </div>
         <div class="add-operation-modal__field">
-          <label class="add-operation-modal__label">Количество</label>
-          <QuantityInput v-model="form.quantity" />
+          <div class="add-operation-modal__field-wrapper">
+            <label class="add-operation-modal__label">Количество</label>
+            <QuantityInput v-model="form.quantity" />
+          </div>
         </div>
         <div class="add-operation-modal__field">
           <label class="add-operation-modal__label">Дата операции</label>
@@ -115,7 +117,7 @@ function submit() {
   flex-direction: column;
   height: 100%;
   padding: $space-l $space-m;
-  background: $gray-50;
+  background: $gray-50; 
 
   &__title {
     font-family: $font-main;
@@ -146,13 +148,21 @@ function submit() {
     display: block;
   }
 
+  &__field-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: $space-xs;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   &__commission {
     font-size: $font-size-small;
     color: $gray-400;
     margin-top: $space-xs;
     padding-left: $space-s;
   }
-  
+
   .asset-trigger {
     display: flex;
     align-items: center;
@@ -184,7 +194,7 @@ function submit() {
       border: 1px solid $gray-100;
       padding: 0 $space-m;
       justify-content: flex-start;
-      
+
       &:hover {
         border-color: $gray-300;
       }
@@ -239,7 +249,7 @@ function submit() {
     padding-top: $space-l;
     background: $gray-50;
   }
-  
+
   &__total {
     display: flex;
     justify-content: space-between;
@@ -248,7 +258,7 @@ function submit() {
     font-size: $font-size-body;
     color: $gray-950;
   }
-  
+
   &__total-amount {
     font-size: 20px;
     font-weight: $font-weight-bold;
@@ -261,4 +271,4 @@ function submit() {
     color: $gray-0;
   }
 }
-</style> 
+</style>
