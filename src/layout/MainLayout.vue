@@ -154,7 +154,11 @@ onUnmounted(() => {
     width: 100%;
     background: #1b1bb1;
     border-radius: $radius-md $radius-md 0 0;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04);    
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);  
+    background-image: url('@/assets/images/BG-2.png'), url('@/assets/images/waves_back.png');
+    background-repeat: no-repeat, no-repeat;
+    background-position: center, center;
+    background-size: cover, cover;
     &--empty {
       min-height: 0 !important;
       height: 0 !important;
